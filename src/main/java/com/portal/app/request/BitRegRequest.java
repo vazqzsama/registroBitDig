@@ -33,7 +33,7 @@ public class BitRegRequest extends Request {
 	@ApiModelProperty(notes = "Número de telefono", value = "Número de telefono",example = "5566556655", required = true, position = 5)
 	private String telefono;
 	
-	@ApiModelProperty(notes = "Id de pedido", value = "Id de pedido",example = "46582", required = true, position = 6)
+	@ApiModelProperty(notes = "Id de pedido", value = "Id de pedido",example = "46582", required = false, position = 6)
 	private Long pedido;
 	
 	@ApiModelProperty(notes = "Importe total", value = "Importe total",example = "148", required = true, position = 7)
@@ -51,19 +51,19 @@ public class BitRegRequest extends Request {
 	@ApiModelProperty(notes = "Descuento", value = "Descuento",example = "0", required = true, position = 10)
 	private Double descuento;
 	
-	@ApiModelProperty(notes = "Forma de pago", value = "Forma de pago",example = "1",allowableValues = "1(Efectivo),5(Tarjeta),19(Deposito)", required = true, position = 11)
+	@ApiModelProperty(notes = "Forma de pago", value = "Forma de pago",example = "1",allowableValues = "1(Efectivo),5(Tarjeta),19(Deposito)", required = false, position = 11)
 	private Long formaPago;
 
-	@ApiModelProperty(notes = "Lista de Id de articulos", value = "Lista de Id de articulos",example = "1007111,1019538,1016731", required = true, position = 12)
+	@ApiModelProperty(notes = "Lista de Id de articulos", value = "Lista de Id de articulos",example = "1007111,1019538,1016731", required = false, position = 12)
 	private String articulos;
 
-	@ApiModelProperty(notes = "Tipo de venta", value = "Tipo de venta",example = "2", allowableValues = "1(paquete),2(catalogos)", required = true, position = 13)
+	@ApiModelProperty(notes = "Tipo de venta", value = "Tipo de venta",example = "2", allowableValues = "1(paquete),2(catalogos)", required = false, position = 13)
 	private Long tipoVenta;
 
 	@ApiModelProperty(notes = "Id de tienda", value = "Id de tienda", example = "29", required = true, position = 14)
 	private Long cveTienda;
 
-	@ApiModelProperty(notes = "Metodo de pago", value = "Metodo de pago",example = "1", allowableValues = "1(MercadoPago),2(Deposito BBVA)", required = true, position = 15)
+	@ApiModelProperty(notes = "Metodo de pago", value = "Metodo de pago",example = "1", allowableValues = "1(MercadoPago),2(Deposito BBVA)", required = false, position = 15)
 	private Long metodoPago;
 	
 	@ApiModelProperty(notes = "Dirección de envío", value = "Dirección de envío",required = true, position = 16)

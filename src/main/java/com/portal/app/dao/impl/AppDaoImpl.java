@@ -47,6 +47,14 @@ public class AppDaoImpl implements AppDao {
 	}
 
 	@Override
+	public BitacoraDigital searchBitacora(String idSocio) {
+		return (BitacoraDigital) session.getCurrentSession()
+			.createCriteria(BitacoraDigital.class)
+			.add(Restrictions.eq("numSocio", idSocio))
+			.uniqueResult();
+	}
+	
+	@Override
 	@Transactional(readOnly = false)
 	public BitacoraDigital createBitacora(BitacoraDigital bit) {
 		session.getCurrentSession().save(bit);

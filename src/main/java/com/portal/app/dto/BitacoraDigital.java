@@ -164,7 +164,7 @@ public class BitacoraDigital implements Serializable {
 	public BitacoraDigital(BitRegRequest req) {
 		super();		
 		Objects.requireNonNull(req.getIdSocio(),"El request no contiene número de socio");
-		Objects.requireNonNull(req.getPedido(),String.format("El request del socio %s no contiene id de pedido",req.getIdSocio()));
+		//Objects.requireNonNull(req.getPedido(),String.format("El request del socio %s no contiene id de pedido",req.getIdSocio()));
 		Objects.requireNonNull(req.getCveTienda(),String.format("El request del socio %s no contiene id de tienda",req.getIdSocio()));
 		Objects.requireNonNull(req.getSoNombre(),String.format("El request del socio %s no contiene nombre",req.getIdSocio()));
 		Objects.requireNonNull(req.getApellidoPaterno(),String.format("El request del socio %s no contiene apellido paterno",req.getIdSocio()));
@@ -174,9 +174,9 @@ public class BitacoraDigital implements Serializable {
 		Objects.requireNonNull(req.getStatusSocio(),String.format("El request del socio %s no contiene estatus de socio",req.getIdSocio()));
 		Objects.requireNonNull(req.getCveTienda(),String.format("El request del socio %s no contiene id de tienda",req.getIdSocio()));
 		Objects.requireNonNull(req.getArticulos(),String.format("El request del socio %s no contiene artículos",req.getIdSocio()));
-		Objects.requireNonNull(req.getMetodoPago(),String.format("El request del socio %s no contiene método de pago",req.getIdSocio()));
-		Objects.requireNonNull(req.getFormaPago(),String.format("El request del socio %s no contiene forma de pago",req.getIdSocio()));
-		Objects.requireNonNull(req.getTipoVenta(),String.format("El request del socio %s no contiene tipo de venta",req.getIdSocio()));
+		//Objects.requireNonNull(req.getMetodoPago(),String.format("El request del socio %s no contiene método de pago",req.getIdSocio()));
+		//Objects.requireNonNull(req.getFormaPago(),String.format("El request del socio %s no contiene forma de pago",req.getIdSocio()));
+		//Objects.requireNonNull(req.getTipoVenta(),String.format("El request del socio %s no contiene tipo de venta",req.getIdSocio()));
 		Objects.requireNonNull(req.getImporteTotal(),String.format("El request del socio %s no contiene importe total",req.getIdSocio()));
 		Objects.requireNonNull(req.getImportePedido(),String.format("El request del socio %s no contiene importe del pedido",req.getIdSocio()));
 		Objects.requireNonNull(req.getImporteEnvio(),String.format("El request del socio %s no contiene importe de envio",req.getIdSocio()));
@@ -207,13 +207,13 @@ public class BitacoraDigital implements Serializable {
 		this.gastoEnvio = req.getImporteEnvio();
 		this.seguroEnvio = req.getSeguroEnvio();
 		this.descuento = req.getDescuento();
-		this.formaPago = req.getFormaPago();
+		this.formaPago = Objects.isNull(req.getFormaPago()) ? 0L : req.getFormaPago();
 		this.articulos = req.getArticulos();
-		this.tipoVenta = req.getTipoVenta();
+		this.tipoVenta = Objects.isNull(req.getTipoVenta()) ? 0L : req.getTipoVenta();
 		this.cveTienda = req.getCveTienda();
 		this.estatus = req.getStatusSocio().equals("R") ? "A" : "R";
 		this.estatusPago = req.getStatusSocio().equals("R") ? "A" : "P";
-		this.metodoPago = req.getMetodoPago();
+		this.metodoPago = Objects.isNull(req.getMetodoPago()) ? 0L : req.getMetodoPago();
 		this.fchModEstatusPago = new Date();
 		this.idPaqueteria = 1L;
 		this.fchAlta = new Date();

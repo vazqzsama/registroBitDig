@@ -12,6 +12,7 @@ import com.portal.app.response.AppResponse;
 public interface AppDao {
 	
 	public AppResponse test (AppRequest request);
+	public BitacoraDigital searchBitacora(String idSocio);
 	public BitacoraDigital createBitacora(BitacoraDigital bit);
 	public BitacoraDigital updateBitacora(BitacoraDigital bit);
 	public String getReferenciaPedido();

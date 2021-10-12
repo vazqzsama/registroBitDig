@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
@@ -47,8 +48,10 @@ public class ApiController {
 	public ResponseEntity<Object> createBitacora(
 			@ApiParam(value = "Datos para registro bitacora", required = true) 
 			@Valid @RequestBody final BitRegRequest params) throws Exception {
-		log.info("Se ejecuta bitacora/create: "+new Gson().toJson(params));
-		return new ResponseEntity<Object>(service.createBitacora(params), HttpStatus.OK);
+		log.info("Request bitacora/create: "+new Gson().toJson(params));
+		ResponseEntity<Object> response = new ResponseEntity<Object>(service.createBitacora(params), HttpStatus.OK);
+		log.info("response bitacora/create: "+new Gson().toJson(response));
+		return response;
 	}
 	
 	@ApiOperation(value = "Actualización de bitácora", response = BitacoraDigital.class)
@@ -61,7 +64,24 @@ public class ApiController {
 			@ApiParam(value = "Bitácora para actualizar", required = true)
 			@Valid @RequestBody final BitacoraDigital params) throws Exception {
 		log.info("Se ejecuta bitacora/update: "+new Gson().toJson(params));
-		return new ResponseEntity<Object>(service.updateBitacora(params), HttpStatus.OK);
+		ResponseEntity<Object> response = new ResponseEntity<Object>(service.updateBitacora(params), HttpStatus.OK);
+		log.info("Response bitacora/update: "+new Gson().toJson(response));
+		return response;
+	}
+	
+	@ApiOperation(value = "Obtener bitácora", response = BitacoraDigital.class)
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Proceso Exitoso", response = BitacoraDigital.class),
+			@ApiResponse(code = 400, message = "Operación inválida", response = ApiError.class)
+	})
+	@RequestMapping(path = "/{idsocio}", method = RequestMethod.GET)
+	public ResponseEntity<Object> getBitacora(
+			@ApiParam(value = "Bitácora para actualizar", required = true)
+			@Valid @RequestParam final String idSocio) throws Exception {
+		log.info("Se ejecuta bitacora/get/"+idSocio);
+		ResponseEntity<Object> response = new ResponseEntity<Object>(service.searchBitacora(idSocio), HttpStatus.OK);
+		log.info("Response bitacora/get/"+idSocio+": "+new Gson().toJson(response));
+		return response;
 	}
 	
 	/*@ApiOperation(value = "Recuperación y registro de bitácora de afiliaciones", response = AppResponse.class)

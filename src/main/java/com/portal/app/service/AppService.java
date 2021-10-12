@@ -9,6 +9,7 @@ import com.portal.app.response.AppResponse;
 public interface AppService {
 	
 	AppResponse testConexion(AppRequest request);
+	BitacoraDigital searchBitacora(String idSocio) throws Exception;
 	BitacoraDigital createBitacora(BitRegRequest request) throws Exception;
 	BitacoraDigital updateBitacora(BitacoraDigital request) throws Exception;
 	AppResponse registrarPendientes(ParametrosPendientes params) throws Exception;

@@ -48,6 +48,11 @@ public class AppServiceImpl implements AppService {
 	}
 	
 	@Override
+	public BitacoraDigital searchBitacora(String idSocio) throws Exception {
+		return dao.searchBitacora(idSocio);
+	}
+	
+	@Override
 	public BitacoraDigital createBitacora(BitRegRequest bit) throws Exception {
 		BitacoraDigital bitacora = new BitacoraDigital(bit);
 		
