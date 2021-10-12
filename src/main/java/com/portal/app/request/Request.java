@@ -2,14 +2,21 @@ package com.portal.app.request;
 
 import java.io.Serializable;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class Request implements Serializable 
 {
 	private static final long serialVersionUID = 1L;
 	
+	@ApiModelProperty(hidden = true)
 	private Long    id;
+	@ApiModelProperty(hidden = true)
 	private Long 	idUsrN;
+	@ApiModelProperty(hidden = true)
 	private Long	idAppN;
+	@ApiModelProperty(hidden = true)
 	private Long 	idPerfN;
+	@ApiModelProperty(hidden = true)
 	private String 	encodedData;
 	
 	public Long getId() {
