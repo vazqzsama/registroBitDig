@@ -37,6 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 			.authorizeRequests()
 			.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 			.antMatchers("/service/**").hasRole(APPLICATION)
+			.antMatchers("/bitacora/**").hasRole(APPLICATION)
 			.and().httpBasic();
 	}
 }

@@ -17,7 +17,7 @@ public class Direccion {
 	@ApiModelProperty(notes = "Número Exterior", value = "Número Exterior",example = "12", required = true, position = 2)
 	private String noExterior;
 	
-	@ApiModelProperty(notes = "Número Interior", value = "Número Interior",example = "2", required = true, position = 3)
+	@ApiModelProperty(notes = "Número Interior", value = "Número Interior",example = "2", required = false, position = 3)
 	private String noInterior;
 	
 	@ApiModelProperty(notes = "Colonia", value = "Colonia",example = "San Luis De La Paz Centro", required = true, position = 4)

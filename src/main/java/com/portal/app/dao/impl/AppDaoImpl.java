@@ -2,6 +2,7 @@ package com.portal.app.dao.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Disjunction;
@@ -96,12 +97,15 @@ public class AppDaoImpl implements AppDao {
 		ors.add(Restrictions.eq("nombre", nombre).ignoreCase());
 		
 		for (BitacoraDigital b : (List<BitacoraDigital>) session.getCurrentSession()
-				.createCriteria(BitacoraDigital.class).add(Restrictions.or(ors)).list()) {	
-			if (getInfoPedido(b.getCveTienda(),b.getNumPedido(),b.getNumSocio()).getStatus().equals("C")) {
-				if (liberarCorreo(b))
-					log.info(String.format("El correo %s ha sido liberado", email));
-			} else
-				return true;
+				.createCriteria(BitacoraDigital.class).add(Restrictions.or(ors)).list()) {
+			PsPedTmk pedido = getInfoPedido(b.getCveTienda(),b.getNumPedido(),b.getNumSocio());
+			if (Objects.nonNull(pedido)) {
+				if (pedido.getStatus().equals("C")) {
+					if (liberarCorreo(b))
+						log.info(String.format("El correo %s ha sido liberado", email));
+				} else
+					return true;
+			}
 		}
 		return false;
 	}

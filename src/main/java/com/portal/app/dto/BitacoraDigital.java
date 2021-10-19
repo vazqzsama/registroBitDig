@@ -94,7 +94,7 @@ public class BitacoraDigital implements Serializable {
 	private Double descuento;
 
 	@Column(name = "FP_CVE_N")
-	@ApiModelProperty(notes = "Forma de pago", value = "Forma de pago",example = "1",allowableValues = "1(Efectivo),5(Tarjeta),19(Deposito)", required = false, position = 16)
+	@ApiModelProperty(notes = "Forma de pago", value = "Forma de pago",example = "1->Efectivo | 5->Tarjeta | 19->Deposito", required = false, position = 16)
 	private Long formaPago;
 
 	@Column(name = "ABD_ARTICULOS_STR")
@@ -102,7 +102,7 @@ public class BitacoraDigital implements Serializable {
 	private String articulos;
 
 	@Column(name = "TIPO_VTA_N")
-	@ApiModelProperty(notes = "Tipo de venta", value = "Tipo de venta",example = "2", allowableValues = "1(paquete),2(catalogos)", required = false, position = 18)
+	@ApiModelProperty(notes = "Tipo de venta", value = "Tipo de venta",example = "1->Paquete | 2->Catalogos", required = false, position = 18)
 	private Long tipoVenta;
 
 	@Column(name = "TI_CVE_N")
@@ -127,11 +127,11 @@ public class BitacoraDigital implements Serializable {
 	private Date fchModEstatusPago;
 
 	@Column(name = "PQ_ID_N")
-	@ApiModelProperty(notes = "Id de paqueteria", value = "Id de paqueteria", example = "1", allowableValues = "A(Aplicado),P(Pendiente)", required = false, position = 24)
+	@ApiModelProperty(notes = "Id de paqueteria", value = "Id de paqueteria", example = "1",required = false, position = 24)
 	private Long idPaqueteria;
 
 	@Column(name = "ABD_METODO_PAGO_N")
-	@ApiModelProperty(notes = "Metodo de pago", value = "Metodo de pago",example = "1", required = false, position = 25)
+	@ApiModelProperty(notes = "Metodo de pago", value = "Metodo de pago",example = "1->Mercado Pago | 2->Depósito Bancario", required = false, position = 25)
 	private Long metodoPago;
 
 	@Column(name = "PTP_GUIA_STR")
@@ -144,7 +144,7 @@ public class BitacoraDigital implements Serializable {
 
 	@Column(name = "ABD_PETICION_AFILIACION", columnDefinition = "CLOB")
 	@Lob
-	@ApiModelProperty(notes = "Petición Afiliación", value = "Petición Afiliación",example = "", required = false, position = 28)
+	@ApiModelProperty(notes = "Petición Afiliación", value = "Petición Afiliación", required = false, position = 28)
 	private String peticionAfiliacion;
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -162,9 +162,8 @@ public class BitacoraDigital implements Serializable {
 	}
 	
 	public BitacoraDigital(BitRegRequest req) {
-		super();		
+		super();
 		Objects.requireNonNull(req.getIdSocio(),"El request no contiene número de socio");
-		//Objects.requireNonNull(req.getPedido(),String.format("El request del socio %s no contiene id de pedido",req.getIdSocio()));
 		Objects.requireNonNull(req.getCveTienda(),String.format("El request del socio %s no contiene id de tienda",req.getIdSocio()));
 		Objects.requireNonNull(req.getSoNombre(),String.format("El request del socio %s no contiene nombre",req.getIdSocio()));
 		Objects.requireNonNull(req.getApellidoPaterno(),String.format("El request del socio %s no contiene apellido paterno",req.getIdSocio()));
@@ -172,15 +171,6 @@ public class BitacoraDigital implements Serializable {
 		Objects.requireNonNull(req.getEmail(),String.format("El request del socio %s no contiene correo electrónico",req.getIdSocio()));
 		Objects.requireNonNull(req.getTelefono(),String.format("El request del socio %s no contiene teléfono",req.getIdSocio()));
 		Objects.requireNonNull(req.getStatusSocio(),String.format("El request del socio %s no contiene estatus de socio",req.getIdSocio()));
-		Objects.requireNonNull(req.getCveTienda(),String.format("El request del socio %s no contiene id de tienda",req.getIdSocio()));
-		Objects.requireNonNull(req.getArticulos(),String.format("El request del socio %s no contiene artículos",req.getIdSocio()));
-		//Objects.requireNonNull(req.getMetodoPago(),String.format("El request del socio %s no contiene método de pago",req.getIdSocio()));
-		//Objects.requireNonNull(req.getFormaPago(),String.format("El request del socio %s no contiene forma de pago",req.getIdSocio()));
-		//Objects.requireNonNull(req.getTipoVenta(),String.format("El request del socio %s no contiene tipo de venta",req.getIdSocio()));
-		Objects.requireNonNull(req.getImporteTotal(),String.format("El request del socio %s no contiene importe total",req.getIdSocio()));
-		Objects.requireNonNull(req.getImportePedido(),String.format("El request del socio %s no contiene importe del pedido",req.getIdSocio()));
-		Objects.requireNonNull(req.getImporteEnvio(),String.format("El request del socio %s no contiene importe de envio",req.getIdSocio()));
-		Objects.requireNonNull(req.getDescuento(),String.format("El request del socio %s no contiene descuento",req.getIdSocio()));
 		// Direccion
 		Objects.requireNonNull(req.getDireccionEnvio().getCalle(),String.format("El request del socio %s no contiene información de calle",req.getIdSocio()));
 		Objects.requireNonNull(req.getDireccionEnvio().getNoExterior(),String.format("El request del socio %s no contiene información de número exterior",req.getIdSocio()));
@@ -200,20 +190,20 @@ public class BitacoraDigital implements Serializable {
 		this.nombre = String.format("%s %s %s ", req.getSoNombre(),req.getApellidoPaterno(),req.getApellidoMaterno());
 		this.email = req.getEmail();
 		this.telefono = req.getTelefono();
-		this.numPedido = req.getPedido();
-		this.importePedido = req.getImportePedido();
-		this.importeTotal = req.getImporteTotal();
-		this.saldo = req.getStatusSocio().equals("R") ? 0 : req.getImporteTotal()*-1;
-		this.gastoEnvio = req.getImporteEnvio();
-		this.seguroEnvio = req.getSeguroEnvio();
-		this.descuento = req.getDescuento();
-		this.formaPago = Objects.isNull(req.getFormaPago()) ? 0L : req.getFormaPago();
-		this.articulos = req.getArticulos();
-		this.tipoVenta = Objects.isNull(req.getTipoVenta()) ? 0L : req.getTipoVenta();
+		//this.numPedido = null;
+		this.importePedido = 0D;
+		this.importeTotal = 0D;
+		this.saldo = 0D;
+		this.gastoEnvio = 0D;
+		this.seguroEnvio = 0D;
+		this.descuento = 0D;
+		this.formaPago = 1L;
+		this.articulos = "-";
+		this.tipoVenta = 1L;
 		this.cveTienda = req.getCveTienda();
 		this.estatus = req.getStatusSocio().equals("R") ? "A" : "R";
 		this.estatusPago = req.getStatusSocio().equals("R") ? "A" : "P";
-		this.metodoPago = Objects.isNull(req.getMetodoPago()) ? 0L : req.getMetodoPago();
+		this.metodoPago = 1L;
 		this.fchModEstatusPago = new Date();
 		this.idPaqueteria = 1L;
 		this.fchAlta = new Date();

@@ -47,7 +47,7 @@ public class ApiController {
 	@RequestMapping(path = "/create", method = RequestMethod.POST)
 	public ResponseEntity<Object> createBitacora(
 			@ApiParam(value = "Datos para registro bitacora", required = true) 
-			@Valid @RequestBody final BitRegRequest params) throws Exception {
+			@RequestBody final BitRegRequest params) throws Exception {
 		log.info("Request bitacora/create: "+new Gson().toJson(params));
 		ResponseEntity<Object> response = new ResponseEntity<Object>(service.createBitacora(params), HttpStatus.OK);
 		log.info("response bitacora/create: "+new Gson().toJson(response));
@@ -74,13 +74,13 @@ public class ApiController {
 			@ApiResponse(code = 200, message = "Proceso Exitoso", response = BitacoraDigital.class),
 			@ApiResponse(code = 400, message = "Operación inválida", response = ApiError.class)
 	})
-	@RequestMapping(path = "/{idsocio}", method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<Object> getBitacora(
 			@ApiParam(value = "Bitácora para actualizar", required = true)
 			@Valid @RequestParam final String idSocio) throws Exception {
 		log.info("Se ejecuta bitacora/get/"+idSocio);
 		ResponseEntity<Object> response = new ResponseEntity<Object>(service.searchBitacora(idSocio), HttpStatus.OK);
-		log.info("Response bitacora/get/"+idSocio+": "+new Gson().toJson(response));
+		log.info("Response bitacora?idSocio="+idSocio+": "+new Gson().toJson(response));
 		return response;
 	}
 	
