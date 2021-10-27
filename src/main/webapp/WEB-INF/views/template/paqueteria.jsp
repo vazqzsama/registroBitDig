@@ -3,7 +3,7 @@ var paqueteria={};
 (function() {
 	var $dato = '${object.dato}';
 	var $tablePaqueteria = $("#tablePaqueteria");
-	/*this.service=function(params) {  
+	this.service=function(params) {  
 	    var defaults = {
 	            url:null,
 	            data:{},
@@ -40,24 +40,28 @@ var paqueteria={};
               psDialog.error("Servicio no disponible "+ textStatus);
           });
 	    }
-	  };*/
+	  };
 	  
 		function loadData() {
 			var loading = psDialog.loading();
 			loading.open();
-			//paqueteria.service ({
-				//url:"cobertura",
-			system.service ({
-				url:"getCobertura",
+			paqueteria.service ({
+				url:"cobertura",
+			//system.service ({
+				//url:"getCobertura",
 				data:{codigoPostal:$dato},
 				callback:function(response) {
-					var data=response;
+					console.log(response);
+					var data=response
+					//var data=response.cobertura;
 					var existePaqeteria = false;
 					
 					$.each( data, function(i,paq) {
 						try {
 							if ( paq.aplicaServicio==1 ) existePaqeteria=true;
-						} catch (e) { }
+						} catch (e) {
+							console.log("Paqueteria no aplica: "+paq.paqueteria);
+						}
 					});
 					
 					if ( !existePaqeteria ) {
@@ -67,11 +71,6 @@ var paqueteria={};
 						return false;
 					}
 					$tablePaqueteria.bootstrapTable('load',data);
-				},onError: function(){
-					psDialog.error("No se pudo obtener la cobertura de ninguna paquetería");
-					loading.close();
-					ecommerce.getDialog().close();
-					return false;
 				}
 			}).always(function(){ loading.close();	}); 
 		}

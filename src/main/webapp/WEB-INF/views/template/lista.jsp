@@ -86,8 +86,8 @@ var cliente   = {};
 	this.accion = function(value,row) {
 		row.fnac = moment(new Date(row.fnac)).format('DD/MM/YYYY');
 		row.email = "iscvazqz@gmail.com";
-		row.cp = (row.cp.length < 5 ? '0'.concat(row.cp) : row.cp).toString();
-		if (row.soTipoStr == 'N' && row.estatusPedido == 'C') {
+		if (row.cp) row.cp = (row.cp.length < 5 ? '0'.concat(row.cp) : row.cp).toString();
+		if (row.soTipoStr == 'N' && (row.estatusPedido == 'C' || row.estatusPedido == null)) {
 			var icon = '<i class="fa fa-shopping-bag fa-lg"></i>';
 			return '<a title="Crear pedido" class="btn btn-sm btn-primary" '+
 					"onclick='$cntr.formulario("+JSON.stringify(row)+")'"+' >'+icon+'</a>';
@@ -95,7 +95,7 @@ var cliente   = {};
 	}
 	
 	this.direccion = function(value,row) {
-		row.cp = (row.cp.length < 5 ? '0'.concat(row.cp) : row.cp).toString();
+		if (row.cp) row.cp = (row.cp.length < 5 ? '0'.concat(row.cp) : row.cp).toString();
 		var icon = '<i class="fa fa-eye fa-lg"></i>';
 		return '<a title="Ver" class="btn btn-sm btn-info" '+ 
 				"onclick='cliente.infoDireccion("+JSON.stringify(row)+")'"+' >'+icon+'</a>';
@@ -110,7 +110,7 @@ var cliente   = {};
 	}
 	
 	this.estatusPedido = function(value,row) {
-		switch(value.trim()){
+		switch(value){
 			case "T":
 				return "Apartado";
 			break;
@@ -179,6 +179,13 @@ var cliente   = {};
 		
 		$.when( ).done(function() {
 			$('#btnConsultar').click(clickConsultar);
+			$(".form-control").keypress(function(e) {
+			    if(e.which == 13) {
+			      e.preventDefault();
+			      clickConsultar();
+			    }
+			  });
+			
 		}).always(function(){ loading.close(); });
 	};
 	

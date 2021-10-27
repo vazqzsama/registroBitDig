@@ -33,7 +33,7 @@ public class AfilClientesDaoImpl implements AfilClientesDao {
 			.setParameter("correo", request.getFiltro().getEmail() )
 			.setParameter("nombre", request.getFiltro().getSoNombre() )
 			.setParameter("apaterno", request.getFiltro().getaPaterno() )
-			.setParameter("amaterno", request.getFiltro().getaPaterno() )
+			.setParameter("amaterno", request.getFiltro().getaMaterno() )
 			.setParameter("idsocio", request.getFiltro().getIdSocio() )
 			.setParameter("estatus", request.getFiltro().getEstatus() )
 			.setParameter("sortby", request.getPager().getData().getSort() )
@@ -52,11 +52,11 @@ public class AfilClientesDaoImpl implements AfilClientesDao {
 				.setParameter("correo", request.getFiltro().getEmail() )
 				.setParameter("nombre", request.getFiltro().getSoNombre() )
 				.setParameter("apaterno", request.getFiltro().getaPaterno() )
-				.setParameter("amaterno", request.getFiltro().getaPaterno() )
+				.setParameter("amaterno", request.getFiltro().getaMaterno() )
 				.setParameter("idsocio", request.getFiltro().getIdSocio() )
 				.setParameter("estatus", request.getFiltro().getEstatus() )
 			.uniqueResult();
 		return result.intValue();
 	}
 	
-}  
+} 

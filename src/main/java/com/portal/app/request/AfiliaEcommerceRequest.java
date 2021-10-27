@@ -20,7 +20,7 @@ public class AfiliaEcommerceRequest extends Request  {
 	private String						estatus;
 	private String						correoVal;
 	private Long						tiCveN;
-	private Long 						codigoPostal;
+	private String 						codigoPostal;
 
 	public AfiliaBitacoraEcommerce getAfiliaBitacoraEcommerce() {
 		return afiliaBitacoraEcommerce;
@@ -134,11 +134,11 @@ public class AfiliaEcommerceRequest extends Request  {
 		this.tiCveN = tiCveN;
 	}
 
-	public Long getCodigoPostal() {
+	public String getCodigoPostal() {
 		return codigoPostal;
 	}
 
-	public void setCodigoPostal(Long codigoPostal) {
+	public void setCodigoPostal(String codigoPostal) {
 		this.codigoPostal = codigoPostal;
 	}
 
