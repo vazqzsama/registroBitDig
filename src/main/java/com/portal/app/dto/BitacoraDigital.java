@@ -160,7 +160,7 @@ public class BitacoraDigital implements Serializable {
 	public BitacoraDigital() {
 		super();
 	}
-	
+		
 	public BitacoraDigital(BitRegRequest req) {
 		super();
 		Objects.requireNonNull(req.getIdSocio(),"El request no contiene número de socio");

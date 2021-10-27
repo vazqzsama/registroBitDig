@@ -1,0 +1,201 @@
+/* .size-small{ */
+/* 	font-size: 0.8em; */
+/* } */
+.padding-right-0 {
+	padding-right: 0px !IMPORTANT;
+}
+
+.padding-left-0 {
+	padding-left: 0px !IMPORTANT;
+}
+
+.padding-bottom-5 {
+	padding-bottom: 5px;
+}
+
+.black {
+	color: red;
+}
+
+.encabezado-seccion {
+	text-align: center;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+.img-datos-personales {
+	border: 1px solid #DA0080;
+	height: 100px;
+}
+
+.margin-bottom-10 {
+	margin-bottom: 10px;
+}
+
+.app-btn-def-no-border {
+	width: 50px;
+	height: 50px;
+	border: solid 1px #FFF;
+	text-align: center;
+	padding-top: 15px;
+}
+
+.div-card {
+	padding: 2px;
+	margin-top: 3px;
+}
+
+.card {
+	padding: 2px;
+	border: solid 1px #CCC;
+	border-radius: 4px;
+	max-height: 75px;
+}
+
+@media ( max-width : 450px) /* xs */ {
+	#textBusqueda {
+		display: none;
+	}
+}
+
+@media ( max-width : 767px) /* xs */ {
+	.size-label {
+		font-size: 1em; /*0.8em;*/
+	}
+	.width-100 {
+		width: 100%;
+	}
+}
+
+@media ( min-width : 768px) /* mayor a sm*/ {
+	.div-municipio {
+		padding-top: 24px;
+	}
+}
+
+@media ( min-width : 992px) and (max-width: 1199px) /* md */ {
+	.div-buscar {
+		padding-top: 22px;
+	}
+}
+
+@media ( min-width : 1200px) /*lg y superior*/ {
+	.div-estado {
+		padding-top: 22px;
+	}
+	.div-buscar {
+		padding-top: 22px;
+	}
+}
+
+/* .div-input{ */
+/* 	margin-right: 0px !IMPORTANT; */
+/* 	margin-left: 0px !IMPORTANT; */
+/* 	padding-right: 0px !IMPORTANT; */
+/* 	padding-left: 0px !IMPORTANT; */
+/* } */
+.label-form {
+	color: #DA0080;
+	font-weight: normal;
+	font-size: 1.0em;
+}
+
+.color-rosa-price {
+	background-color: #DA0080;
+}
+
+.precio-card {
+	color: #DA0080;
+	font-weight: bold;
+}
+
+.btn-custom {
+	color: #FFF;
+	background-color: #DA0080;
+	/* 	border-color: #FFF; */
+}
+
+.btn-custom:hover, .btn-custom:focus {
+	color: #FFF;
+	background-color: #e23fc0;
+	/* 	border-color: #FFF; */
+}
+
+.float-label .header-label {
+	position: absolute;
+	pointer-events: none;
+	top: -12px;
+	left: 10px;
+	background-color: #FFF;
+	color: #000;
+	padding: 0px 5px;
+	font-size: 11px;
+	visibility: visible;
+	opacity: 1;
+}
+
+.float-label .header-label {
+	color: #DA0080 !IMPORTANT;
+	font-size: 1.0em;
+}
+
+.form-group {
+	margin-right: 0px !IMPORTANT;
+	margin-left: 0px !IMPORTANT;
+}
+
+.margin-bottom-0 {
+	margin-bottom: 0px !IMPORTANT;
+}
+
+.text-normal {
+	font-weight: normal;
+}
+
+.div-input {
+	margin-top: 10px;
+}
+
+.padding-item {
+	padding: 10px 0px 0px 0px;
+}
+
+.label-precio-total {
+	color: #FFF;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+.img-big {
+	max-width: 100%;
+	height: 100%;
+}
+
+.div-img-big {
+	height: 60vh;
+	width: 100%;
+	min-height: 350px;
+}
+
+.card-selected {
+	background-color: #DBEFD3;
+}
+
+@media ( max-width : 767px) /* xs */ {
+	.div-form-padding-0 {
+		padding-left: 0px;
+		padding-right: 0px;
+	}
+	.div-form-padding-l-0 {
+		padding-left: 0px;
+	}
+	.div-form-padding-r-0 {
+		padding-right: 0px;
+	}
+}
+
+.lanzamiento
+{
+	background-color: #FFFF00; 
+	color:#DA0080;
+}

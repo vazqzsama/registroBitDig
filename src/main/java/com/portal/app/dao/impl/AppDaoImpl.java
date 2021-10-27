@@ -70,9 +70,9 @@ public class AppDaoImpl implements AppDao {
 	}
 	
 	@Override
-	public String getReferenciaPedido() {
+	public String getReferenciaPedido(String tipo) {
 		return (String) session.getCurrentSession()
-		.createSQLQuery(" SELECT PKG_AFILIACION_CORE.F_GET_REFERENCIA('AFL') FROM DUAL ")
+		.createSQLQuery(" SELECT PKG_AFILIACION_CORE.F_GET_REFERENCIA('"+tipo+"') FROM DUAL ")
 		.uniqueResult();
 	}
 
@@ -149,5 +149,6 @@ public class AppDaoImpl implements AppDao {
 				r.append("','");
 		}
 		return r.toString();
-	}
+	}	
+	
 }

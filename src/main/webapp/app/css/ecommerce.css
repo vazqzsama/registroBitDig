@@ -1,0 +1,90 @@
+	.asesor{
+		margin-bottom: 4px;
+		padding-bottom:5px;
+		
+	}
+	.instrucciones{
+		margin-bottom: 4px;
+		padding-bottom:5px;
+	}
+	
+	#asesorP{
+		color:#110f0f;
+	}
+	
+	#instruccionesP	{
+		color:#e81313;;
+	}
+	
+	.btn-custom {
+		color: #FFF;
+		background-color: #DA0080;
+		/* 	border-color: #FFF; */
+	}
+
+	.btn-custom:hover, .btn-custom:focus {
+		color: #FFF;
+		background-color: #e23fc0;
+		/* 	border-color: #FFF; */
+	}
+	
+	.titleDirecciones{
+		background-color: #004b85;
+		margin-bottom: 10px;
+		padding-left: 15px;
+		
+	}
+	
+	.direcciones{
+		color: rgba(255, 255, 255, 1);
+		font-size: 15px;
+		font-weight:bolder;
+	}
+	
+	#btnGuardar{
+		margin-left: 0px;
+	}
+	
+	#btnCancelar{
+		margin-left: 0px;
+	}
+	
+/* 	#btnValidar{ */
+/* 		margin-left: -10px; */
+/* 		width:137px;  */
+/* 		height:32px */
+/* 	} */
+	
+/* 	#btnRegresarDatos{ */
+/* 		background-color: #CD1D78; */
+/* 	} */
+	
+/* 	#btnPaquetes{ */
+/* 		margin-left: -186px; */
+/* 		width:137px;  */
+/* 		height:32px */
+/* 	} */
+/* 	#btnSiguiente{	 */
+/* 		margin-left: 0px; */
+/* 	} */
+	
+/* 	#btnRegresar{ */
+/* 		background-color: #CD1D78; */
+/* 	} */
+	
+/* 	#btnFormCancelar{ */
+/* 		padding-top: 7px; */
+/* 		margin-left: 0px; */
+/* 		width:137px;  */
+/* 		height:32px */
+/* 	} */
+
+	#divConfirmaEnvia{
+		padding-top: 20px;
+	}
+	
+	
+	
+	
+	
+	

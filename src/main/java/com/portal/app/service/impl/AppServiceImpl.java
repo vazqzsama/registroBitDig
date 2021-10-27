@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
-import com.portal.app.client.ReferenciaBancariaClient;
+import com.portal.app.client.AfiliaServicesClient;
 import com.portal.app.dao.AppDao;
 import com.portal.app.dto.AfilRegistrar;
 import com.portal.app.dto.BitacoraDigital;
@@ -26,12 +26,13 @@ import com.portal.app.service.AppService;
 
 @Service
 public class AppServiceImpl implements AppService {
+	
 	private static final Logger log = LoggerFactory.getLogger(AppServiceImpl.class);
 	
 	@Autowired 
 	private AppDao dao;
 	@Autowired
-	private ReferenciaBancariaClient refClient;
+	private AfiliaServicesClient refClient;
 			
 	@Override
 	public AppResponse testConexion(AppRequest request) {
@@ -61,7 +62,7 @@ public class AppServiceImpl implements AppService {
 			throw new ConstraintDeclarationException(
 				String.format("El socio %s tiene un registro con pedido vigente",bit.getIdSocio()));
 		
-		bitacora.setReferenciaPedido(dao.getReferenciaPedido());
+		bitacora.setReferenciaPedido(getReferenciaPedido("AFL"));
 		bitacora.setReferenciaBancaria(getReferenciaBancaria(bit.getIdSocio()));
 		
 		return dao.createBitacora(bitacora);
@@ -112,6 +113,11 @@ public class AppServiceImpl implements AppService {
 	}
 	
 	@Override
+	public String getReferenciaPedido(String tipo) {
+		return dao.getReferenciaPedido(tipo);
+	}
+	
+	@Override
 	public AppResponse registrarPendientes(ParametrosPendientes params) throws Exception {
 		if (params.containParams())
 			throw new IllegalArgumentException("No existen parametros de busqueda");
@@ -125,7 +131,7 @@ public class AppServiceImpl implements AppService {
 				log.info("Af Recov: "+ new Gson().toJson(p));
 				try {
 					BitacoraDigital bit = new BitacoraDigital(p);
-					bit.setReferenciaPedido(dao.getReferenciaPedido());
+					bit.setReferenciaPedido(getReferenciaPedido("AFL"));
 					bit.setReferenciaBancaria(getReferenciaBancaria(bit.getNumSocio()));
 					try {
 						result.getRegistrosExistosos().add(dao.createBitacora(bit)); 

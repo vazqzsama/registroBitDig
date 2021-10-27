@@ -39,4 +39,4 @@ public class RecoverController {
 		return new ResponseEntity<Object>(service.registrarPendientes(params), HttpStatus.OK);
 	}
 	
-}
+} 

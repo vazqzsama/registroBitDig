@@ -15,7 +15,7 @@ public interface AppDao {
 	public BitacoraDigital searchBitacora(String idSocio);
 	public BitacoraDigital createBitacora(BitacoraDigital bit);
 	public BitacoraDigital updateBitacora(BitacoraDigital bit);
-	public String getReferenciaPedido();
+	public String getReferenciaPedido(String tipo);
 	public PsPedTmk getInfoPedido(Long tiCveN, Long ptNumN, String soId);
 	public boolean searchRegistro(String email, String idSocio,String nombre);
 	public boolean liberarCorreo(BitacoraDigital bit);

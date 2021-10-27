@@ -13,5 +13,6 @@ public interface AppService {
 	BitacoraDigital createBitacora(BitRegRequest request) throws Exception;
 	BitacoraDigital updateBitacora(BitacoraDigital request) throws Exception;
 	AppResponse registrarPendientes(ParametrosPendientes params) throws Exception;
+	String getReferenciaPedido(String tipo);
 	
 }

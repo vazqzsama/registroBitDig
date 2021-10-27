@@ -15,9 +15,10 @@ import lombok.Data;
 @Data
 @Entity
 @NamedNativeQueries({
-	@NamedNativeQuery
-	(	name = "P_GET_AFIL_PEND",
-		query = "{ call PKG_REC_AFL_SIT.P_GET_AFIL_RECUPERAR (?,:correos,:idsocios,:finicio,:fin) }",
+	@NamedNativeQuery (
+		name = "P_GET_CLIENTES_PEND",
+		query = "{ call PKG_REC_AFL_SIT.P_GET_CLIENTES_VIEW(?,:correo,:nombre "
+			 + ",:apaterno,:amaterno,:idsocio,:estatus,:sortby,:orderby,:limit,:offset) }",
 		callable=true,
 		resultClass=ClientesPagina.class
 	)
@@ -28,22 +29,22 @@ public class ClientesPagina implements Serializable {
 
 	@Id
 	@Column(name = "IDSOCIO")
-	private Long idSocio;
+	private String idSocio;
 	
 	@Column(name = "CVETIENDA")
-	private Long tiCve;
+	private Long cvetienda;
 	
-	@Column(name = "SO_TIPO_STR")
-	private String soTipo;
+	@Column(name = "ESTATUSSOCIO")
+	private String soTipoStr;
 	
 	@Column(name = "SONOMBRE")
-	private String soNom;
+	private String soNombre;
 	
 	@Column(name = "APELLIDOPATERNO")
-	private String soApaterno;
+	private String apellidoPaterno;
 	
 	@Column(name = "APELLIDOMATERNO")
-	private String soAmaterno;
+	private String apellidoMaterno;
 	
 	@Column(name = "EMAIL")
 	private String email;
@@ -67,13 +68,13 @@ public class ClientesPagina implements Serializable {
 	private Long municipio;
 	
 	@Column(name = "MUNICIPIODESC")
-	private String munDesc;
+	private String municipioDesc;
 	
 	@Column(name = "ESTADO")
 	private Long estado;
 	
-	@Column(name = "ESTADO")
-	private String edoDesc;
+	@Column(name = "ESTADODESC")
+	private String estadoDesc;
 	
 	@Column(name = "CIUDAD")
 	private String ciudad;
@@ -88,25 +89,27 @@ public class ClientesPagina implements Serializable {
 	private String entreCalles;
 	
 	@Column(name = "FALTA")
-	private Date fechaAlta;
+	private Date falta;
+	
+	@Column(name = "FNAC")
+	private Date fnac;
 	
 	@Column(name = "PEDIDO")
-	private Long ptNum;
+	private Long pedido;
 	
-	@Column(name = "PT_EST_STR")
-	private String statPedido;
+	@Column(name = "ESTATUSPEDIDO")
+	private String estatusPedido;
 	
 	@Column(name = "IMPORTETOTAL")
 	private Double importeTotal;
 	
 	@Column(name = "IMPORTEPEDIDO")
-	private Double importePed;
+	private Double importePedido;
 	
 	@Column(name = "IMPORTEENVIO")
 	private Double importeEnvio;
 	
 	@Column(name = "DESCUENTO")
 	private Double descuento;
-	
 	
 }

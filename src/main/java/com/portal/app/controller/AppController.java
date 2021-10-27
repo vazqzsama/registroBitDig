@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.portal.app.request.AppRequest;
+import com.portal.app.request.BusquedaRequest;
 import com.portal.app.response.AppResponse;
+import com.portal.app.response.ClientesResponse;
+import com.portal.app.service.AfilClientesService;
 import com.portal.app.service.AppService;
 import com.portal.app.util.Parser;
 
@@ -21,6 +24,8 @@ public class AppController {
 	@Autowired	private AppService service;
 	@SuppressWarnings("unused")
 	private static final Logger log = LoggerFactory.getLogger(AppController.class);
+	@Autowired	private AfilClientesService afClServ;
+	
 	
 	@PostMapping(value = "/testConexion")
 	public AppResponse testConexion(@RequestBody AppRequest request)
@@ -31,4 +36,12 @@ public class AppController {
 		{	return service.testConexion(request); }
 	}
 	
-}
+	@PostMapping(value = "/getClientesRegistrados")
+	public ClientesResponse getClientesRegistrados(@RequestBody BusquedaRequest request) {
+		if(request.getEncodedData()!=null) 
+			return new ClientesResponse(Parser.ENCODE(afClServ.getClientesRegistrados(Parser.DECODE(request))));
+		else
+			return afClServ.getClientesRegistrados(request);
+	}
+	
+}  

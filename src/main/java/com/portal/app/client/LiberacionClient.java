@@ -6,7 +6,9 @@ import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
 import com.portal.app.dto.BitacoraDigital;
+import com.portal.app.request.AfiliaEcommerceRequest;
 import com.portal.app.request.BitRegRequest;
+import com.portal.app.request.CrearPedidoRequest;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource.Builder;
@@ -70,6 +72,18 @@ public class LiberacionClient implements WsClient {
 
 	@Override
 	public ResponseEntity send(String idSocio) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResponseEntity send(CrearPedidoRequest request) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResponseEntity send(AfiliaEcommerceRequest request) {
 		// TODO Auto-generated method stub
 		return null;
 	}
