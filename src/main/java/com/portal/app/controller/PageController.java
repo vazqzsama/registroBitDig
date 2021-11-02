@@ -72,6 +72,7 @@ public class PageController
 	{
 		log.debug("Menu " + menu +  " Form: "+ form +" : " +new Gson().toJson(request));
 		
+		map.addAttribute("isTest",   appInfo.getCoberturaIsTest());
 		map.addAttribute("resources", appInfo.getResources());
 		map.addAttribute("object",request);
 		

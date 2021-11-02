@@ -4,6 +4,8 @@
 $(document).ready(function(){
 	$.each(cliente.direccionTmp, function (tag, value) {
 		try {
+			if (tag == 'soTipoStr')
+				value = value == 'N' ? 'Cliente' : 'Socio';
 			$("#D"+tag).html(value);
 		} catch (e) {}
 		
@@ -28,12 +30,16 @@ $(document).ready(function(){
 		        <td id="Demail"></td>
 		      </tr>
 		      <tr>
-		        <td><b>Colonia</b></td>
-		        <td id="Dcolonia"></td>
+		        <td><b>Teléfono</b></td>
+		        <td id="Dtelefono"></td>
 		      </tr>
 		      <tr>
 		        <td><b>Estatus Socio</b></td>
 		        <td id="DsoTipoStr"></td>
+		      </tr>
+		      <tr>
+		        <td><b>Referencia</b></td>
+		        <td id="Dref"></td>
 		      </tr>
 		   </tbody>
 	  </table>

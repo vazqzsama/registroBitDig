@@ -18,6 +18,10 @@ $.getScript("${resources}app/js/formulario/aDigital.js");
 <form id="formEcommerceAfilia" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 <div class="titleDirecciones col-lg-12 col-md-12 col-sm-12 col-xs-12"><p class=direcciones>Información General</p></div>
 <div id="divPrimerosDatos" class="col-xs-12 col-sm-12 col-md-12 col-lg-12  div-form-padding-0">
+	
+	<div class="alert alert-info col-lg-8 col-md-8 col-sm-8 col-xs-8 col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-xs-offset-2" role="alert">
+		<p class="alert-link text-center">* Para editar los campos bloqueados dar doble click sobre ellos</p>
+	</div>
 
 	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 " style="padding: 0px;">
 			<div class="col-lg-8 col-md-12 col-sm-12 col-xs-12 col-lg-offset-2 div-form-padding-0">		

@@ -50,8 +50,9 @@ var cliente   = {};
 		$table.data("ajax",opts.ajax);
 			
 		$table.bootstrapTable ({
-			 onClickRow:function (row, $element, field){ $table.find('.success').removeClass('success'); $element.addClass("success"); },
-		     onPostBody:function(){ $table.bootstrapTable("resetView"); },
+			 showExport: psPermiso.eval('EXPORT'),
+			 onClickRow: function (row, $element, field){ $table.find('.success').removeClass('success'); $element.addClass("success"); },
+		     onPostBody: function(){ $table.bootstrapTable("resetView"); },
 		     onExpandRow: function (index, row, $detail){ if( opts.onExpandRow!=null) opts.onExpandRow($detail,row); },
 		     formatDetailPagination: function (totalRows) {return '  Mostrando '+totalRows+' elementos';  }
 		});
@@ -85,7 +86,6 @@ var cliente   = {};
 	
 	this.accion = function(value,row) {
 		row.fnac = moment(new Date(row.fnac)).format('DD/MM/YYYY');
-		row.email = "iscvazqz@gmail.com";
 		if (row.cp) row.cp = (row.cp.length < 5 ? '0'.concat(row.cp) : row.cp).toString();
 		if (row.soTipoStr == 'N' && (row.estatusPedido == 'C' || row.estatusPedido == null)) {
 			var icon = '<i class="fa fa-shopping-bag fa-lg"></i>';
@@ -185,7 +185,6 @@ var cliente   = {};
 			      clickConsultar();
 			    }
 			  });
-			
 		}).always(function(){ loading.close(); });
 	};
 	
@@ -197,7 +196,7 @@ $(document).ready(cliente.init);
 <div id="divPanelPricipal" class="panel panel-blue">
 	<div id="divFiltro" class="panel-body padding-1">
 		<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
-			<label class="control-label lbl-filter" for="socio">Id Socio:</label>
+			<label class="control-label lbl-filter" for="socio">Id Socio:${profile}</label>
 			<input type="text" id="idSocio" class="form-control" placeholder="Número de socio"></input>
 		</div>
 		
@@ -254,7 +253,7 @@ $(document).ready(cliente.init);
 	  		data-maintain-selected=true
 	  		data-icons="system.icons"
 	  		data-sticky-header="true"
-	  		data-show-export="false"
+	  		data-show-export="true"
 			data-export-data-type="all"
   		>
 		<thead>	
@@ -279,24 +278,14 @@ $(document).ready(cliente.init);
 					data-align="center"
 					data-formatter="cliente.fullName"
 					data-sortable="true">Nombre</th>
-						
-				<!-- <th data-field="apellidoPaterno"
-					data-sortable="true"
-					data-align="center"
-					data-switchable="false">A. Paterno</th>
-				
-				<th data-field="apellidoMaterno"
-					data-sortable="true"
-					data-align="center"
-					data-switchable="false">A. Materno</th>
-					 -->
+					
 				<th data-field="email"
 					data-sortable="true"
 					data-align="center">Email</th>
 								
 				<th data-field="telefono"
 					data-sortable="true"
-					data-align="center">Telefono</th>
+					data-align="center">Teléfono</th>
 					
 				<th data-field="pedido"
 					data-sortable="true"
@@ -307,6 +296,10 @@ $(document).ready(cliente.init);
 					data-align="center"	
 					data-formatter="cliente.estatusPedido"
 					data-sortable="false">Estatus Pedido</th>
+				
+				<th data-field="ref"
+					data-align="center"	
+					data-sortable="false">Referencia</th>
 					
 				<th data-align="center"
 					data-formatter="cliente.direccion"	

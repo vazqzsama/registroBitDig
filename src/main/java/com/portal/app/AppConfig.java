@@ -55,6 +55,9 @@ public class AppConfig implements WebMvcConfigurer
 	@Value("${jdbc.user}")					private String jdbcUser;
 	@Value("${jdbc.password}")				private String jdbcPassword;
 	
+	@Value("${afilia.service.cobertura.isTest}")
+	private Boolean isTest;
+	
 	/*******************************************************************************
 	 * Configuración del log *
 	 *******************************************************************************/
@@ -137,6 +140,7 @@ public class AppConfig implements WebMvcConfigurer
 		appInfo.setProfile(profile);
 		appInfo.setDeveloper(appDeveloper);
 		appInfo.setResources(proxyEnabled?proxyServer:resourcesUrl);
+		appInfo.setCoberturaIsTest(isTest);
 		return appInfo;
 	}
 	

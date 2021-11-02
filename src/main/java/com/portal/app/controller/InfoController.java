@@ -103,7 +103,7 @@ public class InfoController {
 			 if ( correoYaRegistrado ) {
 				 response.setStatus(Constants.ERROR);
 				 response.setMessage("La cuenta de correo <span class='ps-color-pink'>"
-						 				+request.getCorreoVal()+"</span> ya se encuentra registrada. Por favor ingrese otra cuenta.");
+						 				+request.getCorreoVal()+"</span> tiene un pedido pendiente.");
 				 return response;
 			 }
 		} catch (Exception e) {
@@ -164,10 +164,11 @@ public class InfoController {
 		} else {
 			response.setStatus(Constants.ERROR);
 			response.setMessage("Error al obtener la cobertura");
-		}log.info(new Gson().toJson(response));
+		}
+		log.info(new Gson().toJson(response));
 		return response;
 	}
 	
 } 
 
-   
+  

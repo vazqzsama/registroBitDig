@@ -2,6 +2,7 @@ package com.portal.app.dao.impl;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
@@ -38,8 +39,10 @@ public class AfilClientesDaoImpl implements AfilClientesDao {
 			.setParameter("estatus", request.getFiltro().getEstatus() )
 			.setParameter("sortby", request.getPager().getData().getSort() )
 			.setParameter("orderby", request.getPager().getData().getOrder() )
-			.setParameter("limit", request.getPager().getData().getLimit() )
-			.setParameter("offset", request.getPager().getData().getOffset() )
+			.setParameter("limit",  Objects.isNull(request.getPager().getData().getLimit()) 
+					? request.getTotal(): request.getPager().getData().getLimit() )
+			.setParameter("offset", Objects.isNull(request.getPager().getData().getOffset()) ? 0 
+					: request.getPager().getData().getOffset() )
 			.list();
 	}
 	

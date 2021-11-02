@@ -3,77 +3,61 @@ var paqueteria={};
 (function() {
 	var $dato = '${object.dato}';
 	var $tablePaqueteria = $("#tablePaqueteria");
-	this.service=function(params) {  
-	    var defaults = {
-	            url:null,
-	            data:{},
-	            callback:null,
-	            beforeSend:function(xhr) {
-	            	//xhr.setRequestHeader("Authorization", "Basic YXBwcHM6MTIz");
-	            	xhr.setRequestHeader("Authorization", "Basic YWZpbGlhLXNlcnZpY2VzOjRmMWwxNHMzcnYxYzNzUFM=");
-	            	//xhr.setRequestHeader("Authorization", "Basic YWZpbGlhLXNlcnZpY2VzOjRmMWwxNHMzcnYxYzNzUFM=");
-	            }
-	        };
-	    var options = $.extend(defaults, params);
-
-	    if (options.url === null || $.trim(options.url) === ""){	return null;	}
-	    else {
-			var data = options.data;
-	      	var type = "POST";
-	      	//var url = "http://192.168.1.234:7171/afiliapsQA/service/paqueteria/"+options.url;
-		    var url = "http://odc.portalweb.priceshoes.com/fsw/afilia-services/service/paqueteria/"+options.url;
-		    //var url = "http://192.168.1.235:7373/afilia-services/service/paqueteria/"+options.url;
-	      	var dataType = "JSON";
-	      
-	      	return $.ajax ({
-                url:url,
-                beforeSend:options.beforeSend,
-                type:type,
-                data:JSON.stringify(data),
-                dataType:dataType,
-                contentType:"application/json",cache:false
-            }) .done(function(response) {   
-              { 
-                  if (options.callback != null) {options.callback(response);} 
-              }
-	      }).fail(function(jqXHR, textStatus) {
-              psDialog.error("Servicio no disponible "+ textStatus);
-          });
+	var isTest = "${isTest}";
+	console.log(isTest);
+	var loading = psDialog.loading();
+	
+	function loadData() {
+		var data = { codigoPostal : $dato };
+      	var type = "POST";
+      	var dataType = "JSON";
+      	
+		loading.open();
+		
+	    if (isTest == true) {
+	    	system.service ({
+				url:"getCobertura",
+				data: data,
+				callback:function(response) {
+					if (response.cobertura) 
+						setDatosTabla(response.cobertura);
+				}
+			}).always(function(){ loading.close();	});
+		} else {
+	      	$.ajax ({
+                url: "http://odc.portalweb.priceshoes.com/fsw/afilia-services/service/paqueteria/cobertura",
+                beforeSend: function(xhr) { xhr.setRequestHeader("Authorization", "Basic YWZpbGlhLXNlcnZpY2VzOjRmMWwxNHMzcnYxYzNzUFM="); },
+                type: type,
+                data: JSON.stringify(data),
+                dataType: dataType,
+                contentType: "application/json",
+                cache:false
+            }).done(function(response) {
+            	if (response)
+					setDatosTabla(response);
+	        }).fail(function(jqXHR, textStatus) {
+	            psDialog.error("Servicio no disponible "+ textStatus);
+	        }).always(function(){ loading.close();	});;
 	    }
 	  };
 	  
-		function loadData() {
-			var loading = psDialog.loading();
-			loading.open();
-			paqueteria.service ({
-				url:"cobertura",
-			//system.service ({
-				//url:"getCobertura",
-				data:{codigoPostal:$dato},
-				callback:function(response) {
-					console.log(response);
-					var data=response
-					//var data=response.cobertura;
-					var existePaqeteria = false;
-					
-					$.each( data, function(i,paq) {
-						try {
-							if ( paq.aplicaServicio==1 ) existePaqeteria=true;
-						} catch (e) {
-							console.log("Paqueteria no aplica: "+paq.paqueteria);
-						}
-					});
-					
-					if ( !existePaqeteria ) {
-						psDialog.error("No existe cobertura de ninguna paquetería, no se puede afiliar este cliente");
-						loading.close();
-						ecommerce.getDialog().close();
-						return false;
-					}
-					$tablePaqueteria.bootstrapTable('load',data);
-				}
-			}).always(function(){ loading.close();	}); 
+	  function setDatosTabla (data) {
+		var existePaqeteria = false;
+		$.each( data, function(i,paq) {
+			try {
+				if ( paq.aplicaServicio==1 ) existePaqeteria=true;
+			} catch (e) {
+				console.log("Paqueteria no aplica: "+paq.paqueteria);
+			}
+		});
+		
+		if ( !existePaqeteria ) {
+			psDialog.error("No existe cobertura de ninguna paquetería, no se puede afiliar este cliente");
+			ecommerce.getDialog().close();
+			return false;
 		}
+		$tablePaqueteria.bootstrapTable('load',data);
+	  }
 		
 		this.validaPaqueteria = function() {
 			$("#spanPaqErr").val("");
@@ -167,9 +151,7 @@ var paqueteria={};
 $(document).ready(function() {
 	try {
 		paqueteria.init();
-	} catch (e) {
-		console.log(e)
-	}
+	} catch (e) {  console.log(e); }
 });
 </script>
 

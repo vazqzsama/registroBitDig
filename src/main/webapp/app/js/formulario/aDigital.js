@@ -123,13 +123,14 @@ var ecommerce = {};
 			e.preventDefault();
 			e.stopPropagation();
 
-			  $("#tableLanding").show();
-			  $("#panel-body").show();
-			  $("#tabTipo").show();
-			  $("#divLanding").show();
-			  landing.loadData();
-			  $('#divFormAfilia').html("");
-			  $("#btnMostrar").show();
+			system.getForm ({
+				url: "template/lista",
+				data: { response: {} }
+			}).done(function(form) {
+				$("#divTemplateContainer").html(form);
+			}).always(function() {
+				loading.close();
+			});
 		});
 	}
 
@@ -1352,64 +1353,54 @@ var ecommerce = {};
 		sessionStorage.removeItem('infoSocioTmp');
 	}
 	
+	function setProperties (id,value) {
+		$("#"+id).val(value);
+		$("#"+id).attr('readonly', true);
+		$("#"+id).attr('title', 'Doble click para desbloquear');
+		$("#"+id).dblclick(function() {
+			$("#"+id).attr('readonly', false);
+		}); 
+	}
+	
 	function getDatosCliente() {
 		var datos = JSON.parse(sessionStorage.getItem('infoSocioTmp'));
 		if (datos) {
 			if (datos.idSocio) {
 				$("#idsocio").val(datos.idSocio);
-				$('#idsocio').attr('readonly', true);
+				$("#idsocio").attr('readonly', true);
+				$("#idsocio").attr('title', 'No se puede editar');
 			}
-			if (datos.soNombre) {
-				$("#nombre").val(datos.soNombre);
-				$("#nombre").attr('readonly', true);
-			}
-			if (datos.apellidoPaterno) {
-				$("#paterno").val(datos.apellidoPaterno);
-				$('#paterno').attr('readonly', true);
-			}
-			if (datos.apellidoMaterno) {
-				$("#materno").val(datos.apellidoMaterno);
-				$("#materno").attr('readonly', true);
-			}
+			if (datos.soNombre)
+				setProperties ("nombre",datos.soNombre);
+			if (datos.apellidoPaterno)
+				setProperties ("paterno",datos.apellidoPaterno);
+			if (datos.apellidoMaterno)
+				setProperties ("materno",datos.apellidoMaterno);
 			if (datos.email) {
 				$("#email").val(datos.email);
 				$('#email').attr('readonly', true);
+				$("#email").attr('title', 'No se puede editar');
 			}
-			if (datos.telefono) {
-				$("#celular").val(datos.telefono);
-				$("#celular").attr('readonly', true);
-			}
+			if (datos.telefono)
+				setProperties ("celular",datos.telefono);
 			if (datos.fnac) {
 				$("#nacimiento").val(datos.fnac);
 				$('#nacimiento').attr('readonly', true);
 			}
-			if (datos.calle) {
-				$("#calle").val(datos.calle);
-				$("#calle").attr('readonly', true);
-			}
-			if (datos.noExterior) {
-				$("#numeroExt").val(datos.noExterior);
-				$('#numeroExt').attr('readonly', true);
-			}
-			if (datos.noInterior) {
-				$("#numeroInt").val(datos.noInterior);
-				$("#numeroInt").attr('readonly', true);
-			}
+			if (datos.calle)
+				setProperties ("calle",datos.calle);
+			if (datos.noExterior)
+				setProperties ("numeroExt",datos.noExterior);
+			if (datos.noInterior)
+				setProperties ("numeroInt",datos.noInterior);
 			if (datos.cp) {
 				$("#cp").val(datos.cp);
 				$('#btnBuscar').trigger('click');
-			}
-			if (datos.fnac) {
-				$("#nacimiento").val(datos.fnac);
-			}
-			if (datos.referencia) {
-				$("#referencias").val(datos.referencia);
-				$("#referencias").attr('readonly', true);
-			}
-			if (datos.entreCalles) {
-				$("#entreCalles").val(datos.entreCalles);
-				$("#entreCalles").attr('readonly', true);
-			}
+			}			
+			if (datos.referencia)
+				setProperties ("referencias",datos.referencia);
+			if (datos.entreCalles)
+				setProperties ("entreCalles",datos.entreCalles);
 			
 		} else {
 			psDialog.warning("No hay datos de cliente.");

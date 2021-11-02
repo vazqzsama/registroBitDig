@@ -97,6 +97,9 @@ public class ClientesPagina implements Serializable {
 	@Column(name = "PEDIDO")
 	private Long pedido;
 	
+	@Column(name = "REF")
+	private String ref;
+	
 	@Column(name = "ESTATUSPEDIDO")
 	private String estatusPedido;
 	

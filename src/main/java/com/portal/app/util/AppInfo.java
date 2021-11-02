@@ -10,6 +10,7 @@ public class AppInfo
 	private String release;
 	private String resources;
 	private String developer;
+	private Boolean coberturaIsTest;
 	
 	public String getName() {
 		return name;
@@ -59,5 +60,11 @@ public class AppInfo
 	}
 	public void setResources(String resources) {
 		this.resources = resources;
+	}
+	public Boolean getCoberturaIsTest() {
+		return coberturaIsTest;
+	}
+	public void setCoberturaIsTest(Boolean coberturaIsTest) {
+		this.coberturaIsTest = coberturaIsTest;
 	}
 }

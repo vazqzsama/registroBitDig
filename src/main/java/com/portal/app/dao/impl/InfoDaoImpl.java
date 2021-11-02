@@ -56,7 +56,7 @@ public class InfoDaoImpl implements InfoDao {
 	
 	@Override
 	public Boolean verificaCorreo(AfiliaEcommerceRequest request) {
-		String query = " SELECT PKG_AFILIACION_ECOM.F_VALIDACORREO('"+request.getCorreoVal()+"') FROM DUAL ";
+		String query = " SELECT PKG_REC_AFL_SIT.F_VALIDACORREO('"+request.getCorreoVal()+"') FROM DUAL ";
 		BigDecimal result = (BigDecimal) session.getCurrentSession().createSQLQuery(query).uniqueResult();
 		
 		log.info("Verificar correo duplicado******* " + new Gson().toJson(result));
@@ -91,3 +91,5 @@ public class InfoDaoImpl implements InfoDao {
 	}
 	
 } 
+
+ 
