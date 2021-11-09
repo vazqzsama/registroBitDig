@@ -2,7 +2,12 @@ package com.portal.app.service.impl;
 
 import static com.portal.app.util.Constants.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import javax.validation.ConstraintDeclarationException;
@@ -21,7 +26,11 @@ import com.portal.app.dto.BitacoraDigital;
 import com.portal.app.request.AppRequest;
 import com.portal.app.request.BitRegRequest;
 import com.portal.app.request.ParametrosPendientes;
+import com.portal.app.request.ReactivarRequest;
+import com.portal.app.request.RfcRequest;
 import com.portal.app.response.AppResponse;
+import com.portal.app.response.Response;
+import com.portal.app.response.RfcValidResponse;
 import com.portal.app.service.AppService;
 
 @Service
@@ -151,6 +160,66 @@ public class AppServiceImpl implements AppService {
 						p.getIdSocio()));
 			}
 		}
+		return result;
+	}
+	
+	@Override
+	public RfcValidResponse createValidateRfc(RfcRequest request) {
+		Map<String, String> fecha = splitDate(request.getFechaNacimiento());
+		String rfc = new StringBuilder()
+			.append(request.getNombre().substring(0,1).toUpperCase()) // Inicial del primer nombre
+			.append(request.getApellidoPaterno().substring(0,1).toUpperCase()) // Inicial del primer apellido
+			.append(request.getApellidoMaterno().substring(0,1).toUpperCase()) // Inicial del segundo apellido
+			.append(request.getNombre().substring(1,2).toUpperCase()) // Segunda letra del nombre
+			.append(request.getApellidoPaterno().substring(1,2).toUpperCase()) // Segunda letra del primer apellido
+			.append(request.getApellidoMaterno().substring(1,2).toUpperCase()) // Segunda letra del segundo apellido
+			.append(validateSexo(request.getSexo())) // Sexo (M/F)
+			.append(fecha.get("dia")) // Dia
+			.append(fecha.get("mes")) // Mes
+			.append(fecha.get("año")) // Año
+			.toString();
+		
+		return new RfcValidResponse(rfc, dao.searchSocioByRfc(rfc));
+	}
+	
+	@Override
+	public Response reactivarSocio(ReactivarRequest request) {
+		Response response = new Response();
+		try {
+			dao.reactivarSocio(request);
+			response.setStatus(PROCESO_CORRECTO);
+			response.setMessage("Registro Actualizado correctamente");
+		} catch (Exception e) {
+			response.setStatus(ERROR);
+			response.setMessage(e.getLocalizedMessage());
+		}
+		return response;
+	}	
+	
+	public String validateSexo(String sexo) {
+		if (sexo.isEmpty() || Objects.isNull(sexo))
+			return "X";
+		else if (sexo.toUpperCase().equals("H"))
+			return "M";
+		else
+			return sexo;
+	}
+	
+	public Map<String, String> splitDate(String fecha) {
+		Date f = null;
+		try {
+			f = new SimpleDateFormat("dd/MM/yyyy").parse(fecha);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		SimpleDateFormat formatNowDay = new SimpleDateFormat("dd");
+	    SimpleDateFormat formatNowMonth = new SimpleDateFormat("MM");
+	    SimpleDateFormat formatNowYear = new SimpleDateFormat("yy");
+	    
+		Map<String, String> result = new HashMap<String, String>();
+		result.put("dia", formatNowDay.format(f));
+		result.put("mes", formatNowMonth.format(f));
+		result.put("año", formatNowYear.format(f));
 		return result;
 	}
 	

@@ -12,6 +12,8 @@ public class AppInfo
 	private String developer;
 	private Boolean coberturaIsTest;
 	
+	private String mercadoPagoPluging;
+	
 	public String getName() {
 		return name;
 	}
@@ -67,4 +69,11 @@ public class AppInfo
 	public void setCoberturaIsTest(Boolean coberturaIsTest) {
 		this.coberturaIsTest = coberturaIsTest;
 	}
+	public String getMercadoPagoPluging() {
+		return mercadoPagoPluging;
+	}
+	public void setMercadoPagoPluging(String mercadoPagoPluging) {
+		this.mercadoPagoPluging = mercadoPagoPluging;
+	}
+	
 }

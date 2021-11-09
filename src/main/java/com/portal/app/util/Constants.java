@@ -14,6 +14,7 @@ public class Constants
 	public static final String	PRODUCCION						= "prod";
 	
 	/*Estatus de proceso*/
+	public static final int PROCESO_CORRECTO					= 0;
 	public static final int ERROR								= -1;
 	public static final String FALTAN_PARAMETROS				= "Faltan parámetros de entrada";
 	

@@ -3,3 +3,5 @@
 
 <script src="${resources}app/js/plugins/tableExport.js"></script>
 <script src="${resources}app/js/plugins/bootstrap-table-export.js"></script>
+
+<script src="${pluginMercadoPagoPS}"></script>

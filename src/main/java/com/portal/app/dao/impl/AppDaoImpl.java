@@ -1,6 +1,7 @@
 package com.portal.app.dao.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -20,8 +21,10 @@ import com.portal.app.dao.AppDao;
 import com.portal.app.dto.AfilRegistrar;
 import com.portal.app.dto.BitacoraDigital;
 import com.portal.app.dto.PsPedTmk;
+import com.portal.app.dto.PsSocios;
 import com.portal.app.request.AppRequest;
 import com.portal.app.request.ParametrosPendientes;
+import com.portal.app.request.ReactivarRequest;
 import com.portal.app.response.AppResponse;
 
 @Repository
@@ -150,5 +153,24 @@ public class AppDaoImpl implements AppDao {
 		}
 		return r.toString();
 	}	
+
+	@Override
+	public PsSocios searchSocioByRfc(String rfc) {
+		return (PsSocios) session.getCurrentSession().createCriteria(PsSocios.class)
+		.add(Restrictions.eq("soSoRfcStr", rfc.trim())).uniqueResult();
+	}
+	
+	@Override
+	@Transactional(readOnly = false)
+	public void reactivarSocio(ReactivarRequest request) {
+		PsSocios socio = (PsSocios) session.getCurrentSession().createCriteria(PsSocios.class)
+		.add(Restrictions.eq("soSoRfcStr", request.getRfcPrice()))
+		.add(Restrictions.eq("soIdStr", request.getIdSocio())).uniqueResult();
+		
+		socio.setSoTipoStr("R");
+		socio.setSoFregDt(new Date());
+		socio.setSoSoRfcStr(request.getRfcPrice());
+		session.getCurrentSession().update(socio);
+	}
 	
 }

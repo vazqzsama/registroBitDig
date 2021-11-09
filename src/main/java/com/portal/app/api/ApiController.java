@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.google.gson.Gson;
 import com.portal.app.dto.BitacoraDigital;
 import com.portal.app.request.BitRegRequest;
+import com.portal.app.request.ReactivarRequest;
+import com.portal.app.request.RfcRequest;
+import com.portal.app.response.RfcValidResponse;
 /*import com.portal.app.request.ParametrosPendientes;
 import com.portal.app.response.AppResponse;*/
 import com.portal.app.service.AppService;
@@ -29,7 +32,7 @@ import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.ApiResponse;
 
 @RestController
-@RequestMapping(value = "/bitacora")
+@RequestMapping(value = "/")
 @Api(value = "Registro Bitácora Digital", produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class ApiController {
 
@@ -44,7 +47,7 @@ public class ApiController {
 			@ApiResponse(code = 400, message = "Operación inválida", response = ApiError.class),
 			@ApiResponse(code = 412, message = "Socio con registro vigente", response = ApiError.class)
 	})
-	@RequestMapping(path = "/create", method = RequestMethod.POST)
+	@RequestMapping(path = "bitacora/create", method = RequestMethod.POST)
 	public ResponseEntity<Object> createBitacora(
 			@ApiParam(value = "Datos para registro bitacora", required = true) 
 			@RequestBody final BitRegRequest params) throws Exception {
@@ -59,7 +62,7 @@ public class ApiController {
 			@ApiResponse(code = 200, message = "Proceso Exitoso", response = BitacoraDigital.class),
 			@ApiResponse(code = 400, message = "Operación inválida", response = ApiError.class)
 	})
-	@RequestMapping(path = "/update", method = RequestMethod.PUT)
+	@RequestMapping(path = "bitacora/update", method = RequestMethod.PUT)
 	public ResponseEntity<Object> updateBitacora(
 			@ApiParam(value = "Bitácora para actualizar", required = true)
 			@Valid @RequestBody final BitacoraDigital params) throws Exception {
@@ -74,7 +77,7 @@ public class ApiController {
 			@ApiResponse(code = 200, message = "Proceso Exitoso", response = BitacoraDigital.class),
 			@ApiResponse(code = 400, message = "Operación inválida", response = ApiError.class)
 	})
-	@RequestMapping(method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET,path = "bitacora")
 	public ResponseEntity<Object> getBitacora(
 			@ApiParam(value = "Bitácora para actualizar", required = true)
 			@Valid @RequestParam final String idSocio) throws Exception {
@@ -96,5 +99,32 @@ public class ApiController {
 		log.info("Se ejecuta bitacora/recover: "+new Gson().toJson(params));
 		return new ResponseEntity<Object>(service.registrarPendientes(params), HttpStatus.OK);
 	}*/
+	
+
+	@ApiOperation(value = "Generación de RFC Price", response = RfcValidResponse.class)
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Proceso Exitoso", response = RfcValidResponse.class),
+			@ApiResponse(code = 400, message = "Operación inválida", response = ApiError.class)
+	})
+	@RequestMapping(path = "rfc/create", method = RequestMethod.POST)
+	public ResponseEntity<Object> recoverAfiliacion(
+			@ApiParam(value = "Parámetros de búsqueda", required = true,allowEmptyValue = false)
+			@Valid @RequestBody final RfcRequest params) throws Exception {
+		log.info("Se ejecuta rfc/create: "+new Gson().toJson(params));
+		return new ResponseEntity<Object>(service.createValidateRfc(params), HttpStatus.OK);
+	}
+	
+	@ApiOperation(value = "Reactivación de Socio Afiliación Tradicional", response = RfcValidResponse.class)
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Proceso Exitoso", response = RfcValidResponse.class),
+			@ApiResponse(code = 400, message = "Operación inválida", response = ApiError.class)
+	})
+	@RequestMapping(path = "socio/reactivacion", method = RequestMethod.POST)
+	public ResponseEntity<Object> socioReactivacion(
+			@ApiParam(value = "Parámetros de búsqueda", required = true,allowEmptyValue = false)
+			@Valid @RequestBody final ReactivarRequest params) throws Exception {
+		log.info("Se ejecuta socio/reactivacion: "+new Gson().toJson(params));
+		return new ResponseEntity<Object>(service.reactivarSocio(params), HttpStatus.OK);
+	}
 	
 }

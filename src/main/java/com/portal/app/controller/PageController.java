@@ -51,6 +51,8 @@ public class PageController
 	public String resources(ModelMap map, @ModelAttribute PageRequest request )
 	{
 		map.addAttribute("resources", appInfo.getResources());
+		map.addAttribute("pluginMercadoPagoPS",  appInfo.getMercadoPagoPluging() );
+		
 		return "resources";
 	}
 

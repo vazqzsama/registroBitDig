@@ -55,6 +55,8 @@ public class AppConfig implements WebMvcConfigurer
 	@Value("${jdbc.user}")					private String jdbcUser;
 	@Value("${jdbc.password}")				private String jdbcPassword;
 	
+	@Value("${mercado.pago.plugin}")		private String mercadoPagoPlugin;
+	
 	@Value("${afilia.service.cobertura.isTest}")
 	private Boolean isTest;
 	
@@ -141,6 +143,7 @@ public class AppConfig implements WebMvcConfigurer
 		appInfo.setDeveloper(appDeveloper);
 		appInfo.setResources(proxyEnabled?proxyServer:resourcesUrl);
 		appInfo.setCoberturaIsTest(isTest);
+		appInfo.setMercadoPagoPluging(mercadoPagoPlugin);
 		return appInfo;
 	}
 	
