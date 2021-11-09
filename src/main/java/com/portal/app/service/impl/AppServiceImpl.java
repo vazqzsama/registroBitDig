@@ -23,6 +23,8 @@ import com.portal.app.client.AfiliaServicesClient;
 import com.portal.app.dao.AppDao;
 import com.portal.app.dto.AfilRegistrar;
 import com.portal.app.dto.BitacoraDigital;
+import com.portal.app.dto.RsGetPaqueteAmer;
+import com.portal.app.request.AfiliacionRequest;
 import com.portal.app.request.AppRequest;
 import com.portal.app.request.BitRegRequest;
 import com.portal.app.request.ParametrosPendientes;
@@ -221,6 +223,11 @@ public class AppServiceImpl implements AppService {
 		result.put("mes", formatNowMonth.format(f));
 		result.put("año", formatNowYear.format(f));
 		return result;
+	}
+	
+	@Override
+	public RsGetPaqueteAmer getPaqueteAmer(AfiliacionRequest request) {
+		return dao.getPaqueteAmer(request);
 	}
 	
 }

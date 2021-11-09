@@ -6,6 +6,8 @@ import com.portal.app.dto.AfilRegistrar;
 import com.portal.app.dto.BitacoraDigital;
 import com.portal.app.dto.PsPedTmk;
 import com.portal.app.dto.PsSocios;
+import com.portal.app.dto.RsGetPaqueteAmer;
+import com.portal.app.request.AfiliacionRequest;
 import com.portal.app.request.AppRequest;
 import com.portal.app.request.ParametrosPendientes;
 import com.portal.app.request.ReactivarRequest;
@@ -24,5 +26,6 @@ public interface AppDao {
 	public List<AfilRegistrar> getPendientes(ParametrosPendientes params);
 	public PsSocios searchSocioByRfc(String rfc);
 	public void reactivarSocio(ReactivarRequest request);
+	public RsGetPaqueteAmer getPaqueteAmer(AfiliacionRequest request);
 	
 }

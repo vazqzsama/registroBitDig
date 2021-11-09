@@ -108,7 +108,7 @@ var ecommerce = {};
 				  $("#panel-body").show();
 				  $("#tabTipo").show();
 				  $("#divLanding").show();
-				  landing.loadData();
+				  //landing.loadData();
 				  $('#divFormAfilia').html("");
 				  $("#btnMostrar").show();
 				  $("#divFormAfilia").hide();
@@ -122,7 +122,7 @@ var ecommerce = {};
 		$('#btnFinalizarProceso').click(function(e) {
 			e.preventDefault();
 			e.stopPropagation();
-
+			var loading = psDialog.loading().open();
 			system.getForm ({
 				url: "template/lista",
 				data: { response: {} }

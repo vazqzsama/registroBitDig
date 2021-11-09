@@ -22,6 +22,8 @@ import com.portal.app.dto.AfilRegistrar;
 import com.portal.app.dto.BitacoraDigital;
 import com.portal.app.dto.PsPedTmk;
 import com.portal.app.dto.PsSocios;
+import com.portal.app.dto.RsGetPaqueteAmer;
+import com.portal.app.request.AfiliacionRequest;
 import com.portal.app.request.AppRequest;
 import com.portal.app.request.ParametrosPendientes;
 import com.portal.app.request.ReactivarRequest;
@@ -172,5 +174,14 @@ public class AppDaoImpl implements AppDao {
 		socio.setSoSoRfcStr(request.getRfcPrice());
 		session.getCurrentSession().update(socio);
 	}
+	
+	@Override
+	public RsGetPaqueteAmer getPaqueteAmer(AfiliacionRequest request) {
+		log.debug("Metodo getPaqueteAmer : " + new Gson().toJson(request));		
+		return  (RsGetPaqueteAmer) session.getCurrentSession().getNamedQuery("P_GET_PAQUETE_AMER")
+		.setParameter("listaCatalogos", request.getListaCatalogos()).uniqueResult();
+
+	}
+	
 	
 }

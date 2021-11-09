@@ -1,6 +1,8 @@
 package com.portal.app.service;
 
 import com.portal.app.dto.BitacoraDigital;
+import com.portal.app.dto.RsGetPaqueteAmer;
+import com.portal.app.request.AfiliacionRequest;
 import com.portal.app.request.AppRequest;
 import com.portal.app.request.BitRegRequest;
 import com.portal.app.request.ParametrosPendientes;
@@ -20,5 +22,6 @@ public interface AppService {
 	String getReferenciaPedido(String tipo);
 	RfcValidResponse createValidateRfc(RfcRequest request);
 	Response reactivarSocio(ReactivarRequest request);
+	RsGetPaqueteAmer getPaqueteAmer(AfiliacionRequest request);
 	
 }
