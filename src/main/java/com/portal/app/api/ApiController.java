@@ -19,10 +19,12 @@ import com.portal.app.dto.BitacoraDigital;
 import com.portal.app.request.BitRegRequest;
 import com.portal.app.request.ReactivarRequest;
 import com.portal.app.request.RfcRequest;
+import com.portal.app.response.Response;
 import com.portal.app.response.RfcValidResponse;
 /*import com.portal.app.request.ParametrosPendientes;
 import com.portal.app.response.AppResponse;*/
 import com.portal.app.service.AppService;
+import com.portal.app.util.Constants;
 
 import io.swagger.annotations.Api;
 
@@ -109,9 +111,17 @@ public class ApiController {
 	@RequestMapping(path = "rfc/create", method = RequestMethod.POST)
 	public ResponseEntity<Object> recoverAfiliacion(
 			@ApiParam(value = "Parámetros de búsqueda", required = true,allowEmptyValue = false)
-			@Valid @RequestBody final RfcRequest params) throws Exception {
+			@Valid @RequestBody final RfcRequest params) {
 		log.info("Se ejecuta rfc/create: "+new Gson().toJson(params));
-		return new ResponseEntity<Object>(service.createValidateRfc(params), HttpStatus.OK);
+		try {
+			return new ResponseEntity<Object>(service.createValidateRfc(params), HttpStatus.OK);
+		} catch (Exception e) {
+			Response r = new Response();
+			r.setMessage(e.getLocalizedMessage());
+			r.setStatus(Constants.ERROR);
+			return new ResponseEntity<Object>(r, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
 	}
 	
 	@ApiOperation(value = "Reactivación de Socio Afiliación Tradicional", response = RfcValidResponse.class)

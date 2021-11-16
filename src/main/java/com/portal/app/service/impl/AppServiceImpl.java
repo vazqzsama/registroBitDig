@@ -167,6 +167,13 @@ public class AppServiceImpl implements AppService {
 	
 	@Override
 	public RfcValidResponse createValidateRfc(RfcRequest request) {
+		if (request.getNombre().length() < 2)
+			throw new IllegalArgumentException("El dato \"nombre\" debe contener minimo dos caracteres");
+		if (request.getApellidoPaterno().length() < 2)
+			throw new IllegalArgumentException("El dato \"Apellido Paterno\" debe contener minimo dos caracteres");
+		if (request.getApellidoMaterno().length() < 2)
+			throw new IllegalArgumentException("El dato \"Apellido Materno\" debe contener minimo dos caracteres");
+		
 		Map<String, String> fecha = splitDate(request.getFechaNacimiento());
 		String rfc = new StringBuilder()
 			.append(request.getNombre().substring(0,1).toUpperCase()) // Inicial del primer nombre

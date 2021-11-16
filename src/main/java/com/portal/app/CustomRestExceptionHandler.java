@@ -12,12 +12,12 @@ import org.springframework.web.context.request.WebRequest;
 import com.google.gson.Gson;
 import com.portal.app.api.ApiError;
 
-//@ControllerAdvice
+@ControllerAdvice
 public class CustomRestExceptionHandler {
 
 	private static final Logger log = LoggerFactory.getLogger(CustomRestExceptionHandler.class);
 	
-    /*@ExceptionHandler({ Exception.class })
+    @ExceptionHandler({ Exception.class })
     public ResponseEntity<Object> handleAll(final Exception ex, final WebRequest request) {
         String error = ex.getClass().getName(); 
         HttpStatus httpSts = HttpStatus.INTERNAL_SERVER_ERROR;
@@ -38,6 +38,6 @@ public class CustomRestExceptionHandler {
         ResponseEntity<Object> response = new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
 		log.error("ExceptionHandler: "+new Gson().toJson(response));
         return response;
-    }*/
+    }
 
 }
