@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <link href="${resources}app/css/afiliacion.css" rel="stylesheet">
 <link href="${resources}app/css/ecommerce.css" rel="stylesheet">
+<script src="${resources}app/js/formulario/validarRfc.js"></script>
 
 <script type="text/javascript">
 $.getScript("${resources}app/js/formulario/aDigital.js");

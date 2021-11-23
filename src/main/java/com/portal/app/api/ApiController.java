@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
 import com.portal.app.dto.BitacoraDigital;
+import com.portal.app.dto.PsSocios;
 import com.portal.app.request.BitRegRequest;
 import com.portal.app.request.ReactivarRequest;
 import com.portal.app.request.RfcRequest;
+import com.portal.app.request.UpdateSocioRequest;
 import com.portal.app.response.Response;
 import com.portal.app.response.RfcValidResponse;
 /*import com.portal.app.request.ParametrosPendientes;
@@ -50,7 +52,7 @@ public class ApiController {
 			@ApiResponse(code = 412, message = "Socio con registro vigente", response = ApiError.class)
 	})
 	@RequestMapping(path = "bitacora/create", method = RequestMethod.POST)
-	public ResponseEntity<Object> createBitacora(
+	public ResponseEntity<Object> createBitacora (
 			@ApiParam(value = "Datos para registro bitacora", required = true) 
 			@RequestBody final BitRegRequest params) throws Exception {
 		log.info("Request bitacora/create: "+new Gson().toJson(params));
@@ -65,7 +67,7 @@ public class ApiController {
 			@ApiResponse(code = 400, message = "Operación inválida", response = ApiError.class)
 	})
 	@RequestMapping(path = "bitacora/update", method = RequestMethod.PUT)
-	public ResponseEntity<Object> updateBitacora(
+	public ResponseEntity<Object> updateBitacora (
 			@ApiParam(value = "Bitácora para actualizar", required = true)
 			@Valid @RequestBody final BitacoraDigital params) throws Exception {
 		log.info("Se ejecuta bitacora/update: "+new Gson().toJson(params));
@@ -80,7 +82,7 @@ public class ApiController {
 			@ApiResponse(code = 400, message = "Operación inválida", response = ApiError.class)
 	})
 	@RequestMapping(method = RequestMethod.GET,path = "bitacora")
-	public ResponseEntity<Object> getBitacora(
+	public ResponseEntity<Object> getBitacora (
 			@ApiParam(value = "Bitácora para actualizar", required = true)
 			@Valid @RequestParam final String idSocio) throws Exception {
 		log.info("Se ejecuta bitacora/get/"+idSocio);
@@ -109,7 +111,7 @@ public class ApiController {
 			@ApiResponse(code = 400, message = "Operación inválida", response = ApiError.class)
 	})
 	@RequestMapping(path = "rfc/create", method = RequestMethod.POST)
-	public ResponseEntity<Object> recoverAfiliacion(
+	public ResponseEntity<Object> createValidateRfc (
 			@ApiParam(value = "Parámetros de búsqueda", required = true,allowEmptyValue = false)
 			@Valid @RequestBody final RfcRequest params) {
 		log.info("Se ejecuta rfc/create: "+new Gson().toJson(params));
@@ -121,7 +123,6 @@ public class ApiController {
 			r.setStatus(Constants.ERROR);
 			return new ResponseEntity<Object>(r, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		
 	}
 	
 	@ApiOperation(value = "Reactivación de Socio Afiliación Tradicional", response = RfcValidResponse.class)
@@ -130,11 +131,24 @@ public class ApiController {
 			@ApiResponse(code = 400, message = "Operación inválida", response = ApiError.class)
 	})
 	@RequestMapping(path = "socio/reactivacion", method = RequestMethod.POST)
-	public ResponseEntity<Object> socioReactivacion(
+	public ResponseEntity<Object> socioReactivacion (
 			@ApiParam(value = "Parámetros de búsqueda", required = true,allowEmptyValue = false)
 			@Valid @RequestBody final ReactivarRequest params) throws Exception {
 		log.info("Se ejecuta socio/reactivacion: "+new Gson().toJson(params));
 		return new ResponseEntity<Object>(service.reactivarSocio(params), HttpStatus.OK);
+	}
+	
+	@ApiOperation(value = "Actualización Socio", response = PsSocios.class)
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Proceso Exitoso", response = PsSocios.class),
+			@ApiResponse(code = 400, message = "Operación inválida", response = ApiError.class)
+	})
+	@RequestMapping(path = "socio/update", method = RequestMethod.PUT)
+	public ResponseEntity<Object> socioUpdate (
+			@ApiParam(value = "Parámetros de búsqueda", required = true,allowEmptyValue = false)
+			@Valid @RequestBody final UpdateSocioRequest params) throws Exception {
+		log.info("Se ejecuta socio/update: "+new Gson().toJson(params));
+		return new ResponseEntity<Object>(service.updateSocio(params), HttpStatus.OK);
 	}
 	
 }

@@ -8,6 +8,7 @@ import com.portal.app.request.BitRegRequest;
 import com.portal.app.request.ParametrosPendientes;
 import com.portal.app.request.ReactivarRequest;
 import com.portal.app.request.RfcRequest;
+import com.portal.app.request.UpdateSocioRequest;
 import com.portal.app.response.AppResponse;
 import com.portal.app.response.Response;
 import com.portal.app.response.RfcValidResponse;
@@ -23,5 +24,6 @@ public interface AppService {
 	RfcValidResponse createValidateRfc(RfcRequest request);
 	Response reactivarSocio(ReactivarRequest request);
 	RsGetPaqueteAmer getPaqueteAmer(AfiliacionRequest request);
+	Response updateSocio(UpdateSocioRequest request);
 	
 }

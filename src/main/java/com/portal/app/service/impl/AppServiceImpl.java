@@ -2,6 +2,7 @@ package com.portal.app.service.impl;
 
 import static com.portal.app.util.Constants.*;
 
+import java.text.Normalizer;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -30,6 +31,7 @@ import com.portal.app.request.BitRegRequest;
 import com.portal.app.request.ParametrosPendientes;
 import com.portal.app.request.ReactivarRequest;
 import com.portal.app.request.RfcRequest;
+import com.portal.app.request.UpdateSocioRequest;
 import com.portal.app.response.AppResponse;
 import com.portal.app.response.Response;
 import com.portal.app.response.RfcValidResponse;
@@ -176,13 +178,20 @@ public class AppServiceImpl implements AppService {
 		
 		Map<String, String> fecha = splitDate(request.getFechaNacimiento());
 		String rfc = new StringBuilder()
-			.append(request.getNombre().substring(0,1).toUpperCase()) // Inicial del primer nombre
-			.append(request.getApellidoPaterno().substring(0,1).toUpperCase()) // Inicial del primer apellido
-			.append(request.getApellidoMaterno().substring(0,1).toUpperCase()) // Inicial del segundo apellido
-			.append(request.getNombre().substring(1,2).toUpperCase()) // Segunda letra del nombre
-			.append(request.getApellidoPaterno().substring(1,2).toUpperCase()) // Segunda letra del primer apellido
-			.append(request.getApellidoMaterno().substring(1,2).toUpperCase()) // Segunda letra del segundo apellido
-			.append(validateSexo(request.getSexo())) // Sexo (M/F)
+			.append(Normalizer.normalize(request.getNombre().substring(0,1).toUpperCase(),
+					Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "")) // Inicial del primer nombre
+			.append(Normalizer.normalize(request.getApellidoPaterno().substring(0,1).toUpperCase(),
+					Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "")) // Inicial del primer apellido
+			.append(Normalizer.normalize(request.getApellidoMaterno().substring(0,1).toUpperCase(),
+					Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "")) // Inicial del segundo apellido
+			.append(Normalizer.normalize(request.getNombre().substring(1,2).toUpperCase(),
+					Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "")) // Segunda letra del nombre
+			.append(Normalizer.normalize(request.getApellidoPaterno().substring(1,2).toUpperCase(),
+					Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "")) // Segunda letra del primer apellido
+			.append(Normalizer.normalize(request.getApellidoMaterno().substring(1,2).toUpperCase(),
+					Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "")) // Segunda letra del segundo apellido
+			.append(Normalizer.normalize(validateSexo(request.getSexo()),
+					Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "")) // Sexo (M/F)
 			.append(fecha.get("dia")) // Dia
 			.append(fecha.get("mes")) // Mes
 			.append(fecha.get("año")) // Año
@@ -203,7 +212,21 @@ public class AppServiceImpl implements AppService {
 			response.setMessage(e.getLocalizedMessage());
 		}
 		return response;
-	}	
+	}
+	
+	@Override
+	public Response updateSocio(UpdateSocioRequest request) {
+		Response response = new Response();
+		try {
+			dao.updateSocio(request);
+			response.setStatus(PROCESO_CORRECTO);
+			response.setMessage("Registro Actualizado correctamente");
+		} catch (Exception e) {
+			response.setStatus(ERROR);
+			response.setMessage(e.getLocalizedMessage());
+		}
+		return response;
+	}
 	
 	public String validateSexo(String sexo) {
 		if (sexo.isEmpty() || Objects.isNull(sexo))

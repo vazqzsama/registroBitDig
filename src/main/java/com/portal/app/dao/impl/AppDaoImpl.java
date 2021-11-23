@@ -1,5 +1,6 @@
 package com.portal.app.dao.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,6 +28,7 @@ import com.portal.app.request.AfiliacionRequest;
 import com.portal.app.request.AppRequest;
 import com.portal.app.request.ParametrosPendientes;
 import com.portal.app.request.ReactivarRequest;
+import com.portal.app.request.UpdateSocioRequest;
 import com.portal.app.response.AppResponse;
 
 @Repository
@@ -176,12 +178,44 @@ public class AppDaoImpl implements AppDao {
 	}
 	
 	@Override
+	@Transactional(readOnly = false)
+	public void updateSocio(UpdateSocioRequest rq) {
+		PsSocios socio = (PsSocios) session.getCurrentSession().createCriteria(PsSocios.class)
+		.add(Restrictions.eq("soIdStr", rq.getSoIdStr())).uniqueResult();
+		Date fecha = null;
+		try {
+			fecha = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(rq.getFecNacDt());
+		} catch (Exception e) {}
+		
+		socio.setSoNombreStr(rq.getSoNomStr());
+		socio.setSoPaternoStr(rq.getSoApatStr());
+		socio.setSoMaternoStr(rq.getSoAmatStr());
+		socio.setSoEmailStr(rq.getSoEmailStr());
+		if (Objects.nonNull(fecha))
+			socio.setSoFnacDt(fecha);
+		if (Objects.nonNull(rq.getSoCalle()))
+			socio.setSoCalleStr(rq.getSoCalle());
+		if (Objects.nonNull(rq.getSoNumExt()))
+			socio.setSoNumStr(rq.getSoNumExt());
+		if (Objects.nonNull(rq.getSoNumInt()))
+			socio.setSoInteriorStr(rq.getSoNumInt());
+		socio.setSoCdStr(rq.getSoCdStr());
+		socio.setMuCveN(rq.getSoMunN());
+		socio.setEstado(rq.getSoEdoN());
+		socio.setSoTel4Str(rq.getSoCelStr());
+		
+		session.getCurrentSession().update(socio);
+	}
+	
+	@Override
 	public RsGetPaqueteAmer getPaqueteAmer(AfiliacionRequest request) {
 		log.debug("Metodo getPaqueteAmer : " + new Gson().toJson(request));		
 		return  (RsGetPaqueteAmer) session.getCurrentSession().getNamedQuery("P_GET_PAQUETE_AMER")
 		.setParameter("listaCatalogos", request.getListaCatalogos()).uniqueResult();
 
 	}
-	
-	
+		
 }
+
+
+ 

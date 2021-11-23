@@ -11,6 +11,7 @@ import com.portal.app.request.AfiliacionRequest;
 import com.portal.app.request.AppRequest;
 import com.portal.app.request.ParametrosPendientes;
 import com.portal.app.request.ReactivarRequest;
+import com.portal.app.request.UpdateSocioRequest;
 import com.portal.app.response.AppResponse;
 
 public interface AppDao {
@@ -27,5 +28,6 @@ public interface AppDao {
 	public PsSocios searchSocioByRfc(String rfc);
 	public void reactivarSocio(ReactivarRequest request);
 	public RsGetPaqueteAmer getPaqueteAmer(AfiliacionRequest request);
+	public void updateSocio(UpdateSocioRequest request);
 	
 }

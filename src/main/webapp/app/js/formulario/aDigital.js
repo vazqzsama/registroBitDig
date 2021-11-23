@@ -122,15 +122,16 @@ var ecommerce = {};
 		$('#btnFinalizarProceso').click(function(e) {
 			e.preventDefault();
 			e.stopPropagation();
-			var loading = psDialog.loading().open();
+			/*var loading = psDialog.loading().open();
 			system.getForm ({
 				url: "template/lista",
 				data: { response: {} }
 			}).done(function(form) {
 				$("#divTemplateContainer").html(form);
 			}).always(function() {
-				loading.close();
-			});
+ 				loading.close();
+			});*/
+			this.regresarLista();
 		});
 	}
 
@@ -632,6 +633,7 @@ var ecommerce = {};
 				console.log( JSON.stringify(response));
 				//TODO 	@PENDIENTE Validar estatus
 				if(response.socioId && response.idPedidoPs) {
+					rfc.updateSocio();
 					saveBitacoraEcommerce( $r, response );
 				} else {
 					psDialog.error(response.descripcionError);

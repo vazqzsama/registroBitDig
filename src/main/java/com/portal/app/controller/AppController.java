@@ -1,18 +1,26 @@
 package com.portal.app.controller;
 
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
+import com.portal.app.api.ApiController;
 import com.portal.app.request.AfiliacionRequest;
 import com.portal.app.request.AppRequest;
 import com.portal.app.request.BusquedaRequest;
+import com.portal.app.request.ReactivarRequest;
+import com.portal.app.request.RfcRequest;
+import com.portal.app.request.UpdateSocioRequest;
 import com.portal.app.response.AfiliacionResponse;
 import com.portal.app.response.AppResponse;
 import com.portal.app.response.ClientesResponse;
@@ -28,7 +36,7 @@ public class AppController {
 	@Autowired	private AppService service;
 	private static final Logger log = LoggerFactory.getLogger(AppController.class);
 	@Autowired	private AfilClientesService afClServ;
-	
+	@Autowired private ApiController api;
 	
 	@PostMapping(value = "/testConexion")
 	public AppResponse testConexion(@RequestBody AppRequest request)
@@ -60,6 +68,24 @@ public class AppController {
 			response.setMessage(e.getMessage());
 		}
 		return response;
+	}
+	
+	@RequestMapping(path = "/rfc/create", method = RequestMethod.POST)
+	public ResponseEntity<Object> recoverAfiliacion (@Valid @RequestBody RfcRequest params) {
+		log.info("Se ejecuta service/rfc/create");
+		return api.createValidateRfc(params);
+	}
+	
+	@RequestMapping(path = "/socio/reactivacion", method = RequestMethod.POST)
+	public ResponseEntity<Object> socioReactivacion (@Valid @RequestBody ReactivarRequest params) throws Exception {
+		log.info("Se ejecuta service/socio/reactivacion");
+		return api.socioReactivacion(params);
+	}
+	
+	@RequestMapping(path = "/socio/update", method = RequestMethod.PUT)
+	public ResponseEntity<Object> socioUpdate (@Valid @RequestBody final UpdateSocioRequest params) throws Exception {
+		log.info("Se ejecuta service/socio/update");
+		return api.socioUpdate(params);
 	}
 	
 }  
