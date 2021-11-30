@@ -233,6 +233,7 @@ public class AppDaoImpl implements AppDao {
 		socio.setMuCveN(rq.getSoMunN());
 		socio.setEstado(rq.getSoEdoN());
 		socio.setSoTel4Str(rq.getSoCelStr());
+		socio.setSoSoRfcStr(rq.getSoRfc());
 		
 		session.getCurrentSession().update(socio);
 	}

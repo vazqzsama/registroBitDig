@@ -60,6 +60,9 @@ public class UpdateSocioRequest extends Request {
 	@ApiModelProperty(notes = "Celular verificado", dataType = "Boolean", required = false, position = 17)
 	private Boolean isCelVerif;
 	
+	@ApiModelProperty(notes = "Rfc Price", dataType = "String", required = false, position = 18)
+	private String soRfc;
+	
 	public String getSoIdStr() {
 		return soIdStr;
 	}
@@ -161,6 +164,12 @@ public class UpdateSocioRequest extends Request {
 	}
 	public void setSoNumInt(String soNumInt) {
 		this.soNumInt = soNumInt;
+	}
+	public String getSoRfc() {
+		return soRfc;
+	}
+	public void setSoRfc(String soRfc) {
+		this.soRfc = soRfc;
 	}
 	
 }

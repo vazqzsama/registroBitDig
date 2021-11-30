@@ -640,6 +640,7 @@ var ecommerce = {};
 				console.log( JSON.stringify(response));
 				//TODO 	@PENDIENTE Validar estatus
 				if(response.socioId && response.idPedidoPs) {
+					$("#soIdStr").val(response.socioId);
 					rfc.updateSocio();
 					saveBitacoraEcommerce( $r, response );
 				} else {

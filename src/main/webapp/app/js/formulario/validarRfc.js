@@ -18,6 +18,7 @@ var rfc  = {};
 	function getRequestUpdateSocio(){
 		return {
 			soIdStr  	: $("#idsocio").val(),
+			soRfcStr  	: $("#rfcPrice").val(),
 			soNomStr  	: $("#nombre").val(),
 			soApatStr  	: $("#paterno").val(),
 			soAmatStr  	: $("#materno").val(),
@@ -75,7 +76,7 @@ var rfc  = {};
 		} else {
 			$("#divRfc").show();
 			$("#rfcPrice").val(response.rfcPrice);
-			//unsetProperties();
+			unsetProperties();
 		}
 		loading.close();
 	}
