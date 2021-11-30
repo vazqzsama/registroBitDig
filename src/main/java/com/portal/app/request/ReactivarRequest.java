@@ -1,5 +1,8 @@
 package com.portal.app.request;
 
+import com.portal.app.dto.AfiliaBitacora;
+import com.portal.app.dto.Socio;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -15,7 +18,13 @@ public class ReactivarRequest extends Request {
 	@ApiModelProperty(notes = "RFC Price", value = "RFC Price", dataType = "String",
 			example = "RVSRAAM080799", required = false, position = 2)
 	private String rfcPrice;
-	
+	@ApiModelProperty(notes = "Datos socio", value = "Datos socio", dataType = "Socio",
+			required = false, position = 3)
+	private Socio socio;
+	@ApiModelProperty(notes = "Datos para bitacora", value = "Datos para bitacora", dataType = "AfiliaBitacora",
+			required = false, position = 4)
+	private AfiliaBitacora afiliaBitacora;
+		
 	public String getIdSocio() {
 		return idSocio;
 	}
@@ -28,5 +37,17 @@ public class ReactivarRequest extends Request {
 	public void setRfcPrice(String rfcPrice) {
 		this.rfcPrice = rfcPrice;
 	}
-		
+	public Socio getSocio() {
+		return socio;
+	}
+	public void setSocio(Socio socio) {
+		this.socio = socio;
+	}
+	public AfiliaBitacora getAfiliaBitacora() {
+		return afiliaBitacora;
+	}
+	public void setAfiliaBitacora(AfiliaBitacora afiliaBitacora) {
+		this.afiliaBitacora = afiliaBitacora;
+	}
+
 }

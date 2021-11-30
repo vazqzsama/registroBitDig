@@ -125,14 +125,14 @@ public class ApiController {
 		}
 	}
 	
-	@ApiOperation(value = "Reactivación de Socio Afiliación Tradicional", response = RfcValidResponse.class)
+	@ApiOperation(value = "Reactivación de Socio Afiliación Tradicional", response = Response.class)
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "Proceso Exitoso", response = RfcValidResponse.class),
+			@ApiResponse(code = 200, message = "Proceso Exitoso", response = Response.class),
 			@ApiResponse(code = 400, message = "Operación inválida", response = ApiError.class)
 	})
 	@RequestMapping(path = "socio/reactivacion", method = RequestMethod.POST)
 	public ResponseEntity<Object> socioReactivacion (
-			@ApiParam(value = "Parámetros de búsqueda", required = true,allowEmptyValue = false)
+			@ApiParam(value = "Datos para reactivación", required = true,allowEmptyValue = false)
 			@Valid @RequestBody final ReactivarRequest params) throws Exception {
 		log.info("Se ejecuta socio/reactivacion: "+new Gson().toJson(params));
 		return new ResponseEntity<Object>(service.reactivarSocio(params), HttpStatus.OK);

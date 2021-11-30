@@ -35,6 +35,7 @@ import com.portal.app.request.UpdateSocioRequest;
 import com.portal.app.response.AppResponse;
 import com.portal.app.response.Response;
 import com.portal.app.response.RfcValidResponse;
+import com.portal.app.response.SocioResponse;
 import com.portal.app.service.AppService;
 
 @Service
@@ -201,10 +202,11 @@ public class AppServiceImpl implements AppService {
 	}
 	
 	@Override
-	public Response reactivarSocio(ReactivarRequest request) {
-		Response response = new Response();
+	public SocioResponse reactivarSocio(ReactivarRequest request) {
+		SocioResponse response = new SocioResponse();
 		try {
-			dao.reactivarSocio(request);
+			request.setAfiliaBitacora(dao.reactivarSocio(request));
+			response.setBitacora(request);
 			response.setStatus(PROCESO_CORRECTO);
 			response.setMessage("Registro Actualizado correctamente");
 		} catch (Exception e) {

@@ -4,7 +4,6 @@ var paqueteria={};
 	var $dato = '${object.dato}';
 	var $tablePaqueteria = $("#tablePaqueteria");
 	var isTest = "${isTest}";
-	console.log(isTest);
 	var loading = psDialog.loading();
 	
 	function loadData() {

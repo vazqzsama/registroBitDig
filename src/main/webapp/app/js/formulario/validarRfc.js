@@ -36,7 +36,7 @@ var rfc  = {};
 		}
 	}
 	
-	function setDatosRegistro(response) {
+	function setDatosRegistro(response,loading) {
 		if (response.existe) {
 			var datosSocio = null;
 			system.getForm({
@@ -70,16 +70,14 @@ var rfc  = {};
 			if(reg.soInteriorStr)	setProperties ("numeroInt",reg.soInteriorStr);
 			if(reg.soCpStr)			$("#cp").val(reg.soCpStr);
 			if(reg.soIdStr)			$("#idsocio").val(reg.soIdStr);
-			if(reg.soSoRfcStr)		$("#soSoRfcStr").val(reg.soSoRfcStr);
-			$("#notaDesblq").show();
-			$("#datosReafiliacion").show();
+			if(reg.soSoRfcStr)		$("#rfcPrice").val(reg.soSoRfcStr);
+			$("#divRfc").show();
 		} else {
-			$("#datosReafiliacion").hide();
-			$("#notaDesblq").hide();
-			$("#idsocio").val("");
-			$("#soSoRfcStr").val("");
-			unsetProperties();
+			$("#divRfc").show();
+			$("#rfcPrice").val(response.rfcPrice);
+			//unsetProperties();
 		}
+		loading.close();
 	}
 	
 	function unsetProperties () {
@@ -99,32 +97,26 @@ var rfc  = {};
 			$("#"+id).attr('readonly', false);
 		}); 
 	}
-			
-	function setProperties (id,value) {
-		$("#"+id).val(value);
-		$("#"+id).attr('readonly', true);
-		$("#"+id).attr('title', 'Doble click para desbloquear');
-		$("#"+id).dblclick(function() {
-			$("#"+id).attr('readonly', false);
-		}); 
-	}
 	
 	function validateCampos() {
 		if ($("#nombre").val() && $("#paterno").val() && $("#materno").val() && $("#nacimiento").val() && 
-			$("#genero").val() && $("#idsocio").val() != null /*&& $("#soSoRfcStr").val() != null*/) {
+			$("#genero").val() ) {
 			$("#notaDesblq").hide();
-			var loading = psDialog.loading().open();
-			system.service({
-				url: "rfc/create",
-				data: getParametrosRfc(),
-				callback: function (response) {
-					if (response.existe)
-						setDatosRegistro(response);
-				},onError: function (response) {
-					psDialog.error(response.message);
-				}
-			}).always(function(){  loading.close();  });
+			rfc.createRfc(setDatosRegistro);
 		}
+	}
+	
+	this.createRfc = function(funcCallBack) {
+		var loading = psDialog.loading().open();
+		system.service({
+			url: "rfc/create",
+			data: getParametrosRfc(),
+			callback: function (response) {
+				funcCallBack(response,loading);
+			}, onError: function (response) {
+				psDialog.error(response.message);
+			}
+		});
 	}
 	
 	function getParametrosRfc() {
@@ -141,10 +133,6 @@ var rfc  = {};
 		var loading = psDialog.loading().open();
 		$.when()
 		.then(function () {
-			$("#nombre").change(validateCampos);
-			$("#paterno").change(validateCampos);
-			$("#materno").change(validateCampos);
-			$("#nacimiento").change(validateCampos);
 			$("#genero").change(validateCampos);
 		}).always(function () {
 			loading.close();

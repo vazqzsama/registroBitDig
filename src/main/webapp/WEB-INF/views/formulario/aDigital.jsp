@@ -25,14 +25,24 @@ $.getScript("${resources}app/js/formulario/aDigital.js");
 	</div>
 
 	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 " style="padding: 0px;">
-			<div class="col-lg-8 col-md-12 col-sm-12 col-xs-12 col-lg-offset-2 div-form-padding-0">		
+			<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 col-lg-offset-2 div-form-padding-0">		
 				<div class="form-group">
-					<label class="label-form control-label" for="nombre">
+					<label class="label-form control-label" for="idsocio">
 						<span class="ps-color-red"><i class="fa fa-asterisk ast-required"></i></span>
 							Id Socio:
 						<span class="ps-span-error"></span>	
 					</label>
 					<input id="idsocio" name="idsocio" class="form-control" placeholder="Id de Socio" maxlength="15">
+				</div>
+			</div>
+			<div id="divRfc" class="col-lg-4 col-md-6 col-sm-6 col-xs-12 div-form-padding-0" style="display: none">
+				<div class="form-group">
+					<label class="label-form control-label" for="rfcPrice">
+						<span class="ps-color-red"><i class="fa fa-asterisk ast-required"></i></span>
+							RFC Price:
+						<span class="ps-span-error"></span>	
+					</label>
+					<input id="rfcPrice" name="rfcPrice" readonly="readonly" class="form-control" placeholder="RFC Price" maxlength="15">
 				</div>
 			</div>
 	</div>

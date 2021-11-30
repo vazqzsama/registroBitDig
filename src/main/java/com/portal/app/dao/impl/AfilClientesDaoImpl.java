@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.google.gson.Gson;
+//import com.google.gson.Gson;
 import com.portal.app.dao.AfilClientesDao;
 import com.portal.app.dto.ClientesPagina;
 import com.portal.app.request.BusquedaRequest;
@@ -20,7 +20,7 @@ import com.portal.app.request.BusquedaRequest;
 @Transactional(readOnly=true,rollbackFor = Exception.class)
 public class AfilClientesDaoImpl implements AfilClientesDao {
 	
-	//@SuppressWarnings("unused")
+	@SuppressWarnings("unused")
 	private static final Logger log = LoggerFactory.getLogger(AfilClientesDaoImpl.class);
 
 	@Autowired
@@ -29,7 +29,7 @@ public class AfilClientesDaoImpl implements AfilClientesDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<ClientesPagina> getClienteRegistrados(BusquedaRequest request) {
-		log.info(new Gson().toJson(request));
+		//log.info(new Gson().toJson(request));
 		return session.getCurrentSession().getNamedQuery("P_GET_CLIENTES_PEND")
 			.setParameter("correo", request.getFiltro().getEmail() )
 			.setParameter("nombre", request.getFiltro().getSoNombre() )
@@ -48,7 +48,7 @@ public class AfilClientesDaoImpl implements AfilClientesDao {
 	
 	@Override
 	public Integer getCountBusqueda(BusquedaRequest request) {
-		log.info("getCountBusqueda(Parametros): "+new Gson().toJson(request));
+		//log.info("getCountBusqueda(Parametros): "+new Gson().toJson(request));
 		String query = " select PKG_REC_AFL_SIT.F_GET_CLIENTES_COUNT(:correo,:nombre,:apaterno,:amaterno,:idsocio,:estatus) from dual ";
 		
 		BigDecimal result = (BigDecimal) session.getCurrentSession().createSQLQuery(query)
@@ -62,4 +62,4 @@ public class AfilClientesDaoImpl implements AfilClientesDao {
 		return result.intValue();
 	}
 	
-} 
+}

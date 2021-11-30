@@ -3,6 +3,7 @@ package com.portal.app.dao;
 import java.util.List;
 
 import com.portal.app.dto.AfilRegistrar;
+import com.portal.app.dto.AfiliaBitacora;
 import com.portal.app.dto.BitacoraDigital;
 import com.portal.app.dto.PsPedTmk;
 import com.portal.app.dto.PsSocios;
@@ -26,8 +27,9 @@ public interface AppDao {
 	public boolean liberarCorreo(BitacoraDigital bit);
 	public List<AfilRegistrar> getPendientes(ParametrosPendientes params);
 	public PsSocios searchSocioByRfc(String rfc);
-	public void reactivarSocio(ReactivarRequest request);
+	public AfiliaBitacora reactivarSocio(ReactivarRequest request);
 	public RsGetPaqueteAmer getPaqueteAmer(AfiliacionRequest request);
 	public void updateSocio(UpdateSocioRequest request);
+	public void actualizarEnviado(Long id);
 	
 }

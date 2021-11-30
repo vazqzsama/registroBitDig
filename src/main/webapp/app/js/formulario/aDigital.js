@@ -144,13 +144,20 @@ var ecommerce = {};
 					url:"verificaCorreo",
 					data:{ correoVal:  $("#email").val().trim() },
 					callback:function(response) {
-						$('#btnBackProcesar').hide();
-						avanzarFormulario(obj);
+						rfc.createRfc(function(resp,loading) {
+							loading.close();
+							if (resp.existe && $("#rfcPrice").val() != resp.rfcPrice)
+								psDialog.error("Se ha generado un RFCPrice con la información introducida "+ 
+								"y existe un registro con el mismo RFCPrice. Revise por favor");	
+							else {
+								$('#btnBackProcesar').hide();
+								avanzarFormulario(obj);
+							}					
+						});
 					}
 				}).always(function(){ loading.close(); });
-			} else {
+			} else 
 				$('#btnValidar').show();
-			}
 		});
 	}
 
@@ -1371,6 +1378,12 @@ var ecommerce = {};
 				$("#idsocio").val(datos.idSocio);
 				$("#idsocio").attr('readonly', true);
 				$("#idsocio").attr('title', 'No se puede editar');
+			}
+			if (datos.rfc) {
+				$("#rfcPrice").val(datos.rfc);
+				$("#rfcPrice").attr('readonly', true);
+				$("#rfcPrice").attr('title', 'No se puede editar');
+				$("#rfcPrice").attr('display', 'inline');
 			}
 			if (datos.soNombre)
 				setProperties ("nombre",datos.soNombre);

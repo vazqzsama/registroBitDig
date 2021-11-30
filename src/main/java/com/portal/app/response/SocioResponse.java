@@ -1,10 +1,9 @@
 package com.portal.app.response;
 
-public class SocioResponse extends Response 
-{
-	/**
-	 * 
-	 */
+import com.portal.app.request.ReactivarRequest;
+
+public class SocioResponse extends Response {
+	
 	private static final long serialVersionUID = 1L;
 	
 	private Long idRenglon;
@@ -14,13 +13,20 @@ public class SocioResponse extends Response
 	private String Materno;
 	private String Estatus;
 	
-	//------ Informacion complementaria
 	private Long 	registro;
 	private String 	celular;
 	private Boolean smsEnviado;
-	
-	// ********** GETTERS AND SETTERS
-	
+
+	public void setBitacora(ReactivarRequest req) {
+		this.idRenglon = req.getId();
+		this.NumeroDeSocio = req.getIdSocio();
+		this.Nombre = req.getSocio().getSoNomStr();
+		this.Paterno = req.getSocio().getSoApatStr();
+		this.Materno = req.getSocio().getSoAmatStr();
+		this.registro = req.getAfiliaBitacora().getId();
+		this.celular = req.getSocio().getSoCelStr();
+		this.smsEnviado = false;
+	}
 	public String getNumeroDeSocio() {
 		return NumeroDeSocio;
 	}
