@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import com.google.gson.Gson;
 import com.portal.app.dto.AfiliaBitacora;
 import com.portal.app.request.SmsRequest;
+import com.portal.app.request.UpdateSocioRequest;
 import com.portal.app.response.Response;
 import com.portal.app.util.Constants;
 
@@ -34,6 +35,8 @@ public class SmsProcessor {
 	private String smsKey;
 	@Value("${sms.user}")
 	private String smsUser;
+	@Value("${sms.template.confirm}")
+	private String smsConfirmTemplate;
 	
 	public boolean enviarMensaje(AfiliaBitacora afiliaBitacora) {
 		boolean enviado = false;
@@ -179,6 +182,71 @@ public class SmsProcessor {
 				enviado = true;
 			}
 			
+		} catch (ClientProtocolException e) {
+			log.error(e.getMessage(),e);
+		} catch (IOException e) {
+			log.error(e.getMessage(),e);
+		} finally {
+			if (clientPost!=null)
+			try {
+				clientPost.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return enviado;
+	}
+	
+	public boolean enviarCodigoValidacion(UpdateSocioRequest datos, Integer codigo) {
+		boolean enviado = false;
+		
+		CloseableHttpClient clientPost = null;
+		try {
+			String url = smsService;
+			String endPoint ="enviarSMS";
+
+			clientPost = HttpClientBuilder.create().build();
+			log.debug("Servicio "+url+endPoint);
+			
+			SmsRequest request = new SmsRequest();
+			request.setAplicativo("AFILIA");
+			request.setPlataforma(smsUser);
+			request.setPassword(smsKey);
+			request.setUsuario("PortalWeb");
+			
+			request.setTelefono(datos.getSoCelStr());
+			request.setMensaje( String.format(smsConfirmTemplate, codigo) );
+			
+			HttpPost postRequest = new HttpPost(url+endPoint);
+			postRequest.addHeader("accept", "application/json");
+			postRequest.addHeader("Content-type", "application/json");
+			postRequest.setEntity(new StringEntity(new Gson().toJson(request)));
+			
+			CloseableHttpResponse response = clientPost.execute(postRequest);
+			log.debug("-----------------------------------------------------");
+			log.info(endPoint);
+			log.info("Status: "+response.getStatusLine().getStatusCode());
+			log.debug("StatusLine: "+(response.getStatusLine()));
+			log.debug("----------------------------------------");
+			
+			byte[] buffer = new byte[1024];
+			String chunk = null;
+			if (response.getEntity() != null) {
+				InputStream inputStream = response.getEntity().getContent(); 
+			
+				int bytesRead = 0;
+				BufferedInputStream bis = new BufferedInputStream(inputStream);
+				while ((bytesRead = bis.read(buffer)) != -1){
+					chunk = new String(buffer, 0, bytesRead);
+					log.debug(chunk);
+				}
+			}
+			
+			Response smsResponse = new Gson().fromJson(chunk, Response.class);
+			log.info(new Gson().toJson(smsResponse));
+			
+			if( response.getStatusLine().getStatusCode()==200 && smsResponse.getStatus() == Constants.PROCESO_CORRECTO )
+				enviado = true;			
 		} catch (ClientProtocolException e) {
 			log.error(e.getMessage(),e);
 		} catch (IOException e) {

@@ -23,6 +23,7 @@ import com.portal.app.request.RfcRequest;
 import com.portal.app.request.UpdateSocioRequest;
 import com.portal.app.response.Response;
 import com.portal.app.response.RfcValidResponse;
+import com.portal.app.response.SmsValidacionResponse;
 /*import com.portal.app.request.ParametrosPendientes;
 import com.portal.app.response.AppResponse;*/
 import com.portal.app.service.AppService;
@@ -104,7 +105,6 @@ public class ApiController {
 		return new ResponseEntity<Object>(service.registrarPendientes(params), HttpStatus.OK);
 	}*/
 	
-
 	@ApiOperation(value = "Generación de RFC Price", response = RfcValidResponse.class)
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "Proceso Exitoso", response = RfcValidResponse.class),
@@ -149,6 +149,21 @@ public class ApiController {
 			@Valid @RequestBody final UpdateSocioRequest params) throws Exception {
 		log.info("Se ejecuta socio/update: "+new Gson().toJson(params));
 		return new ResponseEntity<Object>(service.updateSocio(params), HttpStatus.OK);
+	}
+	
+	@ApiOperation(value = "Envio de Código de Confirmación", response = PsSocios.class)
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Proceso Exitoso", response = PsSocios.class),
+			@ApiResponse(code = 400, message = "Operación inválida", response = ApiError.class)
+	})
+	@RequestMapping(path = "sms/sendCodigo", method = RequestMethod.POST)
+	public ResponseEntity<Object> smsSendCodigo (
+			@ApiParam(value = "Parámetros para envio de código de confirmación", required = true,allowEmptyValue = false)
+			@Valid @RequestBody final UpdateSocioRequest params) throws Exception {
+		log.info("Se ejecuta sms/sendCodigo: "+new Gson().toJson(params));
+		SmsValidacionResponse response = service.sendMjsConfirmacion(params);
+		log.info(new Gson().toJson(response));
+		return new ResponseEntity<Object>(response, HttpStatus.OK);
 	}
 	
 }

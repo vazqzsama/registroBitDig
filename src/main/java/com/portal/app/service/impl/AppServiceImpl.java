@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Random;
 
 import javax.validation.ConstraintDeclarationException;
 
@@ -35,6 +36,7 @@ import com.portal.app.request.UpdateSocioRequest;
 import com.portal.app.response.AppResponse;
 import com.portal.app.response.Response;
 import com.portal.app.response.RfcValidResponse;
+import com.portal.app.response.SmsValidacionResponse;
 import com.portal.app.response.SocioResponse;
 import com.portal.app.service.AppService;
 
@@ -47,6 +49,8 @@ public class AppServiceImpl implements AppService {
 	private AppDao dao;
 	@Autowired
 	private AfiliaServicesClient refClient;
+	@Autowired
+	private SmsProcessor sms;
 			
 	@Override
 	public AppResponse testConexion(AppRequest request) {
@@ -260,6 +264,12 @@ public class AppServiceImpl implements AppService {
 	@Override
 	public RsGetPaqueteAmer getPaqueteAmer(AfiliacionRequest request) {
 		return dao.getPaqueteAmer(request);
+	}
+	
+	@Override
+	public SmsValidacionResponse sendMjsConfirmacion(UpdateSocioRequest params) {
+		Integer codigo = new Random().nextInt(9999);
+		return new SmsValidacionResponse(params.getSoCelStr(),codigo,sms.enviarCodigoValidacion(params, codigo));
 	}
 	
 }

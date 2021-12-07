@@ -12,6 +12,7 @@ import com.portal.app.request.UpdateSocioRequest;
 import com.portal.app.response.AppResponse;
 import com.portal.app.response.Response;
 import com.portal.app.response.RfcValidResponse;
+import com.portal.app.response.SmsValidacionResponse;
 
 public interface AppService {
 	
@@ -25,5 +26,6 @@ public interface AppService {
 	Response reactivarSocio(ReactivarRequest request);
 	RsGetPaqueteAmer getPaqueteAmer(AfiliacionRequest request);
 	Response updateSocio(UpdateSocioRequest request);
+	SmsValidacionResponse sendMjsConfirmacion(UpdateSocioRequest params);
 	
 }
