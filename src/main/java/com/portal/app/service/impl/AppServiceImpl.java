@@ -268,6 +268,9 @@ public class AppServiceImpl implements AppService {
 	
 	@Override
 	public SmsValidacionResponse sendMjsConfirmacion(UpdateSocioRequest params) {
+		if (Objects.isNull(params.getSoCelStr()))
+			throw new IllegalArgumentException("El numero celular es un dato requerido");
+		
 		Integer codigo = new Random().nextInt(9999);
 		return new SmsValidacionResponse(params.getSoCelStr(),codigo,sms.enviarCodigoValidacion(params, codigo));
 	}

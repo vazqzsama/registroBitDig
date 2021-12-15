@@ -57,119 +57,165 @@ public class UpdateSocioRequest extends Request {
 	@ApiModelProperty(notes = "Celular", dataType = "String", required = false, position = 16)
 	private String soCelStr;
 	
-	@ApiModelProperty(notes = "Celular verificado", dataType = "Boolean", required = false, position = 17)
+	@ApiModelProperty(notes = "Código de verificación", dataType = "Integer", required = false, position = 17)
+	private Integer soCodVerN;
+	
+	@ApiModelProperty(notes = "Celular verificado", dataType = "Boolean", required = false, position = 18)
 	private Boolean isCelVerif;
 	
-	@ApiModelProperty(notes = "Rfc Price", dataType = "String", required = false, position = 18)
+	@ApiModelProperty(notes = "Rfc Price", dataType = "String", required = false, position = 19)
 	private String soRfc;
-	
+
 	public String getSoIdStr() {
 		return soIdStr;
 	}
+
 	public void setSoIdStr(String soIdStr) {
 		this.soIdStr = soIdStr;
 	}
+
 	public String getSoNomStr() {
 		return soNomStr;
 	}
+
 	public void setSoNomStr(String soNomStr) {
 		this.soNomStr = soNomStr;
 	}
+
 	public String getSoApatStr() {
 		return soApatStr;
 	}
+
 	public void setSoApatStr(String soApatStr) {
 		this.soApatStr = soApatStr;
 	}
+
 	public String getSoAmatStr() {
 		return soAmatStr;
 	}
+
 	public void setSoAmatStr(String soAmatStr) {
 		this.soAmatStr = soAmatStr;
 	}
+
 	public String getFecNacDt() {
 		return fecNacDt;
 	}
+
 	public void setFecNacDt(String fecNacDt) {
 		this.fecNacDt = fecNacDt;
 	}
+
 	public String getSoCalle() {
 		return soCalle;
 	}
+
 	public void setSoCalle(String soCalle) {
 		this.soCalle = soCalle;
 	}
+
 	public String getSoNumExt() {
 		return soNumExt;
 	}
+
 	public void setSoNumExt(String soNumExt) {
 		this.soNumExt = soNumExt;
 	}
-	public String getSoColStr() {
-		return soColStr;
-	}
-	public void setSoColStr(String soColStr) {
-		this.soColStr = soColStr;
-	}
-	public String getSoCdStr() {
-		return soCdStr;
-	}
-	public void setSoCdStr(String soCdStr) {
-		this.soCdStr = soCdStr;
-	}
-	public Long getSoMunN() {
-		return soMunN;
-	}
-	public void setSoMunN(Long soMunN) {
-		this.soMunN = soMunN;
-	}
-	public Long getSoEdoN() {
-		return soEdoN;
-	}
-	public void setSoEdoN(Long soEdoN) {
-		this.soEdoN = soEdoN;
-	}
-	public String getSoCpStr() {
-		return soCpStr;
-	}
-	public void setSoCpStr(String soCpStr) {
-		this.soCpStr = soCpStr;
-	}
-	public String getSoEmailStr() {
-		return soEmailStr;
-	}
-	public void setSoEmailStr(String soEmailStr) {
-		this.soEmailStr = soEmailStr;
-	}
-	public String getSoSexoStr() {
-		return soSexoStr;
-	}
-	public void setSoSexoStr(String soSexoStr) {
-		this.soSexoStr = soSexoStr;
-	}
-	public String getSoCelStr() {
-		return soCelStr;
-	}
-	public void setSoCelStr(String soCelStr) {
-		this.soCelStr = soCelStr;
-	}
-	public Boolean getIsCelVerif() {
-		return isCelVerif;
-	}
-	public void setIsCelVerif(Boolean isCelVerif) {
-		this.isCelVerif = isCelVerif;
-	}
+
 	public String getSoNumInt() {
 		return soNumInt;
 	}
+
 	public void setSoNumInt(String soNumInt) {
 		this.soNumInt = soNumInt;
 	}
+
+	public String getSoColStr() {
+		return soColStr;
+	}
+
+	public void setSoColStr(String soColStr) {
+		this.soColStr = soColStr;
+	}
+
+	public String getSoCdStr() {
+		return soCdStr;
+	}
+
+	public void setSoCdStr(String soCdStr) {
+		this.soCdStr = soCdStr;
+	}
+
+	public Long getSoMunN() {
+		return soMunN;
+	}
+
+	public void setSoMunN(Long soMunN) {
+		this.soMunN = soMunN;
+	}
+
+	public Long getSoEdoN() {
+		return soEdoN;
+	}
+
+	public void setSoEdoN(Long soEdoN) {
+		this.soEdoN = soEdoN;
+	}
+
+	public String getSoCpStr() {
+		return soCpStr;
+	}
+
+	public void setSoCpStr(String soCpStr) {
+		this.soCpStr = soCpStr;
+	}
+
+	public String getSoEmailStr() {
+		return soEmailStr;
+	}
+
+	public void setSoEmailStr(String soEmailStr) {
+		this.soEmailStr = soEmailStr;
+	}
+
+	public String getSoSexoStr() {
+		return soSexoStr;
+	}
+
+	public void setSoSexoStr(String soSexoStr) {
+		this.soSexoStr = soSexoStr;
+	}
+
+	public String getSoCelStr() {
+		return soCelStr;
+	}
+
+	public void setSoCelStr(String soCelStr) {
+		this.soCelStr = soCelStr;
+	}
+
+	public Integer getSoCodVerN() {
+		return soCodVerN;
+	}
+
+	public void setSoCodVerN(Integer soCodVerN) {
+		this.soCodVerN = soCodVerN;
+	}
+
+	public Boolean getIsCelVerif() {
+		return isCelVerif;
+	}
+
+	public void setIsCelVerif(Boolean isCelVerif) {
+		this.isCelVerif = isCelVerif;
+	}
+
 	public String getSoRfc() {
 		return soRfc;
 	}
+
 	public void setSoRfc(String soRfc) {
 		this.soRfc = soRfc;
 	}
-	
+		
 }

@@ -257,6 +257,9 @@ public class AppDaoImpl implements AppDao {
 		if (Objects.nonNull(rq.getSoRfc()))
 			socio.setSoSoRfcStr(rq.getSoRfc());
 		
+		/*if (Objects.nonNull(rq.getSoCodVerN()))
+			socio.set*/
+		
 		session.getCurrentSession().update(socio);
 	}
 	
