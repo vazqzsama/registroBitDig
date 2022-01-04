@@ -210,6 +210,8 @@ public class AppDaoImpl implements AppDao {
 	@Override
 	@Transactional(readOnly = false)
 	public void updateSocio(UpdateSocioRequest rq) {
+		Objects.requireNonNull(rq.getSoIdStr(), "EL número de socio es un dato requerido");
+		
 		PsSocios socio = (PsSocios) session.getCurrentSession().createCriteria(PsSocios.class)
 		.add(Restrictions.eq("soIdStr", rq.getSoIdStr())).uniqueResult();
 		

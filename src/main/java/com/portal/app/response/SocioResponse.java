@@ -3,53 +3,63 @@ package com.portal.app.response;
 import com.portal.app.request.ReactivarRequest;
 
 public class SocioResponse extends Response {
-	
+
 	private static final long serialVersionUID = 1L;
 	
 	private Long idRenglon;
-	private String NumeroDeSocio;
-	private String Nombre;
-	private String Paterno;
-	private String Materno;
-	private String Estatus;
+	private String numeroDeSocio;
+	private String nombre;
+	private String paterno;
+	private String materno;
+	private String estatus;
 	
+	//------ Informacion complementaria
 	private Long 	registro;
 	private String 	celular;
 	private Boolean smsEnviado;
-
+	
+	public SocioResponse() {}
+	
+	public SocioResponse(String encodedData) {
+		super(encodedData);
+	}
+	
 	public void setBitacora(ReactivarRequest req) {
 		this.idRenglon = req.getId();
-		this.NumeroDeSocio = req.getIdSocio();
-		this.Nombre = req.getSocio().getSoNomStr();
-		this.Paterno = req.getSocio().getSoApatStr();
-		this.Materno = req.getSocio().getSoAmatStr();
+		this.numeroDeSocio = req.getIdSocio();
+		this.nombre = req.getSocio().getSoNomStr();
+		this.paterno = req.getSocio().getSoApatStr();
+		this.materno = req.getSocio().getSoAmatStr();
 		this.registro = req.getAfiliaBitacora().getId();
 		this.celular = req.getSocio().getSoCelStr();
 		this.smsEnviado = false;
 	}
-	public String getNumeroDeSocio() {
-		return NumeroDeSocio;
+	
+	// ********** GETTERS AND SETTERS
+	
+	public String getnumeroDeSocio() {
+		return numeroDeSocio;
 	}
 	public void setNumeroDeSocio(String numeroDeSocio) {
-		NumeroDeSocio = numeroDeSocio;
+		this.numeroDeSocio = numeroDeSocio;
 	}
-	public String getNombre() {
-		return Nombre;
+	public String getnombre() {
+		return nombre;
 	}
 	public void setNombre(String nombre) {
-		Nombre = nombre;
+		this.nombre = nombre;
 	}
 	public String getPaterno() {
-		return Paterno;
+		return paterno;
 	}
 	public void setPaterno(String paterno) {
-		Paterno = paterno;
+		this.paterno = paterno;
 	}
 	public String getMaterno() {
-		return Materno;
+		return materno;
 	}
 	public void setMaterno(String materno) {
-		Materno = materno;
+		this.materno = materno;
 	}
 	public Long getIdRenglon() {
 		return idRenglon;
@@ -57,11 +67,11 @@ public class SocioResponse extends Response {
 	public void setIdRenglon(Long idRenglon) {
 		this.idRenglon = idRenglon;
 	}
-	public String getEstatus() {
-		return Estatus;
+	public String getestatus() {
+		return estatus;
 	}
 	public void setEstatus(String estatus) {
-		Estatus = estatus;
+		this.estatus = estatus;
 	}
 	public Long getRegistro() {
 		return registro;
