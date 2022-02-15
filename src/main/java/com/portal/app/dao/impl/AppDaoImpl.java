@@ -190,12 +190,16 @@ public class AppDaoImpl implements AppDao {
 		session.getCurrentSession().update(socio);
 		
 		request.getAfiliaBitacora().setSoIdStr(request.getIdSocio());
+		request.getAfiliaBitacora().setFechaRegistro(new Date());
+		request.getAfiliaBitacora().setEstatus("R");
 		request.getAfiliaBitacora().setCodigoVerificacion(new Random().nextInt(100000)+"");
 		request.getAfiliaBitacora().setSoNombreStr( request.getSocio().getSoNomStr()+" "
 				+ request.getSocio().getSoApatStr()+" "+request.getSocio().getSoAmatStr());
-		session.getCurrentSession().save(request.getAfiliaBitacora());
+		request.getAfiliaBitacora().setSmsEnvN(0);
+		request.getAfiliaBitacora().setIdRenglon(0L);
 		try {
-			jobSms.enviarMensaje(request.getAfiliaBitacora());
+			if(jobSms.enviarMensaje(request.getAfiliaBitacora()))
+				request.getAfiliaBitacora().setSmsEnvN(1);
 		} catch (Exception e) {
 			log.error("Error envio SMS: "+e.getLocalizedMessage());
 		}
@@ -204,6 +208,7 @@ public class AppDaoImpl implements AppDao {
 		} catch (Exception e) {
 			log.error("Error envio correo: "+e.getLocalizedMessage());
 		}
+		session.getCurrentSession().save(request.getAfiliaBitacora());
 		return request.getAfiliaBitacora();
 	}
 	
