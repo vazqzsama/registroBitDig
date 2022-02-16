@@ -1,5 +1,7 @@
 package com.portal.app.dao.impl;
 
+import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,6 +32,7 @@ import com.portal.app.dto.BitacoraDigital;
 import com.portal.app.dto.PsPedTmk;
 import com.portal.app.dto.PsSocios;
 import com.portal.app.dto.RsGetPaqueteAmer;
+import com.portal.app.dto.WseUpdateFotos;
 import com.portal.app.request.AfiliacionRequest;
 import com.portal.app.request.AppRequest;
 import com.portal.app.request.ParametrosPendientes;
@@ -197,6 +200,21 @@ public class AppDaoImpl implements AppDao {
 				+ request.getSocio().getSoApatStr()+" "+request.getSocio().getSoAmatStr());
 		request.getAfiliaBitacora().setSmsEnvN(0);
 		request.getAfiliaBitacora().setIdRenglon(0L);
+		
+	    try { // Convertir Imagen del Socio
+	    	if (!request.getSocio().getSoFotoStr().isEmpty())
+	    		this.updateFotosSocio(request,1L);
+	    } catch (Exception e) {
+	    	log.info(e.getMessage());
+			log.info("Error al Decodificar Imagen del socio");
+	    }
+	    try { // Convertir Imagen de Comprobante de Domicilio
+	    	if (!request.getSocio().getSoCompDomStr().isEmpty())
+	    		this.updateFotosSocio(request,2L);
+	    } catch (Exception e) {
+			log.error("Error al Decodificar Comprobante de domicilio");
+	    }
+		/*
 		try {
 			if(jobSms.enviarMensaje(request.getAfiliaBitacora()))
 				request.getAfiliaBitacora().setSmsEnvN(1);
@@ -208,7 +226,7 @@ public class AppDaoImpl implements AppDao {
 		} catch (Exception e) {
 			log.error("Error envio correo: "+e.getLocalizedMessage());
 		}
-		session.getCurrentSession().save(request.getAfiliaBitacora());
+		session.getCurrentSession().save(request.getAfiliaBitacora());*/
 		return request.getAfiliaBitacora();
 	}
 	
@@ -360,8 +378,25 @@ public class AppDaoImpl implements AppDao {
 		
 		return text.toString();
 	}
+
+	@Transactional(readOnly = false)
+	public void updateFotosSocio(ReactivarRequest request,Long tipo) {
+		try {
+			String img = tipo == 1 ? request.getSocio().getSoFotoStr() : request.getSocio().getSoCompDomStr();
+			WseUpdateFotos reg = new WseUpdateFotos(request.getIdSocio(),request.getSocio().getTiCveN().longValue(),tipo,
+					java.util.Base64.getDecoder().decode(new String(img.substring(img.indexOf(",") + 1)).getBytes("UTF-8")));
+			session.getCurrentSession().save(reg);
+			
+			log.info("Result: "+session.getCurrentSession().createSQLQuery("{ call PKG_REC_AFL_SIT.P_UPDATE_FOTOS (?,:id,:tipo) }")
+				.setParameter("id", reg.getId()).setParameter("tipo", reg.getTipo()) );
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+	}
 	
 }
 
 
  
+
+
