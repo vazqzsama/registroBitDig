@@ -115,7 +115,7 @@ public class ClientesPagina implements Serializable {
 	@Column(name = "DESCUENTO")
 	private Double descuento;
 	
-	@Column(name = "RFC")
-	private String rfc;
+	/*@Column(name = "RFC")
+	private String rfc;*/
 	
 }
