@@ -65,6 +65,9 @@ public class UpdateSocioRequest extends Request {
 	
 	@ApiModelProperty(notes = "Rfc Price", dataType = "String", required = false, position = 19)
 	private String soRfc;
+	
+	@ApiModelProperty(notes = "Imagen Comprobante domicilio", dataType = "String", required = false, position = 20)
+	private String soDocCompStr;
 
 	public String getSoIdStr() {
 		return soIdStr;
@@ -217,5 +220,13 @@ public class UpdateSocioRequest extends Request {
 	public void setSoRfc(String soRfc) {
 		this.soRfc = soRfc;
 	}
-		
+
+	public String getSoDocCompStr() {
+		return soDocCompStr;
+	}
+
+	public void setSoDocCompStr(String soDocCompStr) {
+		this.soDocCompStr = soDocCompStr;
+	}
+	
 }

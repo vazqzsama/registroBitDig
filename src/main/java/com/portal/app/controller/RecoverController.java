@@ -45,6 +45,7 @@ public class RecoverController {
 	
 	@RequestMapping(path = "/test/fotos", method = RequestMethod.POST)
 	public ResponseEntity<Object> testFotos() {
+		log.info("Se ejecuta test/fotos");
 		dao.testFotos();
 		return new ResponseEntity<Object>(new Response(),HttpStatus.OK);
 	}

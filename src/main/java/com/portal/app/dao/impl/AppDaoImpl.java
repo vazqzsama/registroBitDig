@@ -40,6 +40,7 @@ import com.portal.app.request.UpdateSocioRequest;
 import com.portal.app.response.AppResponse;
 import com.portal.app.service.impl.SmsProcessor;
 import com.portal.app.util.Constants;
+import com.portal.app.util.SshConexion;
 import com.priceshoes.email.MailSender;
 
 @Repository
@@ -56,6 +57,14 @@ public class AppDaoImpl implements AppDao {
 	private SmsProcessor jobSms;
 	@Value("${sms.url.cred}")
 	private String urlCredencial;
+	@Value("${ftp.url}")
+	private String ftpUrl;
+	@Value("${ftp.user}")
+	private String ftpUser;
+	@Value("${ftp.pass}")
+	private String ftpPass;
+	@Value("${ftp.basepath}")
+	private String ftpBasepath;
 	
 	private List<String> correosLiberados;
 	
@@ -183,12 +192,45 @@ public class AppDaoImpl implements AppDao {
 	@Transactional(readOnly = false)
 	public AfiliaBitacora reactivarSocio(ReactivarRequest request) {
 		PsSocios socio = (PsSocios) session.getCurrentSession().createCriteria(PsSocios.class)
-		.add(Restrictions.eq("soSoRfcStr", request.getRfcPrice()))
-		.add(Restrictions.eq("soIdStr", request.getIdSocio())).uniqueResult();
-		
-		socio.setSoTipoStr("R");
+			.add(Restrictions.eq("soSoRfcStr", request.getRfcPrice()))
+			.add(Restrictions.eq("soIdStr", request.getIdSocio())).uniqueResult();
+
+		/* Datos personales Socio */
+		if (!socio.getSoNombreStr().toLowerCase().equals(request.getSocio().getSoNomStr().toLowerCase()))
+			socio.setSoNombreStr(request.getSocio().getSoNomStr());
+		if (!socio.getSoPaternoStr().toLowerCase().equals(request.getSocio().getSoApatStr().toLowerCase()))
+			socio.setSoPaternoStr(request.getSocio().getSoApatStr());
+		if (!socio.getSoMaternoStr().toLowerCase().equals(request.getSocio().getSoAmatStr().toLowerCase()))
+			socio.setSoMaternoStr(request.getSocio().getSoAmatStr());
+		if (!socio.getSoEmailStr().toLowerCase().equals(request.getSocio().getSoEmailStr().toLowerCase()))
+			socio.setSoEmailStr(request.getSocio().getSoEmailStr());
+		if (!socio.getSoTel4Str().toLowerCase().equals(request.getSocio().getSoCelStr().toLowerCase()))
+			socio.setSoTel4Str(request.getSocio().getSoCelStr());
+		/* Datos personales Socio */
+		/* Direccion Socio */
+		if (!socio.getSoCalleStr().toLowerCase().equals(request.getSocio().getSoCalleStr().toLowerCase()))
+			socio.setSoCalleStr(request.getSocio().getSoCalleStr());
+		if (!socio.getSoColStr().toLowerCase().equals(request.getSocio().getSoColStr().toLowerCase()))
+			socio.setSoColStr(request.getSocio().getSoColStr());
+		if (!socio.getSoNumStr().toLowerCase().equals(request.getSocio().getSoNumStr().toLowerCase()))
+			socio.setSoNumStr(request.getSocio().getSoNumStr());
+		if (!socio.getSoNumintStr().toLowerCase().equals(request.getSocio().getSoInteriorStr().toLowerCase()))
+			socio.setSoNumintStr(request.getSocio().getSoInteriorStr());
+		if (!socio.getSoCpStr().toLowerCase().equals(request.getSocio().getSoCpStr().toLowerCase()))
+			socio.setSoCpStr(request.getSocio().getSoCpStr());
+		if (!socio.getSoCdStr().toLowerCase().equals(request.getSocio().getSoCdStr().toLowerCase()))
+			socio.setSoCdStr(request.getSocio().getSoCdStr());
+		if (socio.getMuCveN() != request.getSocio().getMuCveN().longValue())
+			socio.setMuCveN(request.getSocio().getMuCveN().longValue());
+		if (socio.getEstado() != request.getSocio().getEdCveN().longValue())
+			socio.setEstado(request.getSocio().getEdCveN().longValue());
+		if (socio.getPais() != request.getSocio().getPaCveN().longValue())
+			socio.setPais(request.getSocio().getPaCveN().longValue());
+		/* Direccion Socio */
+		if (!socio.getSoSoRfcStr().equals(request.getRfcPrice()))
+			socio.setSoSoRfcStr(request.getRfcPrice());
+		socio.setSoTipoStr("N");
 		socio.setSoFregDt(new Date());
-		socio.setSoSoRfcStr(request.getRfcPrice());
 		session.getCurrentSession().update(socio);
 		
 		request.getAfiliaBitacora().setSoIdStr(request.getIdSocio());
@@ -211,9 +253,8 @@ public class AppDaoImpl implements AppDao {
 	    	if (!request.getSocio().getSoCompDomStr().isEmpty())
 	    		this.updateFotosSocio(request,2L);
 	    } catch (Exception e) {
-			log.error("Error al Decodificar Comprobante de domicilio");
+			log.error("Error al Decodificar Comprobante de domicilio:"+e.getLocalizedMessage());
 	    }
-		/*
 		try {
 			if(jobSms.enviarMensaje(request.getAfiliaBitacora()))
 				request.getAfiliaBitacora().setSmsEnvN(1);
@@ -225,7 +266,7 @@ public class AppDaoImpl implements AppDao {
 		} catch (Exception e) {
 			log.error("Error envio correo: "+e.getLocalizedMessage());
 		}
-		session.getCurrentSession().save(request.getAfiliaBitacora());*/
+		session.getCurrentSession().save(request.getAfiliaBitacora());
 		return request.getAfiliaBitacora();
 	}
 	
@@ -283,6 +324,9 @@ public class AppDaoImpl implements AppDao {
 		
 		/*if (Objects.nonNull(rq.getSoCodVerN()))
 			socio.set*/
+		
+		if (Objects.nonNull(rq.getSoDocCompStr()))
+			this.updateComprobante(rq.getSoIdStr(),socio.getTiCveN(),rq.getSoDocCompStr());
 		
 		session.getCurrentSession().update(socio);
 	}
@@ -381,24 +425,52 @@ public class AppDaoImpl implements AppDao {
 	@Transactional(readOnly = false)
 	public void updateFotosSocio(ReactivarRequest request,Long tipo) {
 		try {
-			String img = tipo == 1 ? request.getSocio().getSoFotoStr() : request.getSocio().getSoCompDomStr();
+			String img = (tipo == 1 ? request.getSocio().getSoFotoStr() : request.getSocio().getSoCompDomStr());
 			WseUpdateFotos reg = new WseUpdateFotos(request.getIdSocio(),request.getSocio().getTiCveN().longValue(),tipo,
+					java.util.Base64.getDecoder().decode(new String(img.substring(img.indexOf(",") + 1)).getBytes("UTF-8")));
+			session.getCurrentSession().save(reg);
+			
+			if (tipo == 1)
+				this.deleteSocioFoto(request.getIdSocio());
+			
+			session.getCurrentSession().createSQLQuery("{ call PKG_REC_AFL_SIT.P_UPDATE_FOTOS (?,:id,:tipo) }")
+				.setParameter("id", reg.getId()).setParameter("tipo", reg.getTipo());
+			log.info("Foto actualizada en tienda("+request.getSocio().getTiCveN()+") del socio: "+request.getIdSocio());
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Transactional(readOnly = false)
+	public void updateComprobante(String idSocio,Long tiCveN,String img) {
+		try {
+			WseUpdateFotos reg = new WseUpdateFotos(idSocio,tiCveN,3L,
 					java.util.Base64.getDecoder().decode(new String(img.substring(img.indexOf(",") + 1)).getBytes("UTF-8")));
 			session.getCurrentSession().save(reg);
 			
 			session.getCurrentSession().createSQLQuery("{ call PKG_REC_AFL_SIT.P_UPDATE_FOTOS (?,:id,:tipo) }")
 				.setParameter("id", reg.getId()).setParameter("tipo", reg.getTipo());
+			log.info("Comprobrante actualizado en tienda("+tiCveN+") del socio: "+idSocio);
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
 	}
 	
+	public void deleteSocioFoto(String idSocio) {
+		try {
+			SshConexion.listFolderStructure(ftpUser, ftpPass, ftpUrl, 22, "rm ".concat(ftpBasepath).concat(idSocio).concat(".jpg"));
+			log.info("Foto eliminada exitosamente del socio con id: "+idSocio);
+		} catch (Exception e) {
+			log.error(e.getLocalizedMessage());
+		}
+	}
+
 	@Override
 	public void testFotos() {
-		session.getCurrentSession().createSQLQuery("{ call PKG_REC_AFL_SIT.P_UPDATE_FOTOS (?,:id,:tipo) }")
-		.setParameter("id", 1).setParameter("tipo", 1);
+		/*session.getCurrentSession().createSQLQuery("{ call PKG_REC_AFL_SIT.P_UPDATE_FOTOS (?,:id,:tipo) }")
+		.setParameter("id", 1).setParameter("tipo", 1);*/
+		deleteSocioFoto("101600012662");
 	}
-	
 }
 
 
