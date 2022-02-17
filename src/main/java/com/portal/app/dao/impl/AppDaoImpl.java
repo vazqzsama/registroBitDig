@@ -1,7 +1,6 @@
 package com.portal.app.dao.impl;
 
 import java.io.UnsupportedEncodingException;
-import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -387,11 +386,17 @@ public class AppDaoImpl implements AppDao {
 					java.util.Base64.getDecoder().decode(new String(img.substring(img.indexOf(",") + 1)).getBytes("UTF-8")));
 			session.getCurrentSession().save(reg);
 			
-			log.info("Result: "+session.getCurrentSession().createSQLQuery("{ call PKG_REC_AFL_SIT.P_UPDATE_FOTOS (?,:id,:tipo) }")
-				.setParameter("id", reg.getId()).setParameter("tipo", reg.getTipo()) );
+			session.getCurrentSession().createSQLQuery("{ call PKG_REC_AFL_SIT.P_UPDATE_FOTOS (?,:id,:tipo) }")
+				.setParameter("id", reg.getId()).setParameter("tipo", reg.getTipo());
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@Override
+	public void testFotos() {
+		session.getCurrentSession().createSQLQuery("{ call PKG_REC_AFL_SIT.P_UPDATE_FOTOS (?,:id,:tipo) }")
+		.setParameter("id", 1).setParameter("tipo", 1);
 	}
 	
 }

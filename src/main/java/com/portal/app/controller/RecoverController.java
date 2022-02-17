@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
+import com.portal.app.dao.AppDao;
 import com.portal.app.request.ParametrosPendientes;
+import com.portal.app.response.Response;
 import com.portal.app.service.AppService;
 
 @RestController
@@ -23,6 +25,8 @@ public class RecoverController {
 
 	@Autowired
 	private AppService service;
+	@Autowired
+	private AppDao dao;
 	private static final Logger log = LoggerFactory.getLogger(RecoverController.class);
 	
 	@RequestMapping(path = "/recover/socio", method = RequestMethod.POST)
@@ -37,6 +41,12 @@ public class RecoverController {
 			final ParametrosPendientes params) throws Exception {
 		log.info("Se ejecuta bitacora/recover: "+new Gson().toJson(params));
 		return new ResponseEntity<Object>(service.registrarPendientes(params), HttpStatus.OK);
+	}
+	
+	@RequestMapping(path = "/test/fotos", method = RequestMethod.POST)
+	public ResponseEntity<Object> testFotos() {
+		dao.testFotos();
+		return new ResponseEntity<Object>(new Response(),HttpStatus.OK);
 	}
 	
 } 

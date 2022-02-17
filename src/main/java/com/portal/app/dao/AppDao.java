@@ -31,5 +31,6 @@ public interface AppDao {
 	public RsGetPaqueteAmer getPaqueteAmer(AfiliacionRequest request);
 	public void updateSocio(UpdateSocioRequest request);
 	public void actualizarEnviado(Long id);
+	public void testFotos();
 	
 }
