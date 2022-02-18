@@ -31,6 +31,7 @@ import com.portal.app.dto.BitacoraDigital;
 import com.portal.app.dto.PsPedTmk;
 import com.portal.app.dto.PsSocios;
 import com.portal.app.dto.RsGetPaqueteAmer;
+import com.portal.app.dto.Store;
 import com.portal.app.dto.WseUpdateFotos;
 import com.portal.app.request.AfiliacionRequest;
 import com.portal.app.request.AppRequest;
@@ -244,14 +245,14 @@ public class AppDaoImpl implements AppDao {
 		
 	    try { // Convertir Imagen del Socio
 	    	if (!request.getSocio().getSoFotoStr().isEmpty())
-	    		this.updateFotosSocio(request,1L);
+	    		this.updateFotosSocio(request,2L);
 	    } catch (Exception e) {
 	    	log.info(e.getMessage());
 			log.info("Error al Decodificar Imagen del socio");
 	    }
 	    try { // Convertir Imagen de Comprobante de Domicilio
 	    	if (!request.getSocio().getSoCompDomStr().isEmpty())
-	    		this.updateFotosSocio(request,2L);
+	    		this.updateFotosSocio(request,1L);
 	    } catch (Exception e) {
 			log.error("Error al Decodificar Comprobante de domicilio:"+e.getLocalizedMessage());
 	    }
@@ -325,8 +326,10 @@ public class AppDaoImpl implements AppDao {
 		/*if (Objects.nonNull(rq.getSoCodVerN()))
 			socio.set*/
 		
-		if (Objects.nonNull(rq.getSoDocCompStr()))
-			this.updateComprobante(rq.getSoIdStr(),socio.getTiCveN(),rq.getSoDocCompStr());
+		if (Objects.nonNull(rq.getSoDocCompStr())) {
+			
+			//this.updateComprobante(rq.getSoIdStr(),socio.getTiCveN(),rq.getSoDocCompStr());
+		}
 		
 		session.getCurrentSession().update(socio);
 	}
@@ -336,7 +339,6 @@ public class AppDaoImpl implements AppDao {
 		log.debug("Metodo getPaqueteAmer : " + new Gson().toJson(request));		
 		return  (RsGetPaqueteAmer) session.getCurrentSession().getNamedQuery("P_GET_PAQUETE_AMER")
 		.setParameter("listaCatalogos", request.getListaCatalogos()).uniqueResult();
-
 	}
 
 	@Override
@@ -433,27 +435,27 @@ public class AppDaoImpl implements AppDao {
 			if (tipo == 1)
 				this.deleteSocioFoto(request.getIdSocio());
 			
-			session.getCurrentSession().createSQLQuery("{ call PKG_REC_AFL_SIT.P_UPDATE_FOTOS (?,:id,:tipo) }")
-				.setParameter("id", reg.getId()).setParameter("tipo", reg.getTipo());
+			session.getCurrentSession().createSQLQuery("{ call PKG_REC_AFL_SIT.F_UPDATE_FOTOS (:id,:tipo) }")
+			.setParameter("id", reg.getId()).setParameter("tipo", reg.getTipo());
 			log.info("Foto actualizada en tienda("+request.getSocio().getTiCveN()+") del socio: "+request.getIdSocio());
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
 	}
 
+	@Override
 	@Transactional(readOnly = false)
-	public void updateComprobante(String idSocio,Long tiCveN,String img) {
-		try {
-			WseUpdateFotos reg = new WseUpdateFotos(idSocio,tiCveN,3L,
-					java.util.Base64.getDecoder().decode(new String(img.substring(img.indexOf(",") + 1)).getBytes("UTF-8")));
-			session.getCurrentSession().save(reg);
+	public void updateComprobante(Long tipo,Long id) {
+		//try {
+			session.getCurrentSession().createSQLQuery("{ call PKG_REC_AFL_SIT.F_UPDATE_FOTOS (:id,:tipo) }")
+				.setParameter("id", id).setParameter("tipo", tipo).uniqueResult();
+			/*Store result = (Store) session.getCurrentSession().getNamedQuery("P_UPDATE_FOTOS")
+			.setParameter("id", id).setParameter("tipo", tipo).uniqueResult();
 			
-			session.getCurrentSession().createSQLQuery("{ call PKG_REC_AFL_SIT.P_UPDATE_FOTOS (?,:id,:tipo) }")
-				.setParameter("id", reg.getId()).setParameter("tipo", reg.getTipo());
-			log.info("Comprobrante actualizado en tienda("+tiCveN+") del socio: "+idSocio);
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
+			log.info("Comprobante actualizado en tienda del socio "+new Gson().toJson(result));
+		/*} catch (UnsupportedEncodingException e) {
+			log.error(e.getLocalizedMessage(),e.getCause().toString());
+		}*/
 	}
 	
 	public void deleteSocioFoto(String idSocio) {
@@ -466,10 +468,24 @@ public class AppDaoImpl implements AppDao {
 	}
 
 	@Override
-	public void testFotos() {
+	@Transactional(readOnly = false)
+	public void testFotos(ParametrosPendientes rq) {
 		/*session.getCurrentSession().createSQLQuery("{ call PKG_REC_AFL_SIT.P_UPDATE_FOTOS (?,:id,:tipo) }")
 		.setParameter("id", 1).setParameter("tipo", 1);*/
-		deleteSocioFoto("101600012662");
+		String socio = "101600012662";
+		Long tienda = 1L; 
+		WseUpdateFotos reg = null;
+		try {
+			reg = new WseUpdateFotos(socio,tienda,3L,
+					java.util.Base64.getDecoder().decode(new String(rq.getFechaInicio().substring(rq.getFechaInicio().indexOf(",") + 1)).getBytes("UTF-8")));
+			session.getCurrentSession().save(reg);
+			
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} 
+		
+		//this.updateComprobante(3L,reg.getId());
+		//deleteSocioFoto("101600012662");
 	}
 }
 

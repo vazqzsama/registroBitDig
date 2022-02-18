@@ -4,6 +4,17 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import org.hibernate.annotations.NamedNativeQueries;
+import org.hibernate.annotations.NamedNativeQuery;
+
+@NamedNativeQueries({
+	@NamedNativeQuery (
+		name="F_UPDATE_FOTOS",
+		query="{ call PKG_REC_AFL_SIT.F_UPDATE_FOTOS (:id,:tipo) }",
+		callable = true,
+		resultClass=Store.class
+	)
+})
 @Entity
 public class Store 
 {
