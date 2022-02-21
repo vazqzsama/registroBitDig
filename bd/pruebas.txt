@@ -1,0 +1,94 @@
+
+ 
+2022-02-20 17:24:20,242 INFO  [c.p.a.a.ApiController] - INICIO ---- PROCEDIMIENTO UPDATE_FOTOS_1 
+2022-02-20 17:24:20,243 INFO  [c.p.a.a.ApiController] - ID: 79 | TIPO:1 
+Hibernate: { call PKG_REC_AFL_SIT.P_UPDATE_FOTOS_1 (?,?,?) }
+2022-02-20 17:24:20,633 INFO  [c.p.a.a.ApiController] - {"id":0,"value":"ACTUALIZADO"} 
+2022-02-20 17:24:20,633 INFO  [c.p.a.a.ApiController] - FIN ---- PROCEDIMIENTO UPDATE_FOTOS_2 
+2022-02-20 17:24:20,633 INFO  [c.p.a.a.ApiController] - 
+ 
+ 
+2022-02-20 17:24:20,633 INFO  [c.p.a.a.ApiController] - INICIO ---- FUNCION UPDATE_FOTOS_2(ID,TIPO) 
+2022-02-20 17:24:20,633 INFO  [c.p.a.a.ApiController] - Query:  SELECT pkg_rec_afl_sit.F_UPDATE_FOTOS_2(79,1)  FROM DUAL  
+Hibernate:  SELECT pkg_rec_afl_sit.F_UPDATE_FOTOS_2(79,1)  FROM DUAL 
+2022-02-20 17:24:20,817 INFO  [c.p.a.a.ApiController] - Resultado: ERROR: ORA-14551: no se puede realizar una operación DML dentro de una consulta  
+2022-02-20 17:24:20,817 INFO  [c.p.a.a.ApiController] - FIN ---- FUNCION UPDATE_FOTOS_2(ID,TIPO) 
+2022-02-20 17:24:20,817 INFO  [c.p.a.a.ApiController] - 
+ 
+ 
+2022-02-20 17:24:20,817 INFO  [c.p.a.a.ApiController] - INICIO ---- FUNCION F_UPDATE_FOTOS_3(ID,TIPO) 
+2022-02-20 17:24:20,817 INFO  [c.p.a.a.ApiController] - Query:  SELECT pkg_rec_afl_sit.F_UPDATE_FOTOS_3(79,1)  FROM DUAL  
+Hibernate:  SELECT pkg_rec_afl_sit.F_UPDATE_FOTOS_3(79,1)  FROM DUAL 
+2022-02-20 17:24:20,864 INFO  [c.p.a.a.ApiController] - Resultado: UPDATE PSFOTO.PS_SOFOTO_IFE@LRVJOPPRICE SET SO_FOTO_IFE_B = (select FOTO_BL from WSE_UPDATE_FOTOS WHERE ID_N = 79)
+                WHERE SO_ID_STR = '101600012662' AND TI_CVE_N = 1 
+Hibernate: UPDATE PSFOTO.PS_SOFOTO_IFE@LRVJOPPRICE SET SO_FOTO_IFE_B = (select FOTO_BL from WSE_UPDATE_FOTOS WHERE ID_N = 79)
+                WHERE SO_ID_STR = '101600012662' AND TI_CVE_N = 1
+2022-02-20 17:24:20,936 INFO  [c.p.a.a.ApiController] - Result: 1 
+2022-02-20 17:24:20,936 INFO  [c.p.a.a.ApiController] - FIN ---- FUNCION UPDATE_FOTOS_3(ID,TIPO) 
+Hibernate: insert into WSE_UPDATE_FOTOS (SO_ID_STR, TI_CVE_N, TIPO_N, ID_N, FOTO_BL) values (?, ?, ?, ?, ?)
+
+
+2022-02-20 18:13:26,752 INFO  [c.p.a.c.RecoverController] - Se ejecuta test/fotos - false 
+Hibernate: select SEQ_WSE_UPDFOTOS.nextval from dual
+2022-02-20 18:13:26,893 INFO  [c.p.a.a.ApiController] - 
+ 
+ 
+2022-02-20 18:13:26,893 INFO  [c.p.a.a.ApiController] - INICIO ---- PROCEDIMIENTO UPDATE_FOTOS_1 
+2022-02-20 18:13:26,893 INFO  [c.p.a.a.ApiController] - ID: 80 | TIPO:1 
+Hibernate: { call PKG_REC_AFL_SIT.P_UPDATE_FOTOS_1 (?,?,?) }
+2022-02-20 18:14:27,475 INFO  [c.p.a.a.ApiController] - {"id":1,"value":"ERROR: ORA-02049: timeout: transacción distribuida esperando bloqueo\nORA-02063: line precediendo a LRVJOPPRICE"} 
+2022-02-20 18:14:27,475 INFO  [c.p.a.a.ApiController] - FIN ---- PROCEDIMIENTO UPDATE_FOTOS_2 
+2022-02-20 18:14:27,475 INFO  [c.p.a.a.ApiController] - 
+ 
+ 
+2022-02-20 18:14:27,475 INFO  [c.p.a.a.ApiController] - INICIO ---- FUNCION UPDATE_FOTOS_2(ID,TIPO) 
+2022-02-20 18:14:27,475 INFO  [c.p.a.a.ApiController] - Query:  SELECT pkg_rec_afl_sit.F_UPDATE_FOTOS_2(80,1)  FROM DUAL  
+Hibernate:  SELECT pkg_rec_afl_sit.F_UPDATE_FOTOS_2(80,1)  FROM DUAL 
+2022-02-20 18:14:27,537 INFO  [c.p.a.a.ApiController] - Resultado: ERROR: ORA-14551: no se puede realizar una operación DML dentro de una consulta  
+2022-02-20 18:14:27,537 INFO  [c.p.a.a.ApiController] - FIN ---- FUNCION UPDATE_FOTOS_2(ID,TIPO) 
+2022-02-20 18:14:27,537 INFO  [c.p.a.a.ApiController] - 
+ 
+ 
+2022-02-20 18:14:27,537 INFO  [c.p.a.a.ApiController] - INICIO ---- FUNCION F_UPDATE_FOTOS_3(ID,TIPO) 
+2022-02-20 18:14:27,537 INFO  [c.p.a.a.ApiController] - Query:  SELECT pkg_rec_afl_sit.F_UPDATE_FOTOS_3(80,1)  FROM DUAL  
+Hibernate:  SELECT pkg_rec_afl_sit.F_UPDATE_FOTOS_3(80,1)  FROM DUAL 
+2022-02-20 18:14:27,578 INFO  [c.p.a.a.ApiController] - Resultado: UPDATE PSFOTO.PS_SOFOTO_IFE@LRVJOPPRICE SET SO_FOTO_IFE_B = (select FOTO_BL from WSE_UPDATE_FOTOS WHERE ID_N = 80) WHERE SO_ID_STR = '101600012662' AND TI_CVE_N = 1 
+Hibernate: UPDATE PSFOTO.PS_SOFOTO_IFE@LRVJOPPRICE SET SO_FOTO_IFE_B = (select FOTO_BL from WSE_UPDATE_FOTOS WHERE ID_N = 80) WHERE SO_ID_STR = '101600012662' AND TI_CVE_N = 1
+2022-02-20 18:15:27,626 WARN  [o.h.e.j.s.SqlExceptionHelper] - SQL Error: 2049, SQLState: 42000 
+2022-02-20 18:15:27,626 ERROR [o.h.e.j.s.SqlExceptionHelper] - ORA-02049: timeout: transacción distribuida esperando bloqueo
+ORA-02063: line precediendo a LRVJOPPRICE
+ 
+2022-02-20 18:15:27,627 ERROR [c.p.a.a.ApiController] - could not execute statement 
+Hibernate: insert into WSE_UPDATE_FOTOS (SO_ID_STR, TI_CVE_N, TIPO_N, ID_N, FOTO_BL) values (?, ?, ?, ?, ?)
+2022-02-20 18:26:29,028 INFO  [c.p.a.c.RecoverController] - Se ejecuta test/fotos - false 
+Hibernate: select SEQ_WSE_UPDFOTOS.nextval from dual
+2022-02-20 18:26:29,171 INFO  [c.p.a.a.ApiController] - 
+ 
+ 
+2022-02-20 18:26:29,171 INFO  [c.p.a.a.ApiController] - INICIO ---- PROCEDIMIENTO UPDATE_FOTOS_1 
+2022-02-20 18:26:29,171 INFO  [c.p.a.a.ApiController] - ID: 81 | TIPO:1 
+Hibernate: { call PKG_REC_AFL_SIT.P_UPDATE_FOTOS_1 (?,?,?) }
+2022-02-20 18:27:29,807 INFO  [c.p.a.a.ApiController] - {"id":1,"value":"ERROR: ORA-02049: timeout: transacción distribuida esperando bloqueo\nORA-02063: line precediendo a LRVJOPPRICE"} 
+2022-02-20 18:27:29,808 INFO  [c.p.a.a.ApiController] - FIN ---- PROCEDIMIENTO UPDATE_FOTOS_2 
+2022-02-20 18:27:29,808 INFO  [c.p.a.a.ApiController] - 
+ 
+ 
+2022-02-20 18:27:29,808 INFO  [c.p.a.a.ApiController] - INICIO ---- FUNCION UPDATE_FOTOS_2(ID,TIPO) 
+2022-02-20 18:27:29,808 INFO  [c.p.a.a.ApiController] - Query:  SELECT pkg_rec_afl_sit.F_UPDATE_FOTOS_2(81,1)  FROM DUAL  
+Hibernate:  SELECT pkg_rec_afl_sit.F_UPDATE_FOTOS_2(81,1)  FROM DUAL 
+2022-02-20 18:27:29,930 INFO  [c.p.a.a.ApiController] - Resultado: ERROR: ORA-14551: no se puede realizar una operación DML dentro de una consulta  
+2022-02-20 18:27:29,930 INFO  [c.p.a.a.ApiController] - FIN ---- FUNCION UPDATE_FOTOS_2(ID,TIPO) 
+2022-02-20 18:27:29,930 INFO  [c.p.a.a.ApiController] - 
+ 
+ 
+2022-02-20 18:27:29,930 INFO  [c.p.a.a.ApiController] - INICIO ---- FUNCION F_UPDATE_FOTOS_3(ID,TIPO) 
+2022-02-20 18:27:29,930 INFO  [c.p.a.a.ApiController] - Query:  SELECT pkg_rec_afl_sit.F_UPDATE_FOTOS_3(81,1)  FROM DUAL  
+Hibernate:  SELECT pkg_rec_afl_sit.F_UPDATE_FOTOS_3(81,1)  FROM DUAL 
+2022-02-20 18:27:30,012 INFO  [c.p.a.a.ApiController] - Resultado: UPDATE PSFOTO.PS_SOFOTO_IFE@LRVJOPPRICE SET SO_FOTO_IFE_B = (select FOTO_BL from WSE_UPDATE_FOTOS WHERE ID_N = 81) WHERE SO_ID_STR = '101600012662' AND TI_CVE_N = 1 
+Hibernate: UPDATE PSFOTO.PS_SOFOTO_IFE@LRVJOPPRICE SET SO_FOTO_IFE_B = (select FOTO_BL from WSE_UPDATE_FOTOS WHERE ID_N = 81) WHERE SO_ID_STR = '101600012662' AND TI_CVE_N = 1
+2022-02-20 18:28:30,119 WARN  [o.h.e.j.s.SqlExceptionHelper] - SQL Error: 2049, SQLState: 42000 
+2022-02-20 18:28:30,119 ERROR [o.h.e.j.s.SqlExceptionHelper] - ORA-02049: timeout: transacción distribuida esperando bloqueo
+ORA-02063: line precediendo a LRVJOPPRICE
+ 
+2022-02-20 18:28:30,119 ERROR [c.p.a.a.ApiController] - could not execute statement 
+Hibernate: insert into WSE_UPDATE_FOTOS (SO_ID_STR, TI_CVE_N, TIPO_N, ID_N, FOTO_BL) values (?, ?, ?, ?, ?)
