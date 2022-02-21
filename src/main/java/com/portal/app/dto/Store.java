@@ -9,8 +9,8 @@ import org.hibernate.annotations.NamedNativeQuery;
 
 @NamedNativeQueries({
 	@NamedNativeQuery (
-		name="F_UPDATE_FOTOS",
-		query="{ call PKG_REC_AFL_SIT.F_UPDATE_FOTOS (:id,:tipo) }",
+		name="P_FOTOS_UPDATE",
+		query="{ call PKG_REC_AFL_SIT.P_UPDATE_FOTOS_1 (?,:id,:tipo) }",
 		callable = true,
 		resultClass=Store.class
 	)

@@ -1,6 +1,7 @@
 package com.portal.app.dao.impl;
 
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -449,7 +450,8 @@ public class AppDaoImpl implements AppDao {
 		//try {
 			session.getCurrentSession().createSQLQuery("{ call PKG_REC_AFL_SIT.F_UPDATE_FOTOS (:id,:tipo) }")
 				.setParameter("id", id).setParameter("tipo", tipo).uniqueResult();
-			/*Store result = (Store) session.getCurrentSession().getNamedQuery("P_UPDATE_FOTOS")
+			
+			BigDecimal result = (BigDecimal) session.getCurrentSession().createSQLQuery("{ call PKG_REC_AFL_SIT.P_UPDATE_FOTOS (?:id,:tipo) }")
 			.setParameter("id", id).setParameter("tipo", tipo).uniqueResult();
 			
 			log.info("Comprobante actualizado en tienda del socio "+new Gson().toJson(result));
@@ -476,15 +478,64 @@ public class AppDaoImpl implements AppDao {
 		Long tienda = 1L; 
 		WseUpdateFotos reg = null;
 		try {
-			reg = new WseUpdateFotos(socio,tienda,3L,
+			reg = new WseUpdateFotos(socio,tienda,1L,
 					java.util.Base64.getDecoder().decode(new String(rq.getFechaInicio().substring(rq.getFechaInicio().indexOf(",") + 1)).getBytes("UTF-8")));
-			session.getCurrentSession().save(reg);
 			
+			session.getCurrentSession().save(reg);
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		} 
+		log.info("\n \n");
+		log.info("INICIO ---- PROCEDIMIENTO UPDATE_FOTOS_1");
+		try {
+			if (Objects.nonNull(reg.getId())) {
+				log.info("ID: "+reg.getId()+" | TIPO:"+1L);
+				Store result = (Store) session.getCurrentSession().getNamedQuery("P_FOTOS_UPDATE")
+						.setParameter("id", reg.getId()).setParameter("tipo", 1L).uniqueResult();
+				log.info(new Gson().toJson(result));
+			}
+			
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
+		log.info("FIN ---- PROCEDIMIENTO UPDATE_FOTOS_2");
+		log.info("\n \n");
+		log.info("INICIO ---- FUNCION UPDATE_FOTOS_2(ID,TIPO)");
+		try {		
+			String query = " SELECT pkg_rec_afl_sit.F_UPDATE_FOTOS_2("+reg.getId()+",1)  FROM DUAL ";
+			log.info("Query: "+query);
+			String result = (String) session.getCurrentSession().createSQLQuery(query).uniqueResult();
+			log.info("Resultado: "+result);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
+		log.info("FIN ---- FUNCION UPDATE_FOTOS_2(ID,TIPO)");
+		log.info("\n \n");
+		log.info("INICIO ---- FUNCION F_UPDATE_FOTOS_3(ID,TIPO)");// REGRESA LA SENTENCIA INSERT O UPDATE
+		try {
+			String query2 = " SELECT pkg_rec_afl_sit.F_UPDATE_FOTOS_3("+reg.getId()+",1)  FROM DUAL ";
+			log.info("Query: "+query2);
+			String result2 = (String) session.getCurrentSession().createSQLQuery(query2).uniqueResult();
+			log.info("Resultado: "+result2);
+			log.info("Result: "+session.getCurrentSession().createSQLQuery(result2).executeUpdate());
+			log.info("FIN ---- FUNCION UPDATE_FOTOS_3(ID,TIPO)");
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
 		
 		//this.updateComprobante(3L,reg.getId());
+		/*try {
+			session.getCurrentSession().createSQLQuery("{ call PKG_REC_AFL_SIT.F_UPDATE_FOTOS (:id,:tipo) }")
+			.setParameter("id", reg.getId()).setParameter("tipo", 3L).uniqueResult();
+		
+		} catch (Exception e) {
+			log.error("funcion: "+e.getMessage());
+		}
+		*/
+			/*BigDecimal result = (BigDecimal) session.getCurrentSession().createSQLQuery("{ call PKG_REC_AFL_SIT.P_UPDATE_FOTOS (?:id,:tipo) }")
+			.setParameter("id", reg.getId()).setParameter("tipo", 3L).uniqueResult();*/
+			
+		
 		//deleteSocioFoto("101600012662");
 	}
 }
