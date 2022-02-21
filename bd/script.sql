@@ -155,3 +155,70 @@ create or replace PACKAGE BODY PKG_REC_AFL_SIT IS
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 END;
+
+-----------------------------------------------------------------
+-----------------------------------------------------------------
+-- TRIGER PARA ACTUALIZACION DE FOTOS
+-----------------------------------------------------------------
+-----------------------------------------------------------------
+drop trigger PSIWEB.TRG_PS_IMAGENES_AFIL;
+
+create or replace TRIGGER PSIWEB.TRG_PS_IMAGENES_AFIL
+  AFTER INSERT ON PSIWEB.WSE_FOTOS_CAT
+  FOR EACH ROW
+DECLARE
+    TABLENAME VARCHAR2(1000) := '';
+    COLUMNAME VARCHAR2(1000) := '';
+    MSJ VARCHAR2(1000) := '';
+    LINKDB VARCHAR2(1000) := '';
+    SQLQUERY VARCHAR2(1000) := '';
+    EXISTE NUMBER(2) := 0;
+    TIPO_N NUMBER(2) := 0;
+    SO_ID_STR VARCHAR2(1000) := '';
+    TI_CVE_N NUMBER(2) := 0;
+BEGIN
+
+    SELECT B.TIPO_N,B.SO_ID_STR,B.TI_CVE_N,D.LINKREMOTE INTO TIPO_N,SO_ID_STR,TI_CVE_N,LINKDB
+    FROM WSE_UPDATE_FOTOS B
+    LEFT JOIN dba_databases@lrcorpprice D ON (D.TABLE_ID = B.TI_CVE_N AND STATUS = 'A')
+    WHERE ID_N = :NEW.WUF_ID_N;
+
+    if (TIPO_N = 1) then
+        TABLENAME := 'PSFOTO.PS_SOFOTO_IFE';
+        COLUMNAME := 'SO_FOTO_IFE_B';
+    elsif (TIPO_N = 2) then
+        TABLENAME := 'PSFOTO.PS_SOFOTO';
+        COLUMNAME := 'SO_FOTO_B';
+    elsif (TIPO_N = 3) then
+        TABLENAME := 'PSFOTO.PS_SOFOTO_DOM';
+        COLUMNAME := 'SO_FOTO_IFE_B';
+    end if;
+
+    EXECUTE IMMEDIATE 'SELECT COUNT(SO_ID_STR) FROM '||TABLENAME||'@'||LINKDB||' WHERE SO_ID_STR = '''||SO_ID_STR||'''' INTO EXISTE;
+
+    IF EXISTE = 0 THEN
+        SQLQUERY := 'INSERT INTO '||TABLENAME||'@'||LINKDB||' (SO_ID_STR,TI_CVE_N,'||COLUMNAME||') select SO_ID_STR,TI_CVE_N,FOTO_BL ' ||
+                    'from WSE_UPDATE_FOTOS WHERE ID_N = '||:NEW.WUF_ID_N;
+    ELSIF EXISTE = 1 THEN
+        SQLQUERY := 'UPDATE '||TABLENAME||'@'||LINKDB||' SET '||COLUMNAME||' = (select FOTO_BL from WSE_UPDATE_FOTOS WHERE ID_N = '
+                    ||:NEW.WUF_ID_N||') WHERE SO_ID_STR = '''||SO_ID_STR||''' AND TI_CVE_N = '||TI_CVE_N;
+    END IF;
+
+    INSERT INTO PSIWEB.WSE_ERRORES_2 (DETALLE) VALUES (SQLQUERY);
+    EXECUTE IMMEDIATE SQLQUERY;
+
+    EXCEPTION
+        WHEN OTHERS THEN
+            MSJ := sqlerrm;
+            INSERT INTO PSIWEB.WSE_ERRORES_2 (DETALLE) VALUES (MSJ);
+
+END TRG_PS_IMAGENES_AFIL;
+
+-----------------------------------------------------------------
+-----------------------------------------------------------------
+-----------------------------------------------------------------
+-----------------------------------------------------------------
+-----------------------------------------------------------------
+-----------------------------------------------------------------
+
+

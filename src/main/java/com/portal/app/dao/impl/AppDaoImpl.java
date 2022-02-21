@@ -33,6 +33,7 @@ import com.portal.app.dto.PsPedTmk;
 import com.portal.app.dto.PsSocios;
 import com.portal.app.dto.RsGetPaqueteAmer;
 import com.portal.app.dto.Store;
+import com.portal.app.dto.WseFotosCat;
 import com.portal.app.dto.WseUpdateFotos;
 import com.portal.app.request.AfiliacionRequest;
 import com.portal.app.request.AppRequest;
@@ -427,7 +428,7 @@ public class AppDaoImpl implements AppDao {
 
 	@Transactional(readOnly = false)
 	public void updateFotosSocio(ReactivarRequest request,Long tipo) {
-		try {
+		/*try {
 			String img = (tipo == 1 ? request.getSocio().getSoFotoStr() : request.getSocio().getSoCompDomStr());
 			WseUpdateFotos reg = new WseUpdateFotos(request.getIdSocio(),request.getSocio().getTiCveN().longValue(),tipo,
 					java.util.Base64.getDecoder().decode(new String(img.substring(img.indexOf(",") + 1)).getBytes("UTF-8")));
@@ -441,7 +442,7 @@ public class AppDaoImpl implements AppDao {
 			log.info("Foto actualizada en tienda("+request.getSocio().getTiCveN()+") del socio: "+request.getIdSocio());
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 
 	@Override
@@ -480,12 +481,14 @@ public class AppDaoImpl implements AppDao {
 		try {
 			reg = new WseUpdateFotos(socio,tienda,1L,
 					java.util.Base64.getDecoder().decode(new String(rq.getFechaInicio().substring(rq.getFechaInicio().indexOf(",") + 1)).getBytes("UTF-8")));
-			
 			session.getCurrentSession().save(reg);
+			//log.info(new Gson().toJson(reg));
+			WseFotosCat fotoReg = new WseFotosCat(reg.getId());
+			session.getCurrentSession().save(fotoReg);
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		} 
-		log.info("\n \n");
+		/*log.info("\n \n");
 		log.info("INICIO ---- PROCEDIMIENTO UPDATE_FOTOS_1");
 		try {
 			if (Objects.nonNull(reg.getId())) {
@@ -522,7 +525,7 @@ public class AppDaoImpl implements AppDao {
 		} catch (Exception e) {
 			log.error(e.getMessage());
 		}
-		
+		*/
 		//this.updateComprobante(3L,reg.getId());
 		/*try {
 			session.getCurrentSession().createSQLQuery("{ call PKG_REC_AFL_SIT.F_UPDATE_FOTOS (:id,:tipo) }")
