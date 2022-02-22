@@ -326,9 +326,8 @@ public class AppDaoImpl implements AppDao {
 		/*if (Objects.nonNull(rq.getSoCodVerN()))
 			socio.set*/
 		
-		if (Objects.nonNull(rq.getSoDocCompStr())) {
+		if (rq.getSoDocCompStr().isEmpty())
 			this.updateComprobante(rq.getSoIdStr(),3L,socio.getTiCveN(),rq.getSoDocCompStr());
-		}
 		
 		session.getCurrentSession().update(socio);
 	}
