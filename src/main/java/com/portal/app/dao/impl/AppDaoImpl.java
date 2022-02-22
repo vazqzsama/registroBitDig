@@ -192,10 +192,11 @@ public class AppDaoImpl implements AppDao {
 	@Override
 	@Transactional(readOnly = false)
 	public AfiliaBitacora reactivarSocio(ReactivarRequest request) {
+		log.info("AppDao.reactivarSocio: "+new Gson().toJson(request));
 		PsSocios socio = (PsSocios) session.getCurrentSession().createCriteria(PsSocios.class)
 			.add(Restrictions.eq("soSoRfcStr", request.getRfcPrice()))
 			.add(Restrictions.eq("soIdStr", request.getIdSocio())).uniqueResult();
-
+		log.info("Socio: "+new Gson().toJson(socio));
 		/* Datos personales Socio */
 		if (!socio.getSoNombreStr().toLowerCase().equals(request.getSocio().getSoNomStr().toLowerCase()))
 			socio.setSoNombreStr(request.getSocio().getSoNomStr());
@@ -207,9 +208,10 @@ public class AppDaoImpl implements AppDao {
 			socio.setSoEmailStr(request.getSocio().getSoEmailStr());
 		if (!socio.getSoTel4Str().toLowerCase().equals(request.getSocio().getSoCelStr().toLowerCase()))
 			socio.setSoTel4Str(request.getSocio().getSoCelStr());
+		log.info("Personales: "+new Gson().toJson(socio));
 		/* Datos personales Socio */
 		/* Direccion Socio */
-		if (!socio.getSoCalleStr().toLowerCase().equals(request.getSocio().getSoCalleStr().toLowerCase()))
+		/*if (!socio.getSoCalleStr().toLowerCase().equals(request.getSocio().getSoCalleStr().toLowerCase()))
 			socio.setSoCalleStr(request.getSocio().getSoCalleStr());
 		if (!socio.getSoColStr().toLowerCase().equals(request.getSocio().getSoColStr().toLowerCase()))
 			socio.setSoColStr(request.getSocio().getSoColStr());
@@ -226,12 +228,13 @@ public class AppDaoImpl implements AppDao {
 		if (socio.getEstado() != request.getSocio().getEdCveN().longValue())
 			socio.setEstado(request.getSocio().getEdCveN().longValue());
 		if (socio.getPais() != request.getSocio().getPaCveN().longValue())
-			socio.setPais(request.getSocio().getPaCveN().longValue());
+			socio.setPais(request.getSocio().getPaCveN().longValue());*/
 		/* Direccion Socio */
 		if (!socio.getSoSoRfcStr().equals(request.getRfcPrice()))
 			socio.setSoSoRfcStr(request.getRfcPrice());
 		socio.setSoTipoStr("N");
 		socio.setSoFregDt(new Date());
+		log.info("SocioUPDATE: "+new Gson().toJson(socio));
 		session.getCurrentSession().update(socio);
 		
 		request.getAfiliaBitacora().setSoIdStr(request.getIdSocio());
