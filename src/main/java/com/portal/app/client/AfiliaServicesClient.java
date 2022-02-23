@@ -84,7 +84,7 @@ public class AfiliaServicesClient implements WsClient {
 		try {
 			Builder webResource = client.resource(this.getEndPoint().concat(urlPedido)).header("Authorization",this.getAuthorization());
             ClientResponse r = webResource.type("application/json").post(ClientResponse.class,
-            		Normalizer.normalize(new Gson().toJson( request ), Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", ""));
+            		Normalizer.normalize(new Gson().toJson( request ), Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "") );
             String resp = r.getEntity(String.class);
             return new ResponseEntity<Object>(new Gson().fromJson(resp,DatosAfiliacion.class), HttpStatus.OK);
 		} catch (Exception e) {

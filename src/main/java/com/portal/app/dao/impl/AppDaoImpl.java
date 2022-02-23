@@ -287,7 +287,7 @@ public class AppDaoImpl implements AppDao {
 			fecha = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(rq.getFecNacDt());
 		} catch (Exception e) {}
 		
-		if (Objects.nonNull(rq.getSoNomStr()))
+		/*if (Objects.nonNull(rq.getSoNomStr()))
 			socio.setSoNombreStr(rq.getSoNomStr());
 		
 		if (Objects.nonNull(rq.getSoApatStr()))
@@ -297,12 +297,12 @@ public class AppDaoImpl implements AppDao {
 			socio.setSoMaternoStr(rq.getSoAmatStr());
 		
 		if (Objects.nonNull(rq.getSoEmailStr()))
-			socio.setSoEmailStr(rq.getSoEmailStr());
+			socio.setSoEmailStr(rq.getSoEmailStr());*/
 		
 		if (Objects.nonNull(fecha))
 			socio.setSoFnacDt(fecha);
 		
-		if (Objects.nonNull(rq.getSoCalle()))
+		/*if (Objects.nonNull(rq.getSoCalle()))
 			socio.setSoCalleStr(rq.getSoCalle());
 		
 		if (Objects.nonNull(rq.getSoNumExt()))
