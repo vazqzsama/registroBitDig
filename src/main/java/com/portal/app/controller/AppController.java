@@ -5,6 +5,7 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
 import com.portal.app.api.ApiController;
+import com.portal.app.dto.AfiliaBitacora;
 import com.portal.app.request.AfiliacionRequest;
 import com.portal.app.request.AppRequest;
 import com.portal.app.request.BusquedaRequest;
@@ -26,6 +28,7 @@ import com.portal.app.response.AppResponse;
 import com.portal.app.response.ClientesResponse;
 import com.portal.app.service.AfilClientesService;
 import com.portal.app.service.AppService;
+import com.portal.app.service.impl.SmsProcessor;
 import com.portal.app.util.Constants;
 import com.portal.app.util.Parser;
 
@@ -37,6 +40,7 @@ public class AppController {
 	private static final Logger log = LoggerFactory.getLogger(AppController.class);
 	@Autowired	private AfilClientesService afClServ;
 	@Autowired private ApiController api;
+	@Autowired private SmsProcessor sms;
 	
 	@PostMapping(value = "/testConexion")
 	public AppResponse testConexion(@RequestBody AppRequest request)
@@ -87,5 +91,13 @@ public class AppController {
 		log.info("Se ejecuta service/socio/update");
 		return api.socioUpdate(params);
 	}
+	
+	@RequestMapping(path = "/sms/confirmacion", method = RequestMethod.PUT)
+	public ResponseEntity<Object> smsConfirmacion (@Valid @RequestBody final AfiliaBitacora params) throws Exception {
+		log.info("Se ejecuta service/socio/update");
+		return new ResponseEntity<Object>(sms.enviarMensajeConfirmacion(params), HttpStatus.OK);
+	}
+	
+	
 	
 }  

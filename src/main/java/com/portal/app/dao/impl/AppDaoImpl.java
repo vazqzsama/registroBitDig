@@ -260,7 +260,7 @@ public class AppDaoImpl implements AppDao {
 			log.error("Error al Decodificar Comprobante de domicilio:"+e.getLocalizedMessage());
 	    }
 		try {
-			if(jobSms.enviarMensaje(request.getAfiliaBitacora()))
+			if(jobSms.enviarMensajeConfirmacion(request.getAfiliaBitacora()))//if(jobSms.enviarMensaje(request.getAfiliaBitacora()))
 				request.getAfiliaBitacora().setSmsEnvN(1);
 		} catch (Exception e) {
 			log.error("Error envio SMS: "+e.getLocalizedMessage());
@@ -287,49 +287,13 @@ public class AppDaoImpl implements AppDao {
 			fecha = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(rq.getFecNacDt());
 		} catch (Exception e) {}
 		
-		/*if (Objects.nonNull(rq.getSoNomStr()))
-			socio.setSoNombreStr(rq.getSoNomStr());
-		
-		if (Objects.nonNull(rq.getSoApatStr()))
-			socio.setSoPaternoStr(rq.getSoApatStr());
-		
-		if (Objects.nonNull(rq.getSoAmatStr()))
-			socio.setSoMaternoStr(rq.getSoAmatStr());
-		
-		if (Objects.nonNull(rq.getSoEmailStr()))
-			socio.setSoEmailStr(rq.getSoEmailStr());*/
-		
 		if (Objects.nonNull(fecha))
 			socio.setSoFnacDt(fecha);
-		
-		/*if (Objects.nonNull(rq.getSoCalle()))
-			socio.setSoCalleStr(rq.getSoCalle());
-		
-		if (Objects.nonNull(rq.getSoNumExt()))
-			socio.setSoNumStr(rq.getSoNumExt());
-		
-		if (Objects.nonNull(rq.getSoNumInt()))
-			socio.setSoInteriorStr(rq.getSoNumInt());
-		
-		if (Objects.nonNull(rq.getSoCdStr()))
-			socio.setSoCdStr(rq.getSoCdStr());
-		
-		if (Objects.nonNull(rq.getSoMunN()))
-			socio.setMuCveN(rq.getSoMunN());
-		
-		if (Objects.nonNull(rq.getSoEdoN()))
-			socio.setEstado(rq.getSoEdoN());
-		
-		if (Objects.nonNull(rq.getSoCelStr()))
-			socio.setSoTel4Str(rq.getSoCelStr());
-		
-		if (Objects.nonNull(rq.getSoRfc()))
-			socio.setSoSoRfcStr(rq.getSoRfc());
 		
 		/*if (Objects.nonNull(rq.getSoCodVerN()))
 			socio.set*/
 		
-		if (rq.getSoDocCompStr().isEmpty())
+		if (!rq.getSoDocCompStr().isEmpty())
 			this.updateComprobante(rq.getSoIdStr(),3L,socio.getTiCveN(),rq.getSoDocCompStr());
 		
 		session.getCurrentSession().update(socio);

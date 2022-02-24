@@ -128,8 +128,8 @@ public class SmsProcessor {
 		
 		CloseableHttpClient clientPost = null;
 		try {
-			String data = "{id:"+afiliaBitacora.getId()+"}";
-			String encodedData = new String(Base64.encodeBase64(data.getBytes()));
+			/*String data = "{id:"+afiliaBitacora.getId()+"}";
+			String encodedData = new String(Base64.encodeBase64(data.getBytes()));*/
 			String url = smsService;
 			String endPoint ="enviarSMS";
 
@@ -137,9 +137,9 @@ public class SmsProcessor {
 			log.debug("Servicio "+url+endPoint);
 			
 			StringBuilder mensaje = new StringBuilder();
-			mensaje.append("Bienvenido a PriceShoes,");
-			mensaje.append(" Socio:"+afiliaBitacora.getSoIdStr()); 
-			mensaje.append(" Credencial:"+urlCredencial+encodedData); 
+			mensaje.append("Bienvenido a PriceShoes, ");
+			mensaje.append("este es tu número de socio:"+afiliaBitacora.getSoIdStr());
+			mensaje.append(". Aviso privacidad:http://www.priceshoes.com/politicas/aviso-de-privacidad");
 			
 			SmsRequest request = new SmsRequest();
 			request.setAplicativo("AFILIA");
