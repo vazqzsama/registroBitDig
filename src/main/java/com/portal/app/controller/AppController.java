@@ -92,9 +92,9 @@ public class AppController {
 		return api.socioUpdate(params);
 	}
 	
-	@RequestMapping(path = "/sms/confirmacion", method = RequestMethod.PUT)
+	@RequestMapping(path = "/sms/confirmacion", method = RequestMethod.POST)
 	public ResponseEntity<Object> smsConfirmacion (@Valid @RequestBody final AfiliaBitacora params) throws Exception {
-		log.info("Se ejecuta service/socio/update");
+		log.info("Se ejecuta service/sms/confirmacion: "+new Gson().toJson(params));
 		return new ResponseEntity<Object>(sms.enviarMensajeConfirmacion(params), HttpStatus.OK);
 	}
 	

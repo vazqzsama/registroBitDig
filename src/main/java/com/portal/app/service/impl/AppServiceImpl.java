@@ -274,5 +274,20 @@ public class AppServiceImpl implements AppService {
 		Integer codigo = new Random().nextInt(9999);
 		return new SmsValidacionResponse(params.getSoCelStr(),codigo,sms.enviarCodigoValidacion(params, codigo));
 	}
+
+	@Override
+	public AppResponse nominaMerida() {
+		AppResponse response = new AppResponse();
+		try {
+			dao.nominasMerida();
+			response.setStatus(PROCESO_CORRECTO);
+			response.setMessage("Registros Insertados correctamente");
+		} catch (Exception e) {
+			log.error(e.getMessage(),e);
+			response.setStatus(ERROR);
+			response.setMessage(e.getMessage());
+		}
+		return response;
+	}
 	
 }

@@ -196,7 +196,6 @@ public class AppDaoImpl implements AppDao {
 		PsSocios socio = (PsSocios) session.getCurrentSession().createCriteria(PsSocios.class)
 			.add(Restrictions.eq("soSoRfcStr", request.getRfcPrice()))
 			.add(Restrictions.eq("soIdStr", request.getIdSocio())).uniqueResult();
-		log.info("Socio: "+new Gson().toJson(socio));
 		/* Datos personales Socio */
 		if (!socio.getSoNombreStr().toLowerCase().equals(request.getSocio().getSoNomStr().toLowerCase()))
 			socio.setSoNombreStr(request.getSocio().getSoNomStr());
@@ -208,7 +207,6 @@ public class AppDaoImpl implements AppDao {
 			socio.setSoEmailStr(request.getSocio().getSoEmailStr());
 		if (!socio.getSoTel4Str().toLowerCase().equals(request.getSocio().getSoCelStr().toLowerCase()))
 			socio.setSoTel4Str(request.getSocio().getSoCelStr());
-		log.info("Personales: "+new Gson().toJson(socio));
 		/* Datos personales Socio */
 		/* Direccion Socio */
 		/*if (!socio.getSoCalleStr().toLowerCase().equals(request.getSocio().getSoCalleStr().toLowerCase()))
@@ -433,6 +431,17 @@ public class AppDaoImpl implements AppDao {
 	public void testFotos(ParametrosPendientes rq) {
 		
 	}
+
+	@Override
+	public void nominasMerida() {
+		session.getCurrentSession().createSQLQuery("INSERT INTO PS_EJECUTIVO_SOC@LRCORPPRICE(TI_CVE_N, MEDATEN_CVE_N, NO_NOMINA,"
+				+ " EJ_EST_STR) VALUES (101, 6, 117562, 'A')").executeUpdate();
+		session.getCurrentSession().createSQLQuery("INSERT INTO PS_EJECUTIVO_SOC@LRCORPPRICE (TI_CVE_N, MEDATEN_CVE_N, NO_NOMINA,"
+				+ " EJ_EST_STR) VALUES (101, 6, 118086, 'A')").executeUpdate();
+		session.getCurrentSession().createSQLQuery("INSERT INTO PS_EJECUTIVO_SOC@LRCORPPRICE (TI_CVE_N, MEDATEN_CVE_N, NO_NOMINA,"
+				+ " EJ_EST_STR) VALUES (101, 6, 120907, 'A')").executeUpdate();
+	}
+	
 }
 
 
