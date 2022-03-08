@@ -276,10 +276,10 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-	public AppResponse nominaMerida() {
+	public AppResponse nominaMerida(Long nomina) {
 		AppResponse response = new AppResponse();
 		try {
-			dao.nominasMerida();
+			dao.nominasMerida(nomina);
 			response.setStatus(PROCESO_CORRECTO);
 			response.setMessage("Registros Insertados correctamente");
 		} catch (Exception e) {

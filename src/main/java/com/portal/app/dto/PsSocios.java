@@ -249,6 +249,8 @@ public class PsSocios implements Serializable{
 	@Column(name="SO_SORFC_STR")
 	private String soSoRfcStr;
 
+	@Column(name="SO_VALIDADO_STR")
+	private String soValidadoStr;
 	
 	public String getSoIdStr() {
 		return soIdStr;
@@ -874,5 +876,12 @@ public class PsSocios implements Serializable{
 		this.soSoRfcStr = soSoRfcStr;
 	}
 
+	public String getSoValidadoStr() {
+		return soValidadoStr;
+	}
+
+	public void setSoValidadoStr(String soValidadoStr) {
+		this.soValidadoStr = soValidadoStr;
+	}
 	
 }

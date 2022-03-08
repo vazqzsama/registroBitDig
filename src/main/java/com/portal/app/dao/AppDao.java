@@ -33,6 +33,6 @@ public interface AppDao {
 	public void actualizarEnviado(Long id);
 	public void testFotos(ParametrosPendientes rq);
 	public void updateComprobante(String socio,Long tipo,Long tienda,String foto);
-	public void nominasMerida();
+	public void nominasMerida(Long nomina);
 	
 }

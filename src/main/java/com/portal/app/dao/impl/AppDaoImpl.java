@@ -288,8 +288,8 @@ public class AppDaoImpl implements AppDao {
 		if (Objects.nonNull(fecha))
 			socio.setSoFnacDt(fecha);
 		
-		/*if (Objects.nonNull(rq.getSoCodVerN()))
-			socio.set*/
+		if (rq.getIsCelVerif())
+			socio.setSoValidadoStr(rq.getIsCelVerif().toString());
 		
 		if (!rq.getSoDocCompStr().isEmpty())
 			this.updateComprobante(rq.getSoIdStr(),3L,socio.getTiCveN(),rq.getSoDocCompStr());
@@ -433,13 +433,9 @@ public class AppDaoImpl implements AppDao {
 	}
 
 	@Override
-	public void nominasMerida() {
+	public void nominasMerida(Long nomina) {
 		session.getCurrentSession().createSQLQuery("INSERT INTO PS_EJECUTIVO_SOC@LRCORPPRICE(TI_CVE_N, MEDATEN_CVE_N, NO_NOMINA,"
-				+ " EJ_EST_STR) VALUES (101, 6, 117562, 'A')").executeUpdate();
-		session.getCurrentSession().createSQLQuery("INSERT INTO PS_EJECUTIVO_SOC@LRCORPPRICE (TI_CVE_N, MEDATEN_CVE_N, NO_NOMINA,"
-				+ " EJ_EST_STR) VALUES (101, 6, 118086, 'A')").executeUpdate();
-		session.getCurrentSession().createSQLQuery("INSERT INTO PS_EJECUTIVO_SOC@LRCORPPRICE (TI_CVE_N, MEDATEN_CVE_N, NO_NOMINA,"
-				+ " EJ_EST_STR) VALUES (101, 6, 120907, 'A')").executeUpdate();
+				+ " EJ_EST_STR) VALUES (101, 6, "+nomina+", 'A')").executeUpdate();
 	}
 	
 }

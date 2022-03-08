@@ -27,6 +27,6 @@ public interface AppService {
 	RsGetPaqueteAmer getPaqueteAmer(AfiliacionRequest request);
 	Response updateSocio(UpdateSocioRequest request);
 	SmsValidacionResponse sendMjsConfirmacion(UpdateSocioRequest params);
-	AppResponse nominaMerida();
+	AppResponse nominaMerida(Long nomina);
 	
 }
