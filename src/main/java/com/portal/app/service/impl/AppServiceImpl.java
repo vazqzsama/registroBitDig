@@ -208,15 +208,15 @@ public class AppServiceImpl implements AppService {
 	@Override
 	public SocioResponse reactivarSocio(ReactivarRequest request) {
 		SocioResponse response = new SocioResponse();
-		try {
+		//try {
 			request.setAfiliaBitacora(dao.reactivarSocio(request));
 			response.setBitacora(request);
 			response.setStatus(PROCESO_CORRECTO);
 			response.setMessage("Registro Actualizado correctamente");
-		} catch (Exception e) {
+		/*} catch (Exception e) {
 			response.setStatus(ERROR);
 			response.setMessage(e.getLocalizedMessage());
-		}
+		}*/
 		return response;
 	}
 	

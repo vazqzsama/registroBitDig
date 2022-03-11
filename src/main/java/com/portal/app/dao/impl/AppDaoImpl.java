@@ -31,6 +31,7 @@ import com.portal.app.dto.BitacoraDigital;
 import com.portal.app.dto.PsPedTmk;
 import com.portal.app.dto.PsSocios;
 import com.portal.app.dto.RsGetPaqueteAmer;
+import com.portal.app.dto.Store;
 import com.portal.app.dto.WseFotosCat;
 import com.portal.app.dto.WseUpdateFotos;
 import com.portal.app.request.AfiliacionRequest;
@@ -194,8 +195,9 @@ public class AppDaoImpl implements AppDao {
 	public AfiliaBitacora reactivarSocio(ReactivarRequest request) {
 		log.info("AppDao.reactivarSocio: "+new Gson().toJson(request));
 		PsSocios socio = (PsSocios) session.getCurrentSession().createCriteria(PsSocios.class)
-			.add(Restrictions.eq("soSoRfcStr", request.getRfcPrice()))
+			//.add(Restrictions.eq("soSoRfcStr", request.getRfcPrice()))
 			.add(Restrictions.eq("soIdStr", request.getIdSocio())).uniqueResult();
+		log.info(new Gson().toJson(socio));
 		/* Datos personales Socio */
 		if (!socio.getSoNombreStr().toLowerCase().equals(request.getSocio().getSoNomStr().toLowerCase()))
 			socio.setSoNombreStr(request.getSocio().getSoNomStr());
@@ -205,8 +207,9 @@ public class AppDaoImpl implements AppDao {
 			socio.setSoMaternoStr(request.getSocio().getSoAmatStr());
 		if (!socio.getSoEmailStr().toLowerCase().equals(request.getSocio().getSoEmailStr().toLowerCase()))
 			socio.setSoEmailStr(request.getSocio().getSoEmailStr());
-		if (!socio.getSoTel4Str().toLowerCase().equals(request.getSocio().getSoCelStr().toLowerCase()))
-			socio.setSoTel4Str(request.getSocio().getSoCelStr());
+		if (Objects.nonNull(socio.getSoTel4Str()) && Objects.nonNull(request.getSocio().getSoCelStr()))
+			if (!socio.getSoTel4Str().toLowerCase().equals(request.getSocio().getSoCelStr().toLowerCase()))
+				socio.setSoTel4Str(request.getSocio().getSoCelStr());
 		/* Datos personales Socio */
 		/* Direccion Socio */
 		/*if (!socio.getSoCalleStr().toLowerCase().equals(request.getSocio().getSoCalleStr().toLowerCase()))
@@ -228,8 +231,9 @@ public class AppDaoImpl implements AppDao {
 		if (socio.getPais() != request.getSocio().getPaCveN().longValue())
 			socio.setPais(request.getSocio().getPaCveN().longValue());*/
 		/* Direccion Socio */
-		if (!socio.getSoSoRfcStr().equals(request.getRfcPrice()))
-			socio.setSoSoRfcStr(request.getRfcPrice());
+		if (Objects.nonNull(socio.getSoSoRfcStr()) && Objects.nonNull(request.getRfcPrice()))
+			if (!socio.getSoSoRfcStr().equals(request.getRfcPrice()))
+				socio.setSoSoRfcStr(request.getRfcPrice());
 		socio.setSoTipoStr("N");
 		socio.setSoFregDt(new Date());
 		log.info("SocioUPDATE: "+new Gson().toJson(socio));
@@ -287,12 +291,20 @@ public class AppDaoImpl implements AppDao {
 		
 		if (Objects.nonNull(fecha))
 			socio.setSoFnacDt(fecha);
-		
 		if (rq.getIsCelVerif())
-			socio.setSoValidadoStr(rq.getIsCelVerif().toString());
+			socio.setSoValidadoStr(rq.getIsCelVerif()?"Y":"N");
+		if (Objects.nonNull(rq.getSoRfcStr()))
+			socio.setSoSoRfcStr(rq.getSoRfcStr());
 		
 		if (!rq.getSoDocCompStr().isEmpty())
+			//this.updateComprobante(rq.getSoIdStr(),3L,rq.getTiCveN(),rq.getSoDocCompStr());
 			this.updateComprobante(rq.getSoIdStr(),3L,socio.getTiCveN(),rq.getSoDocCompStr());
+		
+		/*session.getCurrentSession().getNamedQuery("P_RFC_UPDATE")
+		.setParameter("socio", rq.getSoIdStr() )
+		.setParameter("rfc", rq.getSoRfcStr() )
+		.setParameter("isVal", rq.getIsCelVerif()?"Y":"N")
+		.setParameter("tienda", rq.getTiCveN()).uniqueResult();*/
 		
 		session.getCurrentSession().update(socio);
 	}

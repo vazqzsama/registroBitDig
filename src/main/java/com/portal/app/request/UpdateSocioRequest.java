@@ -64,11 +64,14 @@ public class UpdateSocioRequest extends Request {
 	private Boolean isCelVerif;
 	
 	@ApiModelProperty(notes = "Rfc Price", dataType = "String", required = false, position = 19)
-	private String soRfc;
+	private String soRfcStr;
 	
 	@ApiModelProperty(notes = "Imagen Comprobante domicilio", dataType = "String", required = false, position = 20)
 	private String soDocCompStr;
 
+	@ApiModelProperty(notes = "Id de Tienda", dataType = "Long", required = false, position = 21)
+	private Long tiCveN;
+	
 	public String getSoIdStr() {
 		return soIdStr;
 	}
@@ -213,14 +216,6 @@ public class UpdateSocioRequest extends Request {
 		this.isCelVerif = isCelVerif;
 	}
 
-	public String getSoRfc() {
-		return soRfc;
-	}
-
-	public void setSoRfc(String soRfc) {
-		this.soRfc = soRfc;
-	}
-
 	public String getSoDocCompStr() {
 		return soDocCompStr;
 	}
@@ -228,5 +223,21 @@ public class UpdateSocioRequest extends Request {
 	public void setSoDocCompStr(String soDocCompStr) {
 		this.soDocCompStr = soDocCompStr;
 	}
-	
+
+	public String getSoRfcStr() {
+		return soRfcStr;
+	}
+
+	public void setSoRfcStr(String soRfcStr) {
+		this.soRfcStr = soRfcStr;
+	}
+
+	public Long getTiCveN() {
+		return tiCveN;
+	}
+
+	public void setTiCveN(Long tiCveN) {
+		this.tiCveN = tiCveN;
+	}
+
 }

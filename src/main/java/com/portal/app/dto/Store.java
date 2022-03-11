@@ -13,7 +13,14 @@ import org.hibernate.annotations.NamedNativeQuery;
 		query="{ call PKG_REC_AFL_SIT.P_UPDATE_FOTOS_1 (?,:id,:tipo) }",
 		callable = true,
 		resultClass=Store.class
+	),
+	@NamedNativeQuery (
+		name="P_RFC_UPDATE",
+		query="{ call PKG_AFILIACION.P_UPDATE_SOCIO (?,:socio,:rfc,:isVal,:tienda) }",
+		callable = true,
+		resultClass=Store.class
 	)
+	
 })
 @Entity
 public class Store 

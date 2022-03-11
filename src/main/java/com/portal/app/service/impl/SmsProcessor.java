@@ -67,7 +67,7 @@ public class SmsProcessor {
 
 	public boolean enviarMensajeConfirmacion(AfiliaBitacora afiliaBitacora) { // **** CAMBIO PROVISIONAL AFILIACION
 		StringBuilder mensaje = new StringBuilder();
-		mensaje.append("Bienvenido a PriceShoes, este es tu número de socio: "+afiliaBitacora.getSoIdStr());
+		mensaje.append("Bienvenido a PriceShoes, este es tu numero de socio: "+afiliaBitacora.getSoIdStr());
 		mensaje.append(". Aviso privacidad:http://www.priceshoes.com/politicas/aviso-de-privacidad");
 		
 		SmsRequest request = new SmsRequest();
