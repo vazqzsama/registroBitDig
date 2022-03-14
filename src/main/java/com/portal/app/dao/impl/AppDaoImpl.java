@@ -1,7 +1,6 @@
 package com.portal.app.dao.impl;
 
 import java.io.UnsupportedEncodingException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -193,50 +192,123 @@ public class AppDaoImpl implements AppDao {
 	@Override
 	@Transactional(readOnly = false)
 	public AfiliaBitacora reactivarSocio(ReactivarRequest request) {
-		log.info("AppDao.reactivarSocio: "+new Gson().toJson(request));
+		log.debug("AppDao.reactivarSocio: "+new Gson().toJson(request));
 		PsSocios socio = (PsSocios) session.getCurrentSession().createCriteria(PsSocios.class)
 			//.add(Restrictions.eq("soSoRfcStr", request.getRfcPrice()))
 			.add(Restrictions.eq("soIdStr", request.getIdSocio())).uniqueResult();
-		log.info(new Gson().toJson(socio));
+		log.debug(new Gson().toJson(socio));
 		/* Datos personales Socio */
-		if (!socio.getSoNombreStr().toLowerCase().equals(request.getSocio().getSoNomStr().toLowerCase()))
-			socio.setSoNombreStr(request.getSocio().getSoNomStr());
-		if (!socio.getSoPaternoStr().toLowerCase().equals(request.getSocio().getSoApatStr().toLowerCase()))
-			socio.setSoPaternoStr(request.getSocio().getSoApatStr());
-		if (!socio.getSoMaternoStr().toLowerCase().equals(request.getSocio().getSoAmatStr().toLowerCase()))
+		try {
+			if (this.testExist(socio.getSoNombreStr().toLowerCase(), request.getSocio().getSoNomStr().toLowerCase()))
+				socio.setSoNombreStr(request.getSocio().getSoNomStr());
+		} catch (Exception e) {
+			if(Objects.nonNull(request.getSocio().getSoNomStr())) 
+				socio.setSoNombreStr(request.getSocio().getSoNomStr());
+		}
+		try {
+			if (this.testExist(socio.getSoPaternoStr().toLowerCase(), request.getSocio().getSoApatStr().toLowerCase()))
+				socio.setSoPaternoStr(request.getSocio().getSoApatStr());
+		} catch (Exception e) {
+			if(Objects.nonNull(request.getSocio().getSoApatStr())) 
+				socio.setSoPaternoStr(request.getSocio().getSoApatStr());
+		}
+		try {
+			if (this.testExist(socio.getSoMaternoStr().toLowerCase(), request.getSocio().getSoAmatStr().toLowerCase()))
 			socio.setSoMaternoStr(request.getSocio().getSoAmatStr());
-		if (!socio.getSoEmailStr().toLowerCase().equals(request.getSocio().getSoEmailStr().toLowerCase()))
-			socio.setSoEmailStr(request.getSocio().getSoEmailStr());
-		if (Objects.nonNull(socio.getSoTel4Str()) && Objects.nonNull(request.getSocio().getSoCelStr()))
-			if (!socio.getSoTel4Str().toLowerCase().equals(request.getSocio().getSoCelStr().toLowerCase()))
+		} catch (Exception e) {
+			if(Objects.nonNull(request.getSocio().getSoAmatStr())) 
+				socio.setSoMaternoStr(request.getSocio().getSoAmatStr());
+		}
+		try {
+			if (this.testExist(socio.getSoEmailStr().toLowerCase(), request.getSocio().getSoEmailStr().toLowerCase()))
+				socio.setSoEmailStr(request.getSocio().getSoEmailStr());
+		} catch (Exception e) {
+			if(Objects.nonNull(request.getSocio().getSoEmailStr())) 
+				socio.setSoEmailStr(request.getSocio().getSoEmailStr());
+		}
+		try {
+			if (this.testExist(socio.getSoTel4Str().toLowerCase(), request.getSocio().getSoCelStr().toLowerCase()))
 				socio.setSoTel4Str(request.getSocio().getSoCelStr());
 		/* Datos personales Socio */
 		/* Direccion Socio */
-		/*if (!socio.getSoCalleStr().toLowerCase().equals(request.getSocio().getSoCalleStr().toLowerCase()))
-			socio.setSoCalleStr(request.getSocio().getSoCalleStr());
-		if (!socio.getSoColStr().toLowerCase().equals(request.getSocio().getSoColStr().toLowerCase()))
-			socio.setSoColStr(request.getSocio().getSoColStr());
-		if (!socio.getSoNumStr().toLowerCase().equals(request.getSocio().getSoNumStr().toLowerCase()))
-			socio.setSoNumStr(request.getSocio().getSoNumStr());
-		if (!socio.getSoNumintStr().toLowerCase().equals(request.getSocio().getSoInteriorStr().toLowerCase()))
-			socio.setSoNumintStr(request.getSocio().getSoInteriorStr());
-		if (!socio.getSoCpStr().toLowerCase().equals(request.getSocio().getSoCpStr().toLowerCase()))
-			socio.setSoCpStr(request.getSocio().getSoCpStr());
-		if (!socio.getSoCdStr().toLowerCase().equals(request.getSocio().getSoCdStr().toLowerCase()))
-			socio.setSoCdStr(request.getSocio().getSoCdStr());
-		if (socio.getMuCveN() != request.getSocio().getMuCveN().longValue())
-			socio.setMuCveN(request.getSocio().getMuCveN().longValue());
-		if (socio.getEstado() != request.getSocio().getEdCveN().longValue())
-			socio.setEstado(request.getSocio().getEdCveN().longValue());
-		if (socio.getPais() != request.getSocio().getPaCveN().longValue())
-			socio.setPais(request.getSocio().getPaCveN().longValue());*/
+		} catch (Exception e) {
+			if(Objects.nonNull(request.getSocio().getSoCelStr())) 
+				socio.setSoTel4Str(request.getSocio().getSoCelStr());
+		}
+		try {
+			if (this.testExist(socio.getSoCalleStr().toLowerCase(), request.getSocio().getSoCalleStr().toLowerCase()))
+				socio.setSoCalleStr(request.getSocio().getSoCalleStr());
+		} catch (Exception e) {
+			if(Objects.nonNull(request.getSocio().getSoCalleStr())) 
+				socio.setSoCalleStr(request.getSocio().getSoCalleStr());
+		}
+		try {
+			if (this.testExist(socio.getSoColStr().toLowerCase(), request.getSocio().getSoColStr().toLowerCase()))
+				socio.setSoColStr(request.getSocio().getSoColStr());
+		} catch (Exception e) {
+			if(Objects.nonNull(request.getSocio().getSoColStr())) 
+				socio.setSoColStr(request.getSocio().getSoColStr());
+		}
+		try {
+			if (this.testExist(socio.getSoNumStr().toLowerCase(), request.getSocio().getSoNumStr().toLowerCase()))
+				socio.setSoNumStr(request.getSocio().getSoNumStr());
+		} catch (Exception e) {
+			if(Objects.nonNull(request.getSocio().getSoNumStr())) 
+				socio.setSoNumStr(request.getSocio().getSoNumStr());
+		}
+		try {
+			if (this.testExist(socio.getSoNumintStr().toLowerCase(), request.getSocio().getSoInteriorStr().toLowerCase()))
+				socio.setSoNumintStr(request.getSocio().getSoInteriorStr());
+		} catch (Exception e) {
+			if(Objects.nonNull(request.getSocio().getSoInteriorStr())) 
+				socio.setSoNumintStr(request.getSocio().getSoInteriorStr());
+		}
+		try {
+			if (this.testExist(socio.getSoCpStr().toLowerCase(), request.getSocio().getSoCpStr().toLowerCase()))
+				socio.setSoCpStr(request.getSocio().getSoCpStr());
+		} catch (Exception e) {
+			if(Objects.nonNull(request.getSocio().getSoCpStr())) 
+				socio.setSoCpStr(request.getSocio().getSoCpStr());
+		}
+		try {
+			if (this.testExist(socio.getSoCdStr().toLowerCase(), request.getSocio().getSoCdStr().toLowerCase()))
+				socio.setSoCdStr(request.getSocio().getSoCdStr());
+		} catch (Exception e) {
+			if(Objects.nonNull(request.getSocio().getSoCdStr())) 
+				socio.setSoCdStr(request.getSocio().getSoCdStr());
+		}
+		try {
+			if (this.testExist(socio.getMuCveN(), request.getSocio().getMuCveN().longValue()))
+				socio.setMuCveN(request.getSocio().getMuCveN().longValue());
+		} catch (Exception e) {
+			if(Objects.nonNull(request.getSocio().getMuCveN())) 
+				socio.setMuCveN(request.getSocio().getMuCveN().longValue());
+		}
+		try {
+			if (this.testExist(socio.getEstado(), request.getSocio().getEdCveN().longValue()))
+				socio.setEstado(request.getSocio().getEdCveN().longValue());
+		} catch (Exception e) {
+			if(Objects.nonNull(request.getSocio().getEdCveN())) 
+				socio.setEstado(request.getSocio().getEdCveN().longValue());
+		}
+		try {
+			if (this.testExist(socio.getPais(),request.getSocio().getPaCveN().longValue()))
+				socio.setPais(request.getSocio().getPaCveN().longValue());
 		/* Direccion Socio */
-		if (Objects.nonNull(socio.getSoSoRfcStr()) && Objects.nonNull(request.getRfcPrice()))
-			if (!socio.getSoSoRfcStr().equals(request.getRfcPrice()))
+		} catch (Exception e) {
+			if(Objects.nonNull(request.getSocio().getPaCveN())) 
+				socio.setPais(request.getSocio().getPaCveN().longValue());
+		}
+		try {
+			if (this.testExist(socio.getSoSoRfcStr(), request.getRfcPrice()))
 				socio.setSoSoRfcStr(request.getRfcPrice());
+		} catch (Exception e) {
+			if(Objects.nonNull(request.getRfcPrice())) 
+				socio.setSoSoRfcStr(request.getRfcPrice());
+		}
 		socio.setSoTipoStr("N");
 		socio.setSoFregDt(new Date());
-		log.info("SocioUPDATE: "+new Gson().toJson(socio));
+		log.debug("SocioUPDATE: "+new Gson().toJson(socio));
 		session.getCurrentSession().update(socio);
 		
 		request.getAfiliaBitacora().setSoIdStr(request.getIdSocio());
@@ -276,37 +348,48 @@ public class AppDaoImpl implements AppDao {
 		return request.getAfiliaBitacora();
 	}
 	
+	private boolean testExist(Object p1, Object p2) {
+		if (Objects.nonNull(p1) && Objects.nonNull(p2)) {
+			if (p1 instanceof String && p2 instanceof String)
+		        return !p1.equals(p2);
+			else if (p1 instanceof Integer && p2 instanceof Integer)
+				return p1 != p2;
+			else if (p1 instanceof Long && p2 instanceof Long)
+				return p1 != p2;
+			else if (p1 instanceof Date && p2 instanceof Date)
+				return p1 != p2;
+			else if (p1 instanceof Double && p2 instanceof Double)
+				return p1 != p2;
+			else {
+				log.info("Existen parametros pero no estan mapeado el tipo de dato: (p1:"
+							+p1.getClass()+") | (p2:"+p2.getClass()+")");
+				return false;
+			}
+		} else
+			return false;
+	}
+	
 	@Override
 	@Transactional(readOnly = false)
 	public void updateSocio(UpdateSocioRequest rq) {
-		Objects.requireNonNull(rq.getSoIdStr(), "EL número de socio es un dato requerido");
+		Objects.requireNonNull(rq.getSoIdStr(), "El número de socio es un dato requerido");
+		Objects.requireNonNull(rq.getTiCveN(), "El número de tienda es un dato requerido");
 		
-		PsSocios socio = (PsSocios) session.getCurrentSession().createCriteria(PsSocios.class)
-		.add(Restrictions.eq("soIdStr", rq.getSoIdStr())).uniqueResult();
+		Store dbLink = (Store) session.getCurrentSession().getNamedQuery("GET_DBLINK").setParameter("tienda", rq.getTiCveN()).uniqueResult();
 		
-		Date fecha = null;
-		try {
-			fecha = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(rq.getFecNacDt());
-		} catch (Exception e) {}
+		StringBuilder updStr = new StringBuilder("UPDATE PS_SOCIOS@").append(dbLink.getValue())
+				.append(" SET SO_VALIDADO_STR = ").append(rq.getIsCelVerif()?"'Y' ":"'N' ");
 		
-		if (Objects.nonNull(fecha))
-			socio.setSoFnacDt(fecha);
-		if (rq.getIsCelVerif())
-			socio.setSoValidadoStr(rq.getIsCelVerif()?"Y":"N");
 		if (Objects.nonNull(rq.getSoRfcStr()))
-			socio.setSoSoRfcStr(rq.getSoRfcStr());
+			updStr.append(",SO_SORFC_STR = '").append(rq.getSoRfcStr()).append("' ");
+		if (Objects.nonNull(rq.getFecNacDt()))
+			updStr.append(",SO_FNAC_DT = TO_DATE('").append(rq.getFecNacDt()).append("','DD/MM/RRRR') ");
+		if (Objects.nonNull(rq.getSoSexoStr()))
+			updStr.append(",SO_SEXO_STR = '").append(rq.getSoSexoStr()).append("' ");	
 		
-		if (!rq.getSoDocCompStr().isEmpty())
-			//this.updateComprobante(rq.getSoIdStr(),3L,rq.getTiCveN(),rq.getSoDocCompStr());
-			this.updateComprobante(rq.getSoIdStr(),3L,socio.getTiCveN(),rq.getSoDocCompStr());
-		
-		/*session.getCurrentSession().getNamedQuery("P_RFC_UPDATE")
-		.setParameter("socio", rq.getSoIdStr() )
-		.setParameter("rfc", rq.getSoRfcStr() )
-		.setParameter("isVal", rq.getIsCelVerif()?"Y":"N")
-		.setParameter("tienda", rq.getTiCveN()).uniqueResult();*/
-		
-		session.getCurrentSession().update(socio);
+		updStr.append("WHERE SO_ID_STR = '").append(rq.getSoIdStr()).append("' ");
+	
+		session.getCurrentSession().createSQLQuery(updStr.toString()).executeUpdate();
 	}
 	
 	@Override

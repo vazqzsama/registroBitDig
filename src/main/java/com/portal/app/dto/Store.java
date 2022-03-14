@@ -19,6 +19,11 @@ import org.hibernate.annotations.NamedNativeQuery;
 		query="{ call PKG_AFILIACION.P_UPDATE_SOCIO (?,:socio,:rfc,:isVal,:tienda) }",
 		callable = true,
 		resultClass=Store.class
+	),
+	@NamedNativeQuery (
+		name="GET_DBLINK",
+		query="select TI_CVE_N ID, LINKREMOTE VALUE from dba_databases@lrcorpprice WHERE TI_CVE_N = :tienda",
+		resultClass=Store.class
 	)
 	
 })
