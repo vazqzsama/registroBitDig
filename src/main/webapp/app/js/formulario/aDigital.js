@@ -794,7 +794,7 @@ var ecommerce = {};
 	function addOnClickBtnBuscar() {
 		$('#btnBuscar').click(function(e) {
 			e.preventDefault();
-
+			system.blockButton( $(this) );
 			var cp= $.trim($('#cp').val());
 			if(cp!= "" && !isNaN(cp) && cp.length == 5) {
 				$("#estado").val("");

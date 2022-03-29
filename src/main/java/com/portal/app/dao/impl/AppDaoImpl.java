@@ -183,10 +183,11 @@ public class AppDaoImpl implements AppDao {
 		return r.toString();
 	}	
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public PsSocios searchSocioByRfc(String rfc) {
-		return (PsSocios) session.getCurrentSession().createCriteria(PsSocios.class)
-		.add(Restrictions.eq("soSoRfcStr", rfc.trim())).uniqueResult();
+	public List<PsSocios> searchSocioByRfc(String rfc) {
+		return (List<PsSocios>) session.getCurrentSession().createCriteria(PsSocios.class)
+		.add(Restrictions.eq("soSoRfcStr", rfc.trim())).list();
 	}
 	
 	@Override

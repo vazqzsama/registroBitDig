@@ -271,7 +271,7 @@ public class AppServiceImpl implements AppService {
 		if (Objects.isNull(params.getSoCelStr()))
 			throw new IllegalArgumentException("El numero celular es un dato requerido");
 		
-		Integer codigo = new Random().nextInt(9999);
+		Integer codigo = Objects.nonNull(params.getSoCodVerN()) ? params.getSoCodVerN() : new Random().nextInt(9999);
 		return new SmsValidacionResponse(params.getSoCelStr(),codigo,sms.enviarCodigoValidacion(params, codigo));
 	}
 

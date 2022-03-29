@@ -26,7 +26,7 @@ public interface AppDao {
 	public boolean searchRegistro(String email, String idSocio,String nombre);
 	public boolean liberarCorreo(BitacoraDigital bit);
 	public List<AfilRegistrar> getPendientes(ParametrosPendientes params);
-	public PsSocios searchSocioByRfc(String rfc);
+	public List<PsSocios> searchSocioByRfc(String rfc);
 	public AfiliaBitacora reactivarSocio(ReactivarRequest request);
 	public RsGetPaqueteAmer getPaqueteAmer(AfiliacionRequest request);
 	public void updateSocio(UpdateSocioRequest request);

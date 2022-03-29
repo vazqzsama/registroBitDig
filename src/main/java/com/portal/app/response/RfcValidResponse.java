@@ -1,6 +1,6 @@
 package com.portal.app.response;
 
-import java.util.Objects;
+import java.util.List;
 
 import com.portal.app.dto.PsSocios;
 
@@ -19,16 +19,16 @@ public class RfcValidResponse extends Response {
 	private Boolean existe;
 	
 	@ApiModelProperty(notes = "Registro previo", value = "Registro previo", required = false, position = 3)
-	private PsSocios registro;
+	private List<PsSocios> registro;
 
 	public RfcValidResponse() {
 		super();
 	}
 	
-	public RfcValidResponse(String rfcPrice,PsSocios registro) {
+	public RfcValidResponse(String rfcPrice,List<PsSocios> registro) {
 		super();
 		this.rfcPrice = rfcPrice;
-		this.existe = Objects.nonNull(registro);
+		this.existe = !registro.isEmpty();
 		this.registro = registro;
 	}
 
@@ -48,11 +48,11 @@ public class RfcValidResponse extends Response {
 		this.existe = existe;
 	}
 
-	public PsSocios getRegistro() {
+	public List<PsSocios> getRegistro() {
 		return registro;
 	}
 
-	public void setRegistro(PsSocios registro) {
+	public void setRegistro(List<PsSocios> registro) {
 		this.registro = registro;
 	}
 
