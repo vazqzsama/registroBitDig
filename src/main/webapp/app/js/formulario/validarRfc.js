@@ -5,7 +5,7 @@ var rfc  = {};
 	this.updateSocio = function() {
 		console.log("Actualizar socio");
 		system.service({
-			url: "rfc/socioUpdate",
+			url: "/socioUpdate",// para el consumo del servicio del aplicativo, no del api
 			data: getRequestUpdateSocio(),
 			callback: function (response) {
 				console.log(response.message);
@@ -33,7 +33,9 @@ var rfc  = {};
 			soCpStr  	: $("#cp").val(),
 			soEmailStr  : $("#email").val(),
 			soSexoStr  	: $("#genero").val(),
-			soCelStr  	: $("#celular").val()
+			soCelStr  	: $("#celular").val(),
+			tiCveN		: JSON.parse(sessionStorage.getItem('infoSocioTmp')).cvetienda
+
 		}
 	}
 	

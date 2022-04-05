@@ -86,7 +86,7 @@ public class AppController {
 		return api.socioReactivacion(params);
 	}
 	
-	@RequestMapping(path = "/socio/update", method = RequestMethod.PUT)
+	@RequestMapping(path = "/socioUpdate", method = RequestMethod.POST)
 	public ResponseEntity<Object> socioUpdate (@Valid @RequestBody final UpdateSocioRequest params) throws Exception {
 		log.info("Se ejecuta service/socio/update");
 		return api.socioUpdate(params);

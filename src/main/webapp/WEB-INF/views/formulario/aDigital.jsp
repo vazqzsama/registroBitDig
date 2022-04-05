@@ -497,7 +497,7 @@ $.getScript("${resources}app/js/formulario/aDigital.js");
 		<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" id="divBtnPagar" style="display: none;">	
 				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 					<div class="form-group">
-						<label class="label-form control-label" for="btnPagar" onclick='console.log("Hello")'>Mercado Pago</label>
+						<label class="label-form control-label" for="btnPagar">Mercado Pago</label>
 						<button id="btnPagar" class="btn btn-info form-control" style="display: none;">Pagar</button>
 					</div>	
 				</div>

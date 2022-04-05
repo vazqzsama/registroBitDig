@@ -112,6 +112,7 @@ var ecommerce = {};
 				  $('#divFormAfilia').html("");
 				  $("#btnMostrar").show();
 				  $("#divFormAfilia").hide();
+				  ecommerce.regresarLista();
 			  }
 			};
 			mercadoPagoPS.generarBtnPago(carrito);
@@ -131,7 +132,7 @@ var ecommerce = {};
 			}).always(function() {
  				loading.close();
 			});*/
-			this.regresarLista();
+			ecommerce.regresarLista();
 		});
 	}
 
