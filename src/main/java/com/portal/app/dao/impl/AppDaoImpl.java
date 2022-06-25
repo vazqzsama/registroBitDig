@@ -377,10 +377,33 @@ public class AppDaoImpl implements AppDao {
 		Objects.requireNonNull(rq.getTiCveN(), "El número de tienda es un dato requerido");
 		
 		Store dbLink = (Store) session.getCurrentSession().getNamedQuery("GET_DBLINK").setParameter("tienda", rq.getTiCveN()).uniqueResult();
-		
+		log.info(new Gson().toJson(dbLink));
 		StringBuilder updStr = new StringBuilder("UPDATE PS_SOCIOS@").append(dbLink.getValue())
-				.append(" SET SO_VALIDADO_STR = ").append(rq.getIsCelVerif()?"'Y' ":"'N' ");
-		
+				.append(" SET SO_VALIDADO_STR = ")
+				.append(Objects.nonNull(rq.getIsCelVerif())?(rq.getIsCelVerif()?"'Y' ":"'N' "):"'N' ");
+		log.info(new Gson().toJson(rq));
+		if (Objects.nonNull(rq.getSoNomStr()))
+			updStr.append(",SO_NOM_STR = '").append(rq.getSoNomStr()).append("' ");
+		if (Objects.nonNull(rq.getSoApatStr()))
+			updStr.append(",SO_APAT_STR = '").append(rq.getSoApatStr()).append("' ");
+		if (Objects.nonNull(rq.getSoAmatStr()))
+			updStr.append(",SO_AMAT_STR = '").append(rq.getSoAmatStr()).append("' ");
+		if (Objects.nonNull(rq.getSoCalle()))
+			updStr.append(",SO_CALLE_STR = '").append(rq.getSoCalle()).append("' ");
+		if (Objects.nonNull(rq.getSoNumExt()))
+			updStr.append(",SO_NUM_STR = '").append(rq.getSoNumExt()).append("' ");
+		if (Objects.nonNull(rq.getSoColStr()))
+			updStr.append(",SO_COL_STR = '").append(rq.getSoColStr()).append("' ");
+		if (Objects.nonNull(rq.getSoMunN()))
+			updStr.append(",MU_CVE_N = '").append(rq.getSoMunN()).append("' ");
+		if (Objects.nonNull(rq.getSoCdStr()))
+			updStr.append(",SO_CD_STR = '").append(rq.getSoCdStr()).append("' ");
+		if (Objects.nonNull(rq.getSoCpStr()))
+			updStr.append(",SO_CP_STR = '").append(rq.getSoCpStr()).append("' ");
+		if (Objects.nonNull(rq.getSoEmailStr()))
+			updStr.append(",SO_EMAIL_STR = '").append(rq.getSoEmailStr()).append("' ");
+		if (Objects.nonNull(rq.getReferencias()))
+			updStr.append(",SO_REF_STR = '").append(rq.getReferencias()).append("' ");
 		if (Objects.nonNull(rq.getSoRfcStr()))
 			updStr.append(",SO_SORFC_STR = '").append(rq.getSoRfcStr()).append("' ");
 		if (Objects.nonNull(rq.getFecNacDt()))
@@ -389,7 +412,7 @@ public class AppDaoImpl implements AppDao {
 			updStr.append(",SO_SEXO_STR = '").append(rq.getSoSexoStr()).append("' ");	
 		
 		updStr.append("WHERE SO_ID_STR = '").append(rq.getSoIdStr()).append("' ");
-	
+		log.info(updStr.toString());
 		session.getCurrentSession().createSQLQuery(updStr.toString()).executeUpdate();
 	}
 	

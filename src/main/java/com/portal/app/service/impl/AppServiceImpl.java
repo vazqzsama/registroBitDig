@@ -228,9 +228,11 @@ public class AppServiceImpl implements AppService {
 			response.setStatus(PROCESO_CORRECTO);
 			response.setMessage("Registro Actualizado correctamente");
 		} catch (Exception e) {
+			log.error(e.toString());
 			response.setStatus(ERROR);
 			response.setMessage(e.getLocalizedMessage());
 		}
+		log.info(new Gson().toJson(response));
 		return response;
 	}
 	

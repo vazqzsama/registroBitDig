@@ -72,6 +72,9 @@ public class UpdateSocioRequest extends Request {
 	@ApiModelProperty(notes = "Id de Tienda", dataType = "Long", required = false, position = 21)
 	private Long tiCveN;
 	
+	@ApiModelProperty(notes = "Referencias", dataType = "String", required = false, position = 22)
+	private String referencias;
+	
 	public String getSoIdStr() {
 		return soIdStr;
 	}
@@ -240,4 +243,11 @@ public class UpdateSocioRequest extends Request {
 		this.tiCveN = tiCveN;
 	}
 
+	public String getReferencias() {
+		return referencias;
+	}
+
+	public void setReferencias(String referencias) {
+		this.referencias = referencias;
+	}
 }
