@@ -7,7 +7,7 @@
 		> Reactivacion de socios de afiliacion tradicional
 		> Generacion de RfcPrice
 		> Envio de Sms de confirmacion de celular por codigo
-	- Aplicativo de recuperacion de registros de clientes creados desde la pagina Web de PriceShoes.
+	- Aplicativo de recuperacion de registros de clientes creados desde la pagina Web de PriceShoes (Equipo Villaverde).
 
 -Detalle técnico:
 	Lenguaje:	Java 8 
@@ -30,26 +30,12 @@
 
 - Código fuente:	http://gitlab.priceshoes.com/sap/dulceria/dulceria-api.git
 - Despliegue QA:
-		IP:		http://192.168.1.234:8088/qa/swagger-ui.html
-		Proxy:	http://odc.portalweb.priceshoes.com/odc/fsw/api/qa/swagger-ui.html
+		IP:		http://192.168.1.110:7171/bitacoradigital
+		Proxy:	https://webservices.priceshoes.com/proxy/fsw/bitacora-digital/
 
 - Despliegue Productivo:
-		IP:		http://192.168.1.235:8089/v1/swagger-ui.html
-		Proxy:	http://odc.portalweb.priceshoes.com/fsw/api/v1/swagger-ui.html
+		IP:		http://172.20.1.24:7171/bitacoradigitalQA
+		Proxy:	https://webservices.priceshoes.com/proxy/fsw/bitacora-digital-dev/
 
 === Pendientes: ==========================
-
-=== Descipción: ==========================
-	- Cada peticion de le genera un UUID para la peticion, cada una registra y se procesa individualmenta cada uno de los movimientos o ventas contenidas en ella.
-	- Cada movimiento se envia a SAP y se registra la bitacora
-	- Cada venta se guarda en EPSSTG.POSDM_VENTAS_SOFTREST y se registra la bitacora
-
-=== Despliegue: ==========================
-Dulceria generar Jar (Recomendacion: eliminar la carpeta target antes de generar version)
-* Produccion  
-	- mvn clean package -P prod
-	- nohup java  -Xms1024M -Xmx2048M -jar dulceria-api.jar &
-* QA
-	- mvn clean package -P qa -Dskiptests=true
-	- nohup java -jar dulceria-api-qa.jar &
 
