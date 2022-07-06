@@ -145,15 +145,24 @@ var ecommerce = {};
 					url:"verificaCorreo",
 					data:{ correoVal:  $("#email").val().trim() },
 					callback:function(response) {
-						rfc.createRfc(function(resp,loading) {
+						rfc.createRfc(function(response,loading) {
 							loading.close();
-							if (resp.existe && $("#rfcPrice").val() != resp.rfcPrice)
-								psDialog.error("Se ha generado un RFCPrice con la información introducida "+ 
-								"y existe un registro con el mismo RFCPrice. Revise por favor");	
-							else {
-								$('#btnBackProcesar').hide();
+							var isMismoSocio = false, nonum = [];
+							$.each(response.registro, function (key, value) {
+								if (value.soIdStr.trim() == $("#soIdStr").val().trim())
+									isMismoSocio = true;
+								else
+									nonum.push(value.soIdStr.trim());
+							});
+							if (isMismoSocio) {
+								console.log('Existe el rfc y es el mismo numero de socio');
 								avanzarFormulario(obj);
-							}					
+							} else { // Diferente numero de socio
+								console.log('Existe el rfc y no es el mismo numero de socio');
+								psDialog.error("El RfcPrice ("+response.rfcPrice+") coincide con otro(s) socio(s) registrado(s) -> ( "+
+								nonum.join(",")+") ");
+								$('#btnBackProcesar').hide();
+							}
 						});
 					}
 				}).always(function(){ loading.close(); });

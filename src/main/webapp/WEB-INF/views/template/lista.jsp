@@ -98,7 +98,7 @@
 			this.accion = function (value, row) {
 				row.fnac = moment(new Date(row.fnac)).format('DD/MM/YYYY');
 				if (row.cp) row.cp = (row.cp.length < 5 ? '0'.concat(row.cp) : row.cp).toString();
-				if (row.soTipoStr == 'N' && (row.estatusPedido == 'C' || row.estatusPedido == null || row.estatusPedido == 'V')) {
+				if (/*row.soTipoStr == 'N' &&*/ (row.estatusPedido == 'C' || row.estatusPedido == null || row.estatusPedido == 'V')) {
 					var icon = '<i class="fa fa-shopping-bag fa-lg"></i>';
 					return '<a title="Crear pedido" class="btn btn-sm btn-primary" ' +
 						"onclick='$cntr.formulario(" + JSON.stringify(row) + ")'" + ' >' + icon + '</a>';

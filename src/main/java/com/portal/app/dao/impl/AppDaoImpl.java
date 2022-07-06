@@ -307,6 +307,7 @@ public class AppDaoImpl implements AppDao {
 			if(Objects.nonNull(request.getRfcPrice())) 
 				socio.setSoSoRfcStr(request.getRfcPrice());
 		}
+		socio.setSoNcredN(null);
 		socio.setSoTipoStr("N");
 		socio.setSoFregDt(new Date());
 		log.debug("SocioUPDATE: "+new Gson().toJson(socio));

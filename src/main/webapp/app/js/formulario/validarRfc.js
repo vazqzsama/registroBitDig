@@ -1,48 +1,49 @@
-var rfc  = {};
+var rfc = {};
 
 (function () {
-	
-	this.updateSocio = function() {
+
+	this.updateSocio = function () {
 		console.log("Actualizar socio");
 		system.service({
 			url: "/socioUpdate",// para el consumo del servicio del aplicativo, no del api
 			data: getRequestUpdateSocio(),
 			callback: function (response) {
 				console.log(response.message);
-			},onError: function (response) {
+			}, onError: function (response) {
 				console.error(response.message);
 			}
-		}).always(function(){ });
+		}).always(function () { });
 	}
-	
-	function getRequestUpdateSocio(){
+
+	function getRequestUpdateSocio() {
 		return {
-			soIdStr  	: $("#idsocio").val(),
-			soRfcStr  	: $("#rfcPrice").val(),
-			soNomStr  	: $("#nombre").val(),
-			soApatStr  	: $("#paterno").val(),
-			soAmatStr  	: $("#materno").val(),
-			fecNacDt  	: $("#nacimiento").val(),
-			soCalle  	: $("#calle").val(),
-			soNumExt  	: $("#numeroExt").val(),
-			soNumInt  	: $("#numeroInt").val(),
-			soColStr  	: $("#colonia option:selected").text(),
-			soCdStr  	: $("#ciudad").val(),
-			soMunN  	: $('#colonia option:selected').data('mucven'),
-			soEdoN  	: $('#colonia option:selected').data('edcven'),
-			soCpStr  	: $("#cp").val(),
-			soEmailStr  : $("#email").val(),
-			soSexoStr  	: $("#genero").val(),
-			soCelStr  	: $("#celular").val(),
-			tiCveN		: JSON.parse(sessionStorage.getItem('infoSocioTmp')).cvetienda
+			soIdStr: $("#idsocio").val(),
+			soRfcStr: $("#rfcPrice").val(),
+			soNomStr: $("#nombre").val(),
+			soApatStr: $("#paterno").val(),
+			soAmatStr: $("#materno").val(),
+			fecNacDt: $("#nacimiento").val(),
+			soCalle: $("#calle").val(),
+			soNumExt: $("#numeroExt").val(),
+			soNumInt: $("#numeroInt").val(),
+			soColStr: $("#colonia option:selected").text(),
+			soCdStr: $("#ciudad").val(),
+			soMunN: $('#colonia option:selected').data('mucven'),
+			soEdoN: $('#colonia option:selected').data('edcven'),
+			soCpStr: $("#cp").val(),
+			soEmailStr: $("#email").val(),
+			soSexoStr: $("#genero").val(),
+			soCelStr: $("#celular").val(),
+			tiCveN: JSON.parse(sessionStorage.getItem('infoSocioTmp')).cvetienda
 
 		}
 	}
-	
-	function setDatosRegistro(response,loading) {
+
+	function setDatosRegistro(response, loading) {
 		if (response.existe) {
 			var datosSocio = null;
-			system.getForm({
+			$("#rfcPrice").val(response.rfcPrice);
+			/*system.getForm({
 				url: "formulario/rfcSocioEncontrado",
 				data: { dato: JSON.stringify(response.registro) }
 			}).done(function (form) {
@@ -73,7 +74,7 @@ var rfc  = {};
 			if(reg.soInteriorStr)	setProperties ("numeroInt",reg.soInteriorStr);
 			if(reg.soCpStr)			$("#cp").val(reg.soCpStr);
 			if(reg.soIdStr)			$("#idsocio").val(reg.soIdStr);
-			if(reg.soSoRfcStr)		$("#rfcPrice").val(reg.soSoRfcStr);
+			if(reg.soSoRfcStr)		$("#rfcPrice").val(reg.soSoRfcStr);*/
 			$("#divRfc").show();
 		} else {
 			$("#divRfc").show();
@@ -82,66 +83,66 @@ var rfc  = {};
 		}
 		loading.close();
 	}
-	
-	function unsetProperties () {
-		var lista = ["nombre","paterno","materno","nacimiento","genero","email","celular","calle","numeroExt","numeroInt"];
-		lista.forEach(id => { 
-			$("#"+id).attr('readonly', false);
-			$("#"+id).attr('title', '');
-			$("#"+id).off('dblclick');
+
+	function unsetProperties() {
+		var lista = ["nombre", "paterno", "materno", "nacimiento", "genero", "email", "celular", "calle", "numeroExt", "numeroInt"];
+		lista.forEach(id => {
+			$("#" + id).attr('readonly', false);
+			$("#" + id).attr('title', '');
+			$("#" + id).off('dblclick');
 		});
 	}
-	
-	function setProperties (id,value) {
-		$("#"+id).val(value);
-		$("#"+id).attr('readonly', true);
-		$("#"+id).attr('title', 'Doble click para desbloquear');
-		$("#"+id).dblclick(function() {
-			$("#"+id).attr('readonly', false);
-		}); 
+
+	function setProperties(id, value) {
+		$("#" + id).val(value);
+		$("#" + id).attr('readonly', true);
+		$("#" + id).attr('title', 'Doble click para desbloquear');
+		$("#" + id).dblclick(function () {
+			$("#" + id).attr('readonly', false);
+		});
 	}
-	
+
 	function validateCampos() {
-		if ($("#nombre").val() && $("#paterno").val() && $("#materno").val() && $("#nacimiento").val() && 
-			$("#genero").val() ) {
+		if ($("#nombre").val() && $("#paterno").val() && $("#materno").val() && $("#nacimiento").val() &&
+			$("#genero").val()) {
 			$("#notaDesblq").hide();
 			rfc.createRfc(setDatosRegistro);
 		}
 	}
-	
-	this.createRfc = function(funcCallBack) {
+
+	this.createRfc = function (funcCallBack) {
 		var loading = psDialog.loading().open();
 		system.service({
 			url: "rfc/create",
 			data: getParametrosRfc(),
 			callback: function (response) {
-				funcCallBack(response,loading);
+				funcCallBack(response, loading);
 			}, onError: function (response) {
 				psDialog.error(response.message);
 			}
 		});
 	}
-	
+
 	function getParametrosRfc() {
 		return {
-		  nombre: $("#nombre").val(),
-		  apellidoPaterno: $("#paterno").val(),
-		  apellidoMaterno: $("#materno").val(),
-		  fechaNacimiento: $("#nacimiento").val(),
-		  sexo: $("#genero").val()
+			nombre: $("#nombre").val(),
+			apellidoPaterno: $("#paterno").val(),
+			apellidoMaterno: $("#materno").val(),
+			fechaNacimiento: $("#nacimiento").val(),
+			sexo: $("#genero").val()
 		}
 	}
-	
+
 	this.init = function () {
 		var loading = psDialog.loading().open();
 		$.when()
-		.then(function () {
-			$("#genero").change(validateCampos);
-		}).always(function () {
-			loading.close();
-		});
+			.then(function () {
+				$("#genero").change(validateCampos);
+			}).always(function () {
+				loading.close();
+			});
 	};
-	
+
 }).apply(rfc);
 
 $(document).ready(function () {
