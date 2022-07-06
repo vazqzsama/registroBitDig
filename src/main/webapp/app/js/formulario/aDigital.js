@@ -146,22 +146,27 @@ var ecommerce = {};
 					data:{ correoVal:  $("#email").val().trim() },
 					callback:function(response) {
 						rfc.createRfc(function(response,loading) {
-							loading.close();
-							var isMismoSocio = false, nonum = [];
-							$.each(response.registro, function (key, value) {
-								if (value.soIdStr.trim() == $("#soIdStr").val().trim())
-									isMismoSocio = true;
-								else
-									nonum.push(value.soIdStr.trim());
-							});
-							if (isMismoSocio) {
-								console.log('Existe el rfc y es el mismo numero de socio');
+							oading.close();
+							if (response.existe) {
+								var isMismoSocio = false, nonum = [];
+								$.each(response.registro, function (key, value) {
+									if (value.soIdStr.trim() == $("#idsocio").val().trim())
+										isMismoSocio = true;
+									else
+										nonum.push(value.soIdStr.trim());
+								});
+								if (isMismoSocio) {
+									console.log('Existe el rfc y es el mismo numero de socio');
+									avanzarFormulario(obj);
+								} else { // Diferente numero de socio
+									console.log('Existe el rfc y no es el mismo numero de socio');
+									psDialog.error("El RfcPrice (" + response.rfcPrice + ") coincide con otro(s) socio(s) registrado(s) -> ( " +
+										nonum.join(",") + ") ");
+									$('#btnBackProcesar').hide();
+								}
+							} else {
+								console.log('No xiste el rfc');
 								avanzarFormulario(obj);
-							} else { // Diferente numero de socio
-								console.log('Existe el rfc y no es el mismo numero de socio');
-								psDialog.error("El RfcPrice ("+response.rfcPrice+") coincide con otro(s) socio(s) registrado(s) -> ( "+
-								nonum.join(",")+") ");
-								$('#btnBackProcesar').hide();
 							}
 						});
 					}
